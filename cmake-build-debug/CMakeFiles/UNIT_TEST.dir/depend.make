@@ -4,6 +4,7 @@
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o: ../unit_test/catch2/catch.cpp
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o: ../unit_test/catch2/catch.hpp
 
-CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o: ../unit_test/catch2/catch.hpp
-CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o: ../unit_test/testing.cpp
+CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o: ../containers/vector.h
+CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o: ../unit_test/catch2/catch.hpp
+CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o: ../unit_test/vector.cpp
 

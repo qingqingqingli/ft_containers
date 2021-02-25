@@ -170,32 +170,32 @@ unit_test/catch2/catch.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s
 .PHONY : unit_test/catch2/catch.cpp.s
 
-unit_test/testing.o: unit_test/testing.cpp.o
+unit_test/vector.o: unit_test/vector.cpp.o
 
-.PHONY : unit_test/testing.o
+.PHONY : unit_test/vector.o
 
 # target to build an object file
-unit_test/testing.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o
-.PHONY : unit_test/testing.cpp.o
+unit_test/vector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o
+.PHONY : unit_test/vector.cpp.o
 
-unit_test/testing.i: unit_test/testing.cpp.i
+unit_test/vector.i: unit_test/vector.cpp.i
 
-.PHONY : unit_test/testing.i
+.PHONY : unit_test/vector.i
 
 # target to preprocess a source file
-unit_test/testing.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.i
-.PHONY : unit_test/testing.cpp.i
+unit_test/vector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.i
+.PHONY : unit_test/vector.cpp.i
 
-unit_test/testing.s: unit_test/testing.cpp.s
+unit_test/vector.s: unit_test/vector.cpp.s
 
-.PHONY : unit_test/testing.s
+.PHONY : unit_test/vector.s
 
 # target to generate assembly for a file
-unit_test/testing.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.s
-.PHONY : unit_test/testing.cpp.s
+unit_test/vector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.s
+.PHONY : unit_test/vector.cpp.s
 
 # Help Target
 help:
@@ -209,9 +209,9 @@ help:
 	@echo "... unit_test/catch2/catch.o"
 	@echo "... unit_test/catch2/catch.i"
 	@echo "... unit_test/catch2/catch.s"
-	@echo "... unit_test/testing.o"
-	@echo "... unit_test/testing.i"
-	@echo "... unit_test/testing.s"
+	@echo "... unit_test/vector.o"
+	@echo "... unit_test/vector.i"
+	@echo "... unit_test/vector.s"
 .PHONY : help
 
 

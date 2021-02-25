@@ -1,1 +1,1 @@
-clang++   -Wall -Wextra -Werror -g   CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o  -o UNIT_TEST 
+clang++   -Wall -Wextra -Werror -g   CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o  -o UNIT_TEST 

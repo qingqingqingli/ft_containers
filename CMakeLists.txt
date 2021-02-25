@@ -5,7 +5,7 @@ project(ft_containers)
 set(SOURCES
         unit_test/catch2/catch.hpp
         unit_test/catch2/catch.cpp
-        unit_test/testing.cpp
+        unit_test/vector.cpp
         containers/vector.h)
 
 set(CMAKE_CXX_COMPILER clang++)

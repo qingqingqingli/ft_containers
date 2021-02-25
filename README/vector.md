@@ -6,35 +6,45 @@
 - Can't implement more public functions than the ones offered in the standard containers. Everything else must be private or protected.**Each public function/variable must be justified**.
 - For non-member overloads, the keyword `friend` is allowed.
 
-### List of member functions
+### standard containers
 
-Coplien form
-- `vector::vector`
-- `vector::~vector`
-- `vector::operator=`
-- copy constructor
-  
-Other member functions
-- `vector::assign`
-- `vector::at`
-- `vector::back`
-- `vector::begin`
-- `vector::capacity`
-- `vector::clear`
-- `vector::empty`
-- `vector::end`
-- `vector::erase`
-- `vector::front`
-- `vector::insert`
-- `vector::max_size`
-- `vector::operator[]`
-- `vector::pop_back`
-- `vector::push_back`
-- `vector::rbegin`
-- `vector::rend`
-- `vector::reserve`
-- `vector::resize`
-- `vector::size`
-- `vector::swap`
-- `vector::`
+- A container is a holder object that stores a collection of other objects (its elements). They are implemented as class templates, which allows a great flexibility in the types supported as elements.
+- The container manages the storage space for its elements and provides member functions to access them, either directly or through iterators.
+- Containers replicate structures very commonly used in programming: dynamic arrays(`vector`), queues (`queue`), stacks(`stack`), linked_list(`list`), associative arrays(`map`).
+- `stack` and `queue` are implemented as `container adaptors`. They are not full container classes, but classes that provide a specific interface `relying on an object of one of the container classes` to handle the elements. The underlying container is encapsulated in such a way that its elements are accessed by the members of the container adaptor independently of the underlying container class used.
 
+### vector
+
+- Vectors are sequence containers representing arrays that `can change in size`.
+- Just like arrays, vectors use `contiguous storage locations` for their elements, which means that their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently as in arrays. But unlike arrays, their `size can change dynamically`, with their storage being handled automatically by the container.
+- Internally, vectors use a `dynamically allocated array` to store their elements. This array may need to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new array and moving all elements to it. This is a relatively expensive task in terms of processing time, and thus, vectors do not reallocate each time an element is added to the container.
+
+### Member types
+
+> Example of helper types for standard containers
+
+```c++
+template<typename T>
+class SomeContainer {
+    // ...
+
+  public:
+    // Let's provide the same helper types as most standard containers.
+    typedef T                                     value_type;
+    typedef std::allocator<value_type>            allocator_type;
+    typedef value_type&                           reference;
+    typedef const value_type&                     const_reference;
+    typedef value_type*                           pointer;
+    typedef const value_type*                     const_pointer;
+    typedef MyIterator<value_type>                iterator;
+    typedef MyConstIterator<value_type>           const_iterator;
+    typedef std::reverse_iterator<iterator>       reverse_iterator;
+    typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+    typedef size_t                                size_type;
+    typedef ptrdiff_t                             difference_type;
+};
+```
+
+### resources
+
+- [c++ member types](https://stackoverflow.com/questions/39844582/c-member-types)
