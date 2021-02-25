@@ -7,3 +7,6 @@ CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o
 CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.o
  /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
  /home/qli/CLionProjects/ft_containers/unit_test/factorial.cpp
+CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.o
+ /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
+ /home/qli/CLionProjects/ft_containers/unit_test/vector_testing.cpp

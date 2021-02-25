@@ -197,6 +197,33 @@ unit_test/factorial.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.s
 .PHONY : unit_test/factorial.cpp.s
 
+unit_test/vector_testing.o: unit_test/vector_testing.cpp.o
+
+.PHONY : unit_test/vector_testing.o
+
+# target to build an object file
+unit_test/vector_testing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.o
+.PHONY : unit_test/vector_testing.cpp.o
+
+unit_test/vector_testing.i: unit_test/vector_testing.cpp.i
+
+.PHONY : unit_test/vector_testing.i
+
+# target to preprocess a source file
+unit_test/vector_testing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.i
+.PHONY : unit_test/vector_testing.cpp.i
+
+unit_test/vector_testing.s: unit_test/vector_testing.cpp.s
+
+.PHONY : unit_test/vector_testing.s
+
+# target to generate assembly for a file
+unit_test/vector_testing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.s
+.PHONY : unit_test/vector_testing.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -212,6 +239,9 @@ help:
 	@echo "... unit_test/factorial.o"
 	@echo "... unit_test/factorial.i"
 	@echo "... unit_test/factorial.s"
+	@echo "... unit_test/vector_testing.o"
+	@echo "... unit_test/vector_testing.i"
+	@echo "... unit_test/vector_testing.s"
 .PHONY : help
 
 

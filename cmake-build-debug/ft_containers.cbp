@@ -91,6 +91,9 @@
 		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/factorial.cpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>
+		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/vector_testing.cpp">
+			<Option target="UNIT_TEST"/>
+		</Unit>
 		<Unit filename="/home/qli/CLionProjects/ft_containers/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
