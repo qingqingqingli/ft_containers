@@ -372,7 +372,7 @@ vector
 cstring
 -
 
-/home/qli/CLionProjects/ft_containers/unit_test/vector_testing.cpp
+/home/qli/CLionProjects/ft_containers/unit_test/testing.cpp
 catch2/catch.hpp
 /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
 

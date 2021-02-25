@@ -94,12 +94,12 @@ clean: CMakeFiles/UNIT_TEST.dir/clean
 CMakeFiles/UNIT_TEST.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target UNIT_TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target UNIT_TEST"
 .PHONY : CMakeFiles/UNIT_TEST.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/UNIT_TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/UNIT_TEST.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/UNIT_TEST.dir/rule

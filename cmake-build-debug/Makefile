@@ -170,59 +170,32 @@ unit_test/catch2/catch.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s
 .PHONY : unit_test/catch2/catch.cpp.s
 
-unit_test/factorial.o: unit_test/factorial.cpp.o
+unit_test/testing.o: unit_test/testing.cpp.o
 
-.PHONY : unit_test/factorial.o
-
-# target to build an object file
-unit_test/factorial.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.o
-.PHONY : unit_test/factorial.cpp.o
-
-unit_test/factorial.i: unit_test/factorial.cpp.i
-
-.PHONY : unit_test/factorial.i
-
-# target to preprocess a source file
-unit_test/factorial.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.i
-.PHONY : unit_test/factorial.cpp.i
-
-unit_test/factorial.s: unit_test/factorial.cpp.s
-
-.PHONY : unit_test/factorial.s
-
-# target to generate assembly for a file
-unit_test/factorial.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.s
-.PHONY : unit_test/factorial.cpp.s
-
-unit_test/vector_testing.o: unit_test/vector_testing.cpp.o
-
-.PHONY : unit_test/vector_testing.o
+.PHONY : unit_test/testing.o
 
 # target to build an object file
-unit_test/vector_testing.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.o
-.PHONY : unit_test/vector_testing.cpp.o
+unit_test/testing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o
+.PHONY : unit_test/testing.cpp.o
 
-unit_test/vector_testing.i: unit_test/vector_testing.cpp.i
+unit_test/testing.i: unit_test/testing.cpp.i
 
-.PHONY : unit_test/vector_testing.i
+.PHONY : unit_test/testing.i
 
 # target to preprocess a source file
-unit_test/vector_testing.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.i
-.PHONY : unit_test/vector_testing.cpp.i
+unit_test/testing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.i
+.PHONY : unit_test/testing.cpp.i
 
-unit_test/vector_testing.s: unit_test/vector_testing.cpp.s
+unit_test/testing.s: unit_test/testing.cpp.s
 
-.PHONY : unit_test/vector_testing.s
+.PHONY : unit_test/testing.s
 
 # target to generate assembly for a file
-unit_test/vector_testing.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.s
-.PHONY : unit_test/vector_testing.cpp.s
+unit_test/testing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.s
+.PHONY : unit_test/testing.cpp.s
 
 # Help Target
 help:
@@ -236,12 +209,9 @@ help:
 	@echo "... unit_test/catch2/catch.o"
 	@echo "... unit_test/catch2/catch.i"
 	@echo "... unit_test/catch2/catch.s"
-	@echo "... unit_test/factorial.o"
-	@echo "... unit_test/factorial.i"
-	@echo "... unit_test/factorial.s"
-	@echo "... unit_test/vector_testing.o"
-	@echo "... unit_test/vector_testing.i"
-	@echo "... unit_test/vector_testing.s"
+	@echo "... unit_test/testing.o"
+	@echo "... unit_test/testing.i"
+	@echo "... unit_test/testing.s"
 .PHONY : help
 
 

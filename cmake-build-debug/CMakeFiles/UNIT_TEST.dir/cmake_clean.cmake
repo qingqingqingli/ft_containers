@@ -1,7 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o"
-  "CMakeFiles/UNIT_TEST.dir/unit_test/factorial.cpp.o"
-  "CMakeFiles/UNIT_TEST.dir/unit_test/vector_testing.cpp.o"
+  "CMakeFiles/UNIT_TEST.dir/unit_test/testing.cpp.o"
   "UNIT_TEST"
   "UNIT_TEST.pdb"
 )

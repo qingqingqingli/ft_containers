@@ -82,16 +82,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/qli/CLionProjects/ft_containers/containers/vector.h">
+			<Option target="UNIT_TEST"/>
+		</Unit>
 		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.cpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>
 		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>
-		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/factorial.cpp">
-			<Option target="UNIT_TEST"/>
-		</Unit>
-		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/vector_testing.cpp">
+		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/testing.cpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>
 		<Unit filename="/home/qli/CLionProjects/ft_containers/CMakeLists.txt">
