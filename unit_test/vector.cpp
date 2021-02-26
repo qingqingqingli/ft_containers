@@ -5,12 +5,16 @@
 #include "../containers/vector.h"
 
 TEST_CASE("vector empty constructor", "[vector]") {
-	std::vector<int> original;
-	ft::vector<int> custom;
+	std::vector<char> original1(123);
+	ft::vector<char> custom1(123);
+	std::vector<int> original2(0);
+	ft::vector<int> custom2(0);
 
 	SECTION("test initialised value") {
-		REQUIRE(custom.size() == original.size());
-		REQUIRE(custom.capacity() == original.capacity());
+		REQUIRE(custom1.size() == original1.size());
+		REQUIRE(custom1.capacity() == original1.capacity());
+		REQUIRE(custom2.size() == original2.size());
+		REQUIRE(custom2.capacity() == original2.capacity());
 	}
 }
 
