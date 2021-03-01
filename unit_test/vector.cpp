@@ -26,8 +26,35 @@
 //	}
 //}
 
-TEST_CASE("start with default value", "vector"){
+TEST_CASE("test constructor with ints", "vector"){
 	std::vector<int> vecOfInts(5);
 	for(int i : vecOfInts)
-		REQUIRE(i == 5);
+		REQUIRE(i == 0);
+	REQUIRE(vecOfInts.size() == 5);
+}
+
+TEST_CASE("test constructor with an array", "vector"){
+	std::string arr[] = {"first", "second", "third", "fourth"};
+
+	std::vector<std::string> vecOfStr(arr, arr+sizeof(arr)/sizeof(std::string));
+	REQUIRE(vecOfStr.size() == 4);
+	REQUIRE(vecOfStr[0] == "first");
+	REQUIRE(vecOfStr[1] == "second");
+	REQUIRE(vecOfStr[2] == "third");
+	REQUIRE(vecOfStr[3] == "fourth");
+}
+
+TEST_CASE("test copy constructor", "vector") {
+	std::vector<std::string> vecOfStr;
+	vecOfStr.push_back("first");
+	vecOfStr.push_back("second");
+	vecOfStr.push_back("third");
+	vecOfStr.push_back("fourth");
+	std::vector<std::string> vecOfStr2(vecOfStr);
+	REQUIRE(vecOfStr2[0] == "first");
+	REQUIRE(vecOfStr2[1] == "second");
+	REQUIRE(vecOfStr2[2] == "third");
+	REQUIRE(vecOfStr2[3] == "fourth");
+
+
 }
