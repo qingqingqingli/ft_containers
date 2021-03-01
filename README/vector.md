@@ -64,3 +64,4 @@ class SomeContainer {
 
 - [c++ member types](https://stackoverflow.com/questions/39844582/c-member-types)
 - [std::allocator() in C++ with Examples](https://www.geeksforgeeks.org/stdallocator-in-cpp-with-examples/)
+- [Memory Management with std::allocator](https://www.modernescpp.com/index.php/memory-management-with-std-allocator)

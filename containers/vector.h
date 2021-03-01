@@ -30,22 +30,49 @@ public:
 	typedef ptrdiff_t								difference_type;
 	typedef size_t									size_type;
 
+private:
+	size_type				_size; // the number of elements a vector contains
+	size_type				_capacity; // the maximum number of elements a vector can contain
+	const allocator_type& 	_alloc;
+	T*						_array;
+
 public:
 
 //-> coplien form
 
 	//** default constructor
-	explicit vector (const allocator_type& alloc = allocator_type());
+	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc)
+	{
+		std::cout << "constructor 1" << std::endl;
+		allocator_type alloc_copy = alloc;
+		this->_array = alloc_copy.allocate(0);
+	}
 
-	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type());
+	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
+	{
+		std::cout << "constructor 2" << std::endl;
+		allocator_type alloc_copy = alloc;
+		this->_array = alloc_copy.allocate(n);
+		size_type i = 0;
+		while (i < this->size())
+		{
+			alloc_copy.construct(this->_array, val);
+			i++;
+		}
+	}
 
-	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 
 	//** copy constructor
 	vector (const vector& x);
 
 	//** default destructor
-	~vector();
+	~vector() {
+		std::cout << "destructor" << std::endl;
+		allocator_type alloc_copy = this->_alloc;
+		alloc_copy.deallocate(this->_array, this->_size);
+		alloc_copy.destroy(this->_array);
+	}
 
 	//** assignation operator
 	vector& operator= (const vector& x);
@@ -71,7 +98,9 @@ public:
 	const_iterator begin() const;
 
 	//** capacity (return the size of the storage space)
-	size_type capacity() const;
+	size_type capacity() const {
+		return this->_capacity;
+	}
 
 	//** clear (remove all elements from the vector)
 	void clear();
@@ -127,16 +156,13 @@ public:
 	void resize (size_type n, value_type val = value_type());
 
 	//** size (return the number of elements in the vector)
-	size_type size() const;
+	size_type size() const {
+		return this->_size;
+	}
 
 	//** swap (exchange the content of the container by the content of another container)
 	void swap (vector& x);
 
-private:
-	size_type				_size; // the number of elements a vector contains
-	size_type				_capacity; // the maximum number of elements a vector can contain
-	const allocator_type& 	_alloc;
-	const value_type&		_value_type;
 };
 }
 
