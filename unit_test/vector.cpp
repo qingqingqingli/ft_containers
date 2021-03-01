@@ -26,7 +26,7 @@ TEST_CASE("default constructor: without value", "[vector]") {
 	}
 }
 
-TEST_CASE("efault constructor: with value", "vector"){
+TEST_CASE("default constructor: with value", "vector"){
 	std::vector<int> vecOfInts1(5, 10);
 	ft::vector<int> vecOfInts2(5, 10);
 
@@ -35,6 +35,25 @@ TEST_CASE("efault constructor: with value", "vector"){
 	{
 //		REQUIRE(vecOfInts1[i] == vecOfInts2[i]); // not there yet
 		REQUIRE(vecOfInts1.size() == vecOfInts2.size());
+		i++;
+	}
+}
+
+TEST_CASE("copy & assignation operator: with value", "vector"){
+
+	unsigned long int size = 10;
+	std::vector<int> original1(size, 10);
+	std::vector<int> original2 = original1;
+
+	ft::vector<int> custom1(size, 10);
+	ft::vector<int> custom2 = custom1;
+
+	unsigned long int i = 0;
+	while (i < size)
+	{
+//		REQUIRE(vecOfInts1[i] == vecOfInts2[i]); // not there yet
+		REQUIRE(original1.size() == custom1.size());
+		REQUIRE(original2.size() == custom2.size());
 		i++;
 	}
 }

@@ -43,14 +43,14 @@ public:
 	//** default constructor
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc)
 	{
-		std::cout << "constructor 1" << std::endl;
+		std::cout << "vector constructor 1" << std::endl;
 		allocator_type alloc_copy = alloc;
 		this->_array = alloc_copy.allocate(0);
 	}
 
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
-		std::cout << "constructor 2" << std::endl;
+		std::cout << "vector constructor 2" << std::endl;
 		allocator_type alloc_copy = alloc;
 		this->_array = alloc_copy.allocate(n);
 		size_type i = 0;
@@ -64,7 +64,10 @@ public:
 //	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 
 	//** copy constructor
-	vector (const vector& x);
+	vector (const vector& x) {
+		std::cout << "vector copy constructor" << std::endl;
+		*this = x;
+	}
 
 	//** default destructor
 	~vector() {
@@ -75,7 +78,17 @@ public:
 	}
 
 	//** assignation operator
-	vector& operator= (const vector& x);
+	vector& operator= (const vector& x) {
+		std::cout << "vector assignation constructor" << std::endl;
+		if (this != &x)
+		{
+			this->_size = x._size;
+			this->_capacity = x._capacity;
+			this->_alloc = x._alloc;
+			this->_array = x._array;
+		}
+		return *this;
+	}
 
 //-> member functions
 
