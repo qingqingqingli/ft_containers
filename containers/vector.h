@@ -82,35 +82,54 @@ public:
 	iterator end();
 	const_iterator end() const;
 
-
 	//** erase (erase element(s) from the vector)
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
-	//**  ()
+	iterator erase (iterator position);
+	iterator erase (iterator first, iterator last);
+
+	//** front (return a reference to the first element)
+	reference front();
+	const_reference front() const;
+
+	//** insert (insert new elements to the vector)
+	iterator insert (iterator position, const value_type& val);
+
+	void insert (iterator position, size_type n, const value_type& val);
+
+	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+
+	//** max_size (return the max number of elements)
+	// to understand the difference between capacity and max_size
+	size_type max_size() const;
+
+	//** operator[] (return a reference to the element at position n)
+	reference operator[] (size_type n);
+	const_reference operator[] (size_type n) const;
+
+	//** pop_back (removes the last element in the vector)
+	void pop_back();
+
+	//** push_back (add a new element at the end of the vector)
+	void push_back (const value_type& val);
+
+	//** rbegin (return a reverse iterator pointing to the last element in the vector)
+	reverse_iterator rbegin();
+	const_reverse_iterator rbegin() const;
+
+	//** rend (return a reverse iterator pointing to the theoretical element preceding the first element in the vector)
+	reverse_iterator rend();
+	const_reverse_iterator rend() const;
+
+	//** reverse (request that the vector capacity be at least enough to contain n elements)
+	void reserve (size_type n);
+
+	//** resize (resize the container so that it contains n elements)
+	void resize (size_type n, value_type val = value_type());
+
+	//** size (return the number of elements in the vector)
+	size_type size() const;
+
+	//** swap (exchange the content of the container by the content of another container)
+	void swap (vector& x);
 
 private:
 	size_type				_size; // the number of elements a vector contains
