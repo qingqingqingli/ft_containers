@@ -45,6 +45,20 @@ class SomeContainer {
 };
 ```
 
+### STD vs. STL
+- In the subject, functions in the STD library is allowed but any STL library is forbidden
+- `STL` stands for `Standard Template Library`. It refers to a C++ implementation of useful functionalities, including containers, algorithms and various utilities. 
+- `STD` is a namespace.
+
+### Why allocator in class template
+
+- Class template: `template<class T, class Allocator = std::allocator<T>> class vector`;
+- Default constructor: `explicit vector(const Allocator& alloc = Allocator() );`
+- There always is an instance of Allocator provided as alloc parameter. By default it constructs Allocator object. Whenever you do not use invocation of vector specifying allocator parameter, you do create new Allocator object, which in default case most probably does nothing. 
+- In some system you have more then one type of memory, so it might be useful to provide separate allocators. This is common in embedded systems. 
+- When you create a new object, you need to tell which of the allocators instances should take care of it.
+- The basic idea of allocator is to separate the steps of allocating memory and object construction. Default new combines the both. In case of vector reserve we only want to allocate the required memory. We can't construct or initialize the objects at that time since the type may not be default constructable.
+
 ### resources
 
 - [c++ member types](https://stackoverflow.com/questions/39844582/c-member-types)
