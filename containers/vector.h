@@ -16,6 +16,7 @@ class vector {
 //nested member type
 public:
 	//** nested type names
+	//typedef	existing_type						new_type_name
 	typedef T										value_type;
 	typedef Alloc									allocator_type;
 	typedef value_type&								reference;

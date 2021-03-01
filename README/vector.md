@@ -58,7 +58,9 @@ class SomeContainer {
 - In some system you have more then one type of memory, so it might be useful to provide separate allocators. This is common in embedded systems. 
 - When you create a new object, you need to tell which of the allocators instances should take care of it.
 - The basic idea of allocator is to separate the steps of allocating memory and object construction. Default new combines the both. In case of vector reserve we only want to allocate the required memory. We can't construct or initialize the objects at that time since the type may not be default constructable.
+- `std::allocator` is used when you want to separate allocation and do construction in two steps. It is also used when separate destruction and deallocation is done in two steps. The default allocator simply uses the operators new and delete to obtain and release memory.
 
 ### resources
 
 - [c++ member types](https://stackoverflow.com/questions/39844582/c-member-types)
+- [std::allocator() in C++ with Examples](https://www.geeksforgeeks.org/stdallocator-in-cpp-with-examples/)
