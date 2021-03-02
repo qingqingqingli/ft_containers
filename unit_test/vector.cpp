@@ -57,13 +57,13 @@ TEST_CASE("3. default constructor: vector with InputIterator", "[vector]") {
 	REQUIRE(str==" 16 2 77 29");
 }
 
-TEST_CASE("4. copy constructor", "vector"){
+TEST_CASE("4 & 5. copy & assignation constructor", "vector"){
 
 	SECTION("empty vector") {
 		std::vector<int> std_first;
 		std::vector<int> std_first_copy(std_first);
-		std::vector<int> ft_first;
-		std::vector<int> ft_first_copy(std_first);
+		ft::vector<int> ft_first;
+		ft::vector<int> ft_first_copy(ft_first);
 
 		REQUIRE(std_first_copy.size() == std_first.size());
 		REQUIRE(std_first_copy.capacity() == std_first.capacity());
@@ -75,18 +75,123 @@ TEST_CASE("4. copy constructor", "vector"){
 	SECTION("vector with size") {
 		std::vector<int> std_first(10);
 		std::vector<int> std_first_copy(std_first);
+		ft::vector<int> ft_first(10);
+		ft::vector<int> ft_first_copy(ft_first);
 
 		REQUIRE(std_first_copy.size() == std_first.size());
 		REQUIRE(std_first_copy.capacity() == std_first.capacity());
+		REQUIRE(ft_first_copy.size() == ft_first.size());
+		REQUIRE(ft_first_copy.capacity() == ft_first.capacity());
+		REQUIRE(ft_first_copy.size() == std_first_copy.size());
+		REQUIRE(ft_first_copy.capacity() == std_first_copy.capacity());
 	}
 	SECTION("vector with value") {
 		std::vector<int> std_first(10, 900);
 		std::vector<int> std_first_copy(std_first);
+		ft::vector<int> ft_first(10, 900);
+		ft::vector<int> ft_first_copy(ft_first);
 
 		REQUIRE(std_first_copy.size() == std_first.size());
 		REQUIRE(std_first_copy.capacity() == std_first.capacity());
+		REQUIRE(ft_first_copy.size() == ft_first.size());
+		REQUIRE(ft_first_copy.capacity() == ft_first.capacity());
+		REQUIRE(ft_first_copy.size() == std_first_copy.size());
+		REQUIRE(ft_first_copy.capacity() == std_first_copy.capacity());
 	}
 
+	SECTION("update vector with value") {
+		std::vector<int> std_first(10, 900);
+		std::vector<int> std_first_copy(std_first);
+//		std_first_copy.resize(20);
+		std_first_copy[1] = 777;
+		std_first_copy[8] = 99;
+
+		ft::vector<int> ft_first(10, 900);
+		ft::vector<int> ft_first_copy(ft_first);
+		ft::vector<int> ft_second_copy = ft_first_copy;
+
+//		ft_first_copy.resize(20);
+		ft_first_copy[1] = 777;
+		ft_first_copy[8] = 99;
+		ft_second_copy[7] = 88;
+
+		REQUIRE(std_first_copy[1] == ft_first_copy[1]);
+		REQUIRE(std_first_copy[8] == ft_first_copy[8]);
+		REQUIRE(ft_first[1] == 900);
+		REQUIRE(ft_first[8] == 900);
+		REQUIRE(ft_second_copy.size() == ft_first_copy.size());
+		REQUIRE(ft_second_copy.capacity() == ft_first_copy.capacity());
+		REQUIRE(ft_second_copy[7] != ft_first_copy[7]);
+	}
+}
+
+TEST_CASE("8. at", "vector"){
+
+	SECTION("non-const type")
+	{
+		int num = 10;
+		std::vector<int> myvector (num);
+		ft::vector<int> ft_myvector (num);
+
+		for (unsigned i=0; i<myvector.size(); i++)
+		{
+			myvector.at(i) = i;
+			ft_myvector.at(i) = i;
+		}
+		for (unsigned i=0; i<ft_myvector.size(); i++)
+		{
+			REQUIRE(ft_myvector.at(i) == myvector.at(i));
+			REQUIRE(ft_myvector.at(i) == ft_myvector[i]);
+		}
+		// -> same exception message
+		//	ft_myvector.at(16);
+		//	myvector.at(16);
+	}
+	SECTION("const type")
+	{
+		int num = 10;
+		int val = 20;
+		const std::vector<int> const_vec(num, val);
+		const ft::vector<int> ft_const_vec(num, val);
+		for (unsigned i = 0; i < ft_const_vec.size(); i++)
+		{
+			REQUIRE(ft_const_vec.at(i) == const_vec.at(i));
+			REQUIRE(ft_const_vec.at(i) == ft_const_vec[i]);
+		}
+	}
+}
+
+TEST_CASE("21. pop_back", "vector") {
+
+	SECTION("check initial list end")
+	{
+		std::vector<int> myvector(5, 10);
+		std::vector<int> ft_myvector(5, 10);
+		REQUIRE(myvector[4] == 10);
+		REQUIRE(ft_myvector[4] == 10);
+	}
+
+	SECTION("increase size")
+	{
+		std::vector<int> myvector(5);
+		ft::vector<int> ft_myvector(5);
+		int i = 1;
+		while (i < 3)
+		{
+			myvector.push_back(i);
+			ft_myvector.push_back(i);
+			i++;
+		}
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+		REQUIRE(myvector[0] == ft_myvector[0]);
+		REQUIRE(myvector[1] == ft_myvector[1]);
+		REQUIRE(myvector[2] == ft_myvector[2]);
+		REQUIRE(myvector[3] == ft_myvector[3]);
+		REQUIRE(myvector[4] == ft_myvector[4]);
+		REQUIRE(myvector[5] == ft_myvector[5]);
+		REQUIRE(myvector[6] == ft_myvector[6]);
+	}
 }
 
 TEST_CASE("copy & assignation operator: with value", "vector"){

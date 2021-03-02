@@ -53,7 +53,7 @@ public:
 		size_type i = 0;
 		while (i < this->size())
 		{
-			this->_alloc.construct(this->_array, val);
+			this->_array[i] = val;
 			i++;
 		}
 	}
@@ -66,24 +66,28 @@ public:
 
 	//** 4. copy constructor
 	vector (const vector& x){
-		std::cout << "vector copy constructor" << std::endl;
 		*this = x;
 	}
 
 	//** 5. assignation operator ->update later
 	vector& operator= (const vector& x) {
-		std::cout << "vector assignation constructor" << std::endl;
 		if (this != &x)
 		{
 			this->_size = x._size;
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
 			this->_array = this->_alloc.allocate(this->_size);
+			size_type i = 0;
+			while (i < this->_size)
+			{
+				this->_array[i] = x._array[i];
+				i++;
+			}
 		}
 		return *this;
 	}
 
-	//** default destructor
+	//** 6. default destructor
 	~vector() {
 		allocator_type alloc_copy = this->_alloc;
 		alloc_copy.deallocate(this->_array, this->_size);
@@ -91,88 +95,147 @@ public:
 
 //-> member functions
 
-	//** assign (assign new contents to the vector)
+	//** 7. assign (assign new contents to the vector)
 
 	template <class InputIterator> void assign (InputIterator first, InputIterator last);
 	void assign (size_type n, const value_type& val);
 
-	//** at (returns a reference to the element at position n in the vector)
+	//** 8. at (returns a reference to the element at position n in the vector)
+	// the first element has  a position of 0
 
-	reference at (size_type n);
-	const_reference at (size_type n) const;
+	reference at (size_type n) {
+		if (n > this->_size - 1)
+		{
+			std::stringstream sstm;
+			sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << this->size() << ")" << std::endl;
+			std::string error_msg = sstm.str();
+			throw std::out_of_range(error_msg);
+		}
+		else
+		{
+			reference elem_ref = *(this->_array + n);
+			return elem_ref;
+		}
+	}
 
-	//** back (returns a reference to the last element in the vector)
+	const_reference at (size_type n) const {
+		if (n > this->_size - 1)
+		{
+			std::stringstream sstm;
+			sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << this->size() << ")" << std::endl;
+			std::string error_msg = sstm.str();
+			throw std::out_of_range(error_msg);
+		}
+		else
+		{
+			const_reference elem_ref = *(this->_array + n);
+			return elem_ref;
+		}
+	}
+
+	//** 9. back (returns a reference to the last element in the vector)
 	reference back();
 	const_reference back() const;
 
-	//** begin (returns an iterator pointing to the first element in the vector)
+	//** 10. begin (returns an iterator pointing to the first element in the vector)
 	iterator begin();
 	const_iterator begin() const;
 
-	//** capacity (return the size of the storage space)
+	//** 11. capacity (return the size of the storage space)
 	size_type capacity() const {
 		return this->_capacity;
 	}
 
-	//** clear (remove all elements from the vector)
+	//** 12. clear (remove all elements from the vector)
 	void clear();
 
-	//** empty (test whether the vector is empty)
+	//** 13. empty (test whether the vector is empty)
 	bool empty() const;
 
-	//** end (return iterator to end)
+	//** 14. end (return iterator to end)
 	iterator end();
 	const_iterator end() const;
 
-	//** erase (erase element(s) from the vector)
+	//** 15. erase (erase element(s) from the vector)
 	iterator erase (iterator position);
 	iterator erase (iterator first, iterator last);
 
-	//** front (return a reference to the first element)
+	//** 16. front (return a reference to the first element)
 	reference front();
 	const_reference front() const;
 
-	//** insert (insert new elements to the vector)
+	//** 17. insert (insert new elements to the vector)
 	iterator insert (iterator position, const value_type& val);
 
 	void insert (iterator position, size_type n, const value_type& val);
 
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
-	//** max_size (return the max number of elements)
+	//** 18. max_size (return the max number of elements)
 	// to understand the difference between capacity and max_size
 	size_type max_size() const;
 
-	//** operator[] (return a reference to the element at position n)
-	reference operator[] (size_type n);
-	const_reference operator[] (size_type n) const;
+	//** 19. operator[] (return a reference to the element at position n)
+	// does not check against bounds
+	reference operator[] (size_type n) {
+		T& elem_ref = *(this->_array + n);
+		return elem_ref;
+	}
 
-	//** pop_back (removes the last element in the vector)
+	const_reference operator[] (size_type n) const {
+		const T& elem_ref = *(this->_array + n);
+		return elem_ref;
+	}
+
+	//** 20. pop_back (removes the last element in the vector)
 	void pop_back();
 
-	//** push_back (add a new element at the end of the vector)
-	void push_back (const value_type& val);
+	//** 21. push_back (add a new element at the end of the vector)
+	void push_back (const value_type& val) {
+		if (this->size() + 1 > this->capacity())
+		{
+			// create new vector
+			vector new_vector;
+			new_vector._size = this->size();
+			new_vector._capacity = this->size() * 2;
+			new_vector._alloc = this->_alloc;
+			new_vector._array = new_vector._alloc.allocate(new_vector._capacity);
+			// not sure if it's needed
+			new_vector._array[new_vector._capacity - 1] = 0;
 
-	//** rbegin (return a reverse iterator pointing to the last element in the vector)
+			//  copy old value into new vector
+			size_type i = 0;
+			while(i < this->size())
+			{
+				new_vector._array[i] = this->_array[i];
+				i++;
+			}
+			*this = new_vector;
+		}
+		this->_array[this->size()] = val;
+		this->_size += 1;
+	}
+
+	//** 22. rbegin (return a reverse iterator pointing to the last element in the vector)
 	reverse_iterator rbegin();
 	const_reverse_iterator rbegin() const;
 
-	//** rend (return a reverse iterator pointing to the theoretical element preceding the first element in the vector)
+	//** 23. rend (return a reverse iterator pointing to the theoretical element preceding the first element in the vector)
 	reverse_iterator rend();
 	const_reverse_iterator rend() const;
 
-	//** reverse (request that the vector capacity be at least enough to contain n elements)
+	//** 24. reverse (request that the vector capacity be at least enough to contain n elements)
 	void reserve (size_type n);
 
-	//** resize (resize the container so that it contains n elements)
+	//** 25. resize (resize the container so that it contains n elements)
 	void resize (size_type n, value_type val = value_type());
 
-	//** size (return the number of elements in the vector)
+	//** 26. size (return the number of elements in the vector)
 	size_type size() const {
 		return this->_size;
 	}
 
-	//** swap (exchange the content of the container by the content of another container)
+	//** 27. swap (exchange the content of the container by the content of another container)
 	void swap (vector& x);
 
 };
