@@ -381,4 +381,6 @@ catch2/catch.hpp
 /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
 ../containers/vector.h
 /home/qli/CLionProjects/ft_containers/containers/vector.h
+fstream
+-
 

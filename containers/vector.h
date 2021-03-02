@@ -19,10 +19,10 @@ public:
 	//typedef	existing_type						new_type_name
 	typedef T										value_type;
 	typedef Alloc									allocator_type;
-	typedef value_type&								reference;
-	typedef const value_type&						const_reference;
-	typedef value_type*								pointer;
-	typedef const value_type*						const_pointer;
+	typedef T&										reference;
+	typedef const T&								const_reference;
+	typedef T*										pointer;
+	typedef const T*								const_pointer;
 	typedef std::random_access_iterator_tag			iterator;
 	typedef const std::random_access_iterator_tag	const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
@@ -31,53 +31,46 @@ public:
 	typedef size_t									size_type;
 
 private:
-	size_type				_size; // the number of elements a vector contains
-	size_type				_capacity; // the maximum number of elements a vector can contain
-	const allocator_type& 	_alloc;
+	size_type				_size;
+	size_type				_capacity;
+	allocator_type		 	_alloc;
 	T*						_array;
 
 public:
 
 //-> coplien form
 
-	//** default constructor
+	//** 1. default constructor: empty vector
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc)
 	{
-		std::cout << "vector constructor 1" << std::endl;
-		allocator_type alloc_copy = alloc;
-		this->_array = alloc_copy.allocate(0);
+		this->_array = this->_alloc.allocate(0);
 	}
 
+	//** 2. default constructor: vector with size and val
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
-		std::cout << "vector constructor 2" << std::endl;
-		allocator_type alloc_copy = alloc;
-		this->_array = alloc_copy.allocate(n);
+		this->_array = this->_alloc.allocate(n);
 		size_type i = 0;
 		while (i < this->size())
 		{
-			alloc_copy.construct(this->_array, val);
+			this->_alloc.construct(this->_array, val);
 			i++;
 		}
 	}
 
-//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+	//** 3. default constructor: vector with InputIterator
+	// for later to implement the iterator
+//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
+//
+//	}
 
-	//** copy constructor
-	vector (const vector& x) {
+	//** 4. copy constructor
+	vector (const vector& x){
 		std::cout << "vector copy constructor" << std::endl;
 		*this = x;
 	}
 
-	//** default destructor
-	~vector() {
-		std::cout << "destructor" << std::endl;
-		allocator_type alloc_copy = this->_alloc;
-		alloc_copy.deallocate(this->_array, this->_size);
-		alloc_copy.destroy(this->_array);
-	}
-
-	//** assignation operator
+	//** 5. assignation operator ->update later
 	vector& operator= (const vector& x) {
 		std::cout << "vector assignation constructor" << std::endl;
 		if (this != &x)
@@ -85,9 +78,15 @@ public:
 			this->_size = x._size;
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
-			this->_array = x._array;
+			this->_array = this->_alloc.allocate(this->_size);
 		}
 		return *this;
+	}
+
+	//** default destructor
+	~vector() {
+		allocator_type alloc_copy = this->_alloc;
+		alloc_copy.deallocate(this->_array, this->_size);
 	}
 
 //-> member functions

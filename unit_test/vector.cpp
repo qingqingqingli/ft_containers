@@ -3,58 +3,106 @@
 //
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
+#include <fstream>
 
-TEST_CASE("default constructor: without value", "[vector]") {
-	std::vector<char> original0;
-	ft::vector<int> custom0;
-	std::vector<char> original1(123);
-	ft::vector<char> custom1(123);
-	std::vector<int> original2(9000);
-	ft::vector<int> custom2(9000);
-	std::vector<float> original3(45);
-	ft::vector<float> custom3(45);
+TEST_CASE("1. default constructor: empty vector", "[vector]") {
+	std::vector<char> std_first;
+	ft::vector<int> ft_first;
 
-	SECTION("test initialised value") {
-		REQUIRE(custom0.size() == original0.size());
-		REQUIRE(custom0.capacity() == original0.capacity());
-		REQUIRE(custom1.size() == original1.size());
-		REQUIRE(custom1.capacity() == original1.capacity());
-		REQUIRE(custom2.size() == original2.size());
-		REQUIRE(custom2.capacity() == original2.capacity());
-		REQUIRE(custom3.size() == original3.size());
-		REQUIRE(custom3.capacity() == original3.capacity());
-	}
+	REQUIRE(ft_first.size() == std_first.size());
+	REQUIRE(ft_first.capacity() == std_first.capacity());
 }
 
-TEST_CASE("default constructor: with value", "vector"){
-	std::vector<int> vecOfInts1(5, 10);
-	ft::vector<int> vecOfInts2(5, 10);
+TEST_CASE("2. default constructor: vector with size and val", "[vector]") {
+	std::vector<int> std_first(99);
+	ft::vector<int> ft_first(99);
+	std::vector<char> std_second(123);
+	ft::vector<char> ft_second(123);
+	std::vector<int> std_third(9000, 99);
+	ft::vector<int> ft_third(9000, 99);
+	std::vector<float> std_fourth(45);
+	ft::vector<float> ft_fourth(45);
 
-	unsigned long int i = 0;
-	while (i < vecOfInts1.size())
-	{
-//		REQUIRE(vecOfInts1[i] == vecOfInts2[i]); // not there yet
-		REQUIRE(vecOfInts1.size() == vecOfInts2.size());
-		i++;
+	REQUIRE(ft_first.size() == std_first.size());
+	REQUIRE(ft_first.capacity() == std_first.capacity());
+	REQUIRE(ft_second.size() == std_second.size());
+	REQUIRE(ft_second.capacity() == std_second.capacity());
+	REQUIRE(ft_third.size() == std_third.size());
+	REQUIRE(ft_third.capacity() == std_third.capacity());
+	REQUIRE(ft_fourth.size() == std_fourth.size());
+	REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
+}
+
+TEST_CASE("3. default constructor: vector with InputIterator", "[vector]") {
+
+	std::vector<int> std_first(4, 100);
+	std::vector<int> std_second(std_first.begin(), std_first.end());
+
+	int myints[] = {16,2,77,29};
+	std::ofstream ofs;
+	ofs.open("test.txt");
+	std::ifstream ifs("test.txt");
+	std::string str;
+	std::vector<int> std_third(myints, myints + sizeof(myints) / sizeof(int) );
+	for (std::vector<int>::iterator it = std_third.begin(); it != std_third.end(); ++it)
+		ofs << ' ' << *it;
+	ofs << std::endl;
+	std::getline(ifs, str);
+
+	REQUIRE(std_second.size() == 4);
+	REQUIRE(std_second[0] == 100);
+	REQUIRE(std_second[1] == 100);
+	REQUIRE(std_second[2] == 100);
+	REQUIRE(std_second[3] == 100);
+	REQUIRE(str==" 16 2 77 29");
+}
+
+TEST_CASE("4. copy constructor", "vector"){
+
+	SECTION("empty vector") {
+		std::vector<int> std_first;
+		std::vector<int> std_first_copy(std_first);
+		std::vector<int> ft_first;
+		std::vector<int> ft_first_copy(std_first);
+
+		REQUIRE(std_first_copy.size() == std_first.size());
+		REQUIRE(std_first_copy.capacity() == std_first.capacity());
+		REQUIRE(ft_first_copy.size() == ft_first.size());
+		REQUIRE(ft_first_copy.capacity() == ft_first.capacity());
+		REQUIRE(ft_first_copy.size() == std_first_copy.size());
+		REQUIRE(ft_first_copy.capacity() == std_first_copy.capacity());
 	}
+	SECTION("vector with size") {
+		std::vector<int> std_first(10);
+		std::vector<int> std_first_copy(std_first);
+
+		REQUIRE(std_first_copy.size() == std_first.size());
+		REQUIRE(std_first_copy.capacity() == std_first.capacity());
+	}
+	SECTION("vector with value") {
+		std::vector<int> std_first(10, 900);
+		std::vector<int> std_first_copy(std_first);
+
+		REQUIRE(std_first_copy.size() == std_first.size());
+		REQUIRE(std_first_copy.capacity() == std_first.capacity());
+	}
+
 }
 
 TEST_CASE("copy & assignation operator: with value", "vector"){
 
 	unsigned long int size = 10;
-	std::vector<int> original1(size, 10);
-	std::vector<int> original2 = original1;
+	std::vector<int> std_second(size, 10);
+	std::vector<int> std_third = std_second;
+	std_second[0] = 100;
+	REQUIRE(std_third[0] == 10);
 
-	ft::vector<int> custom1(size, 10);
-	ft::vector<int> custom2 = custom1;
-
-	unsigned long int i = 0;
-	while (i < size)
-	{
-//		REQUIRE(vecOfInts1[i] == vecOfInts2[i]); // not there yet
-		REQUIRE(original1.size() == custom1.size());
-		REQUIRE(original2.size() == custom2.size());
-		i++;
+	SECTION("testing resize"){
+		std_second.resize(88);
+		REQUIRE(std_third.size() == 10);
+		REQUIRE(std_second.size() == 88);
+		REQUIRE(std_third.capacity() == 10);
+		REQUIRE(std_second.capacity() == 88);
 	}
 }
 
