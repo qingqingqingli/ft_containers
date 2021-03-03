@@ -65,3 +65,4 @@ class SomeContainer {
 - [c++ member types](https://stackoverflow.com/questions/39844582/c-member-types)
 - [std::allocator() in C++ with Examples](https://www.geeksforgeeks.org/stdallocator-in-cpp-with-examples/)
 - [Memory Management with std::allocator](https://www.modernescpp.com/index.php/memory-management-with-std-allocator)
+- [what happens to old values of std::vector, when I do std::vector = std::vector](https://stackoverflow.com/questions/34804866/what-happens-to-old-values-of-stdvector-when-i-do-stdvector-stdvector)

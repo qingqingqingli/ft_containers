@@ -73,7 +73,8 @@ public:
 			this->_size = x._size;
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
-			this->_array = this->_alloc.allocate(this->_size);
+			this->_array = new value_type [this->_size];
+			// update below to assign
 			size_type i = 0;
 			while (i < this->_size)
 			{
@@ -94,10 +95,11 @@ public:
 	//** 7. assign (assign new contents to the vector)
 
 	template <class InputIterator> void assign (InputIterator first, InputIterator last);
+
 	void assign (size_type n, const value_type& val);
 
 	//** 8. at (returns a reference to the element at position n in the vector)
-	// the first element has  a position of 0
+	// the first element has a position of 0
 
 	reference at (size_type n) {
 		if (n > this->_size - 1)
@@ -130,8 +132,15 @@ public:
 	}
 
 	//** 9. back (returns a reference to the last element in the vector)
-	reference back();
-	const_reference back() const;
+	reference back() {
+		reference back_ref = this->_array[this->size() - 1];
+		return back_ref;
+	}
+
+	const_reference back() const {
+		const_reference const_back_ref = this->_array[this->size() - 1];
+		return const_back_ref;
+	}
 
 	//** 10. begin (returns an iterator pointing to the first element in the vector)
 	iterator begin();
@@ -191,21 +200,21 @@ public:
 		if (this->size() + 1 > this->capacity())
 		{
 			// create new vector
-			vector new_vector;
-			new_vector._size = this->size();
-			new_vector._capacity = this->size() * 2;
-			new_vector._alloc = this->_alloc;
-			new_vector._array = new_vector._alloc.allocate(new_vector._capacity);
+			vector *new_vector = new vector;
+			new_vector->_size = this->size();
+			new_vector->_capacity = this->size() * 2;
+			new_vector->_alloc = this->_alloc;
+			new_vector->_array = new value_type [new_vector->_capacity];
 
 			//  copy old value into new vector
 			size_type i = 0;
 			while(i < this->size())
 			{
-				new_vector._array[i] = this->_array[i];
+				new_vector->_array[i] = this->_array[i];
 				i++;
 			}
-			this->_alloc.deallocate(this->_array, this->capacity());
-			this->_array = new_vector._array;
+			delete [] this->_array;
+			this->_array = new_vector->_array;
 			*this = new_vector;
 		}
 		//invalid read

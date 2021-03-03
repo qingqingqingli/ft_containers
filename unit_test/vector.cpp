@@ -57,7 +57,7 @@ TEST_CASE("3. default constructor: vector with InputIterator", "[vector]") {
 	REQUIRE(str==" 16 2 77 29");
 }
 
-TEST_CASE("4 & 5. copy & assignation constructor", "vector"){
+TEST_CASE("4 & 5. copy & assignation constructor", "[vector]"){
 
 	SECTION("empty vector") {
 		std::vector<int> std_first;
@@ -99,33 +99,73 @@ TEST_CASE("4 & 5. copy & assignation constructor", "vector"){
 		REQUIRE(ft_first_copy.capacity() == std_first_copy.capacity());
 	}
 
-//	SECTION("update vector with value") {
-//		std::vector<int> std_first(10, 900);
-//		std::vector<int> std_first_copy(std_first);
-////		std_first_copy.resize(20);
-//		std_first_copy[1] = 777;
-//		std_first_copy[8] = 99;
-//
-//		ft::vector<int> ft_first(10, 900);
-//		ft::vector<int> ft_first_copy(ft_first);
-//		ft::vector<int> ft_second_copy = ft_first_copy;
-//
-////		ft_first_copy.resize(20);
-//		ft_first_copy[1] = 777;
-//		ft_first_copy[8] = 99;
-//		ft_second_copy[7] = 88;
-//
-//		REQUIRE(std_first_copy[1] == ft_first_copy[1]);
-//		REQUIRE(std_first_copy[8] == ft_first_copy[8]);
-//		REQUIRE(ft_first[1] == 900);
-//		REQUIRE(ft_first[8] == 900);
-//		REQUIRE(ft_second_copy.size() == ft_first_copy.size());
-//		REQUIRE(ft_second_copy.capacity() == ft_first_copy.capacity());
-//		REQUIRE(ft_second_copy[7] != ft_first_copy[7]);
-//	}
+	SECTION("update vector with value") {
+		std::vector<int> std_first(10, 900);
+		std::vector<int> std_first_copy(std_first);
+		std_first_copy[1] = 777;
+		std_first_copy[8] = 99;
+
+		ft::vector<int> ft_first(10, 900);
+		ft::vector<int> ft_first_copy(ft_first);
+		ft::vector<int> ft_second_copy = ft_first_copy;
+
+		ft_first_copy[1] = 777;
+		ft_first_copy[8] = 99;
+		ft_second_copy[7] = 88;
+
+		REQUIRE(std_first_copy[1] == ft_first_copy[1]);
+		REQUIRE(std_first_copy[8] == ft_first_copy[8]);
+		REQUIRE(ft_first[1] == 900);
+		REQUIRE(ft_first[8] == 900);
+		REQUIRE(ft_second_copy.size() == ft_first_copy.size());
+		REQUIRE(ft_second_copy.capacity() == ft_first_copy.capacity());
+		REQUIRE(ft_second_copy[7] != ft_first_copy[7]);
+	}
 }
 
-TEST_CASE("8. at", "vector"){
+TEST_CASE("7. assign()", "[vector]")
+{
+	SECTION("assign value to empty vector")
+	{
+		std::vector<int> first;
+
+		first.assign(5, 100);
+		REQUIRE(first.size() == 5);
+		REQUIRE(first.capacity() == 5);
+		REQUIRE(first[0] == 100);
+	}
+	SECTION("assign value to bigger vector")
+	{
+		std::vector<int> second(25);
+
+		REQUIRE(second.size() == 25);
+		REQUIRE(second.capacity() == 25);
+		second.assign(5, 100);
+		// size changed
+		REQUIRE(second.size() == 5);
+		REQUIRE(second.capacity() == 25);
+		REQUIRE(second[0] == 100);
+		REQUIRE(second[5] == 0);
+		REQUIRE(second[6] == 0);
+	}
+	SECTION("assign value to bigger vector")
+	{
+		std::vector<int> second(3);
+
+		REQUIRE(second.size() == 3);
+		REQUIRE(second.capacity() == 3);
+		second.assign(5, 100);
+		// size changed
+		REQUIRE(second.size() == 5);
+		REQUIRE(second.capacity() == 5);
+		REQUIRE(second[0] == 100);
+		REQUIRE(second[1] == 100);
+		REQUIRE(second[2] == 100);
+		REQUIRE(second[3] == 100);
+	}
+}
+
+TEST_CASE("8. at()", "[vector]"){
 
 	SECTION("non-const type")
 	{
@@ -161,42 +201,53 @@ TEST_CASE("8. at", "vector"){
 	}
 }
 
-TEST_CASE("21. pop_back", "vector") {
+TEST_CASE("9. back()", "[vector]")
+{
+	std::vector<int> first(10);
+	std::vector<int> second(10, 30);
+	ft::vector<int> ft_first(10);
+	ft::vector<int> ft_second(10, 30);
+	REQUIRE(first.back() == ft_first.back());
+	REQUIRE(second.back() == ft_second.back());
 
-	SECTION("check initial list end")
-	{
-		std::vector<int> myvector(5, 10);
-		std::vector<int> ft_myvector(5, 10);
-		REQUIRE(myvector[4] == 10);
-		REQUIRE(ft_myvector[4] == 10);
-	}
-
-	SECTION("increase size")
-	{
-		std::vector<int> myvector(5);
-		ft::vector<int> ft_myvector(5);
-		myvector.push_back(6);
-		myvector.push_back(6);
-		ft_myvector.push_back(6);
-		ft_myvector.push_back(6);
-
-		REQUIRE(myvector.size() == ft_myvector.size());
-		REQUIRE(myvector.capacity() == ft_myvector.capacity());
-
-		REQUIRE(myvector[0] == ft_myvector[0]);
-		REQUIRE(myvector[1] == ft_myvector[1]);
-		REQUIRE(myvector[2] == ft_myvector[2]);
-		REQUIRE(myvector[3] == ft_myvector[3]);
-		REQUIRE(myvector[4] == ft_myvector[4]);
-		//invalid read
-		REQUIRE(myvector[5] == ft_myvector[5]);
-		REQUIRE(myvector[6] == ft_myvector[6]);
-		REQUIRE(myvector[9] == 0);
-//		REQUIRE(myvector[9] == ft_myvector[9]);
-	}
 }
 
-TEST_CASE("copy & assignation operator: with value", "vector"){
+//TEST_CASE("21. pop_back", "[vector]") {
+//
+//	SECTION("check initial list end")
+//	{
+//		std::vector<int> myvector(5, 10);
+//		std::vector<int> ft_myvector(5, 10);
+//		REQUIRE(myvector[4] == 10);
+//		REQUIRE(ft_myvector[4] == 10);
+//	}
+//
+//	SECTION("increase size")
+//	{
+//		std::vector<int> myvector(5);
+//		ft::vector<int> ft_myvector(5);
+//		myvector.push_back(6);
+//		myvector.push_back(6);
+//		ft_myvector.push_back(6);
+//		ft_myvector.push_back(6);
+//
+//		REQUIRE(myvector.size() == ft_myvector.size());
+//		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+//
+//		REQUIRE(myvector[0] == ft_myvector[0]);
+//		REQUIRE(myvector[1] == ft_myvector[1]);
+//		REQUIRE(myvector[2] == ft_myvector[2]);
+//		REQUIRE(myvector[3] == ft_myvector[3]);
+//		REQUIRE(myvector[4] == ft_myvector[4]);
+//		//invalid read
+//		REQUIRE(myvector[5] == ft_myvector[5]);
+//		REQUIRE(myvector[6] == ft_myvector[6]);
+//		REQUIRE(myvector[9] == 0);
+////		REQUIRE(myvector[9] == ft_myvector[9]);
+//	}
+//}
+
+TEST_CASE("copy & assignation operator: with value", "[vector]"){
 
 	unsigned long int size = 10;
 	std::vector<int> std_second(size, 10);
@@ -213,7 +264,7 @@ TEST_CASE("copy & assignation operator: with value", "vector"){
 	}
 }
 
-TEST_CASE("test constructor with an array", "vector"){
+TEST_CASE("test constructor with an array", "[vector]"){
 	std::string arr[] = {"first", "second", "third", "fourth"};
 
 	std::vector<std::string> vecOfStr1(arr, arr+sizeof(arr)/sizeof(std::string));
@@ -225,7 +276,7 @@ TEST_CASE("test constructor with an array", "vector"){
 	REQUIRE(vecOfStr1[3] == "fourth");
 }
 
-TEST_CASE("test copy constructor", "vector") {
+TEST_CASE("test copy constructor", "[vector]") {
 	std::vector<std::string> vecOfStr;
 	vecOfStr.push_back("first");
 	vecOfStr.push_back("second");
