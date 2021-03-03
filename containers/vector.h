@@ -34,22 +34,19 @@ private:
 	size_type				_size;
 	size_type				_capacity;
 	allocator_type		 	_alloc;
-	T*						_array;
+	pointer 				_array;
 
 public:
 
 //-> coplien form
 
 	//** 1. default constructor: empty vector
-	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc)
-	{
-		this->_array = this->_alloc.allocate(0);
-	}
+	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
 	//** 2. default constructor: vector with size and val
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
-		this->_array = this->_alloc.allocate(n);
+		this->_array = new value_type [n];
 		size_type i = 0;
 		while (i < this->size())
 		{
@@ -89,8 +86,7 @@ public:
 
 	//** 6. default destructor
 	~vector() {
-		allocator_type alloc_copy = this->_alloc;
-		alloc_copy.deallocate(this->_array, this->_size);
+		delete [] this->_array;
 	}
 
 //-> member functions
@@ -200,8 +196,6 @@ public:
 			new_vector._capacity = this->size() * 2;
 			new_vector._alloc = this->_alloc;
 			new_vector._array = new_vector._alloc.allocate(new_vector._capacity);
-			// not sure if it's needed
-			new_vector._array[new_vector._capacity - 1] = 0;
 
 			//  copy old value into new vector
 			size_type i = 0;
@@ -210,8 +204,11 @@ public:
 				new_vector._array[i] = this->_array[i];
 				i++;
 			}
+			this->_alloc.deallocate(this->_array, this->capacity());
+			this->_array = new_vector._array;
 			*this = new_vector;
 		}
+		//invalid read
 		this->_array[this->size()] = val;
 		this->_size += 1;
 	}
