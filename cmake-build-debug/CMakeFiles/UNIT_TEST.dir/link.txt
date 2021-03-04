@@ -1,1 +1,1 @@
-clang++   -Wall -Wextra -Werror -g   CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o  -o UNIT_TEST 
+clang++   -Wall -Wextra -Werror -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -mmacosx-version-min=10.14 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o  -o UNIT_TEST 

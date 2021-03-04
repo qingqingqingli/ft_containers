@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/qli/CLionProjects/ft_containers/containers/vector.h
+/Users/qli/Desktop/ft_containers/containers/vector.h
 iostream
 -
 
-/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
+/Users/qli/Desktop/ft_containers/unit_test/catch2/catch.hpp
 chrono
 -
 iosfwd
@@ -376,11 +376,11 @@ vector
 cstring
 -
 
-/home/qli/CLionProjects/ft_containers/unit_test/vector.cpp
+/Users/qli/Desktop/ft_containers/unit_test/vector.cpp
 catch2/catch.hpp
-/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
+/Users/qli/Desktop/ft_containers/unit_test/catch2/catch.hpp
 ../containers/vector.h
-/home/qli/CLionProjects/ft_containers/containers/vector.h
+/Users/qli/Desktop/ft_containers/containers/vector.h
 fstream
 -
 
