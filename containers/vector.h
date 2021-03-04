@@ -3,20 +3,16 @@
 //
 
 #ifndef FT_CONTAINERS_VECTOR_H
-#define FT_CONTAINERS_VECTOR_H
+# define FT_CONTAINERS_VECTOR_H
+# include <iostream>
 
-#include <iostream>
-
-namespace ft
-{
+namespace ft {
 
 template < class T, class Alloc = std::allocator<T> >
 class vector {
 
-//nested member type
 public:
-	//** nested type names
-	//typedef	existing_type						new_type_name
+	//		existing_type							new_type_name
 	typedef T										value_type;
 	typedef Alloc									allocator_type;
 	typedef T&										reference;
@@ -37,7 +33,6 @@ private:
 	pointer 				_array;
 
 public:
-
 //---------------------------------------Coplien form-----------------------------------
 
 	//** [coplien form] default constructor: empty vector
@@ -73,7 +68,6 @@ public:
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
 			this->_array = new value_type [this->_size];
-			// update below to assign
 			size_type i = 0;
 			while (i < this->_size)
 			{
@@ -85,6 +79,7 @@ public:
 	}
 
 	//** [coplien form] default destructor
+	// need to see if to delete the individual element
 	~vector() {
 		delete [] this->_array;
 	}
@@ -114,11 +109,27 @@ public:
 	}
 
 	//** [capacity] max_size (return the max number of elements)
-	// to understand the difference between capacity and max_size
-	size_type max_size() const;
+	size_type max_size() const {
+		return this->_alloc.max_size();
+	}
 
 	//** [capacity] resize (resize the container so that it contains n elements)
-	void resize (size_type n, value_type val = value_type());
+	void resize (size_type n, value_type val = value_type()) {
+		if (n <= this->size())
+			this->_size = n;
+		else if (n > this->size() && n <= this->capacity())
+		{
+			while (this->_size < n)
+			{
+				this->push_back(val);
+				(this->_size)++;
+			}
+		}
+		else if (n > this->capacity())
+		{
+
+		}
+	}
 
 	//** [capacity] capacity (return the size of the storage space)
 	size_type capacity() const {
@@ -126,7 +137,12 @@ public:
 	}
 
 	//** [capacity] empty (test whether the vector is empty)
-	bool empty() const;
+	bool empty() const {
+		if (!this->size())
+			return true;
+		else
+			return false;
+	}
 
 	//** [capacity] reverse (request that the vector capacity be at least enough to contain n elements)
 	void reserve (size_type n);

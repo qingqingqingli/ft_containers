@@ -5,7 +5,7 @@
 #include "../containers/vector.h"
 #include <fstream>
 
-TEST_CASE("1. default constructor: empty vector", "[vector]") {
+TEST_CASE("default constructor: empty vector", "[vector][coplien form]") {
 	std::vector<char> std_first;
 	ft::vector<int> ft_first;
 
@@ -13,7 +13,7 @@ TEST_CASE("1. default constructor: empty vector", "[vector]") {
 	REQUIRE(ft_first.capacity() == std_first.capacity());
 }
 
-TEST_CASE("2. default constructor: vector with size and val", "[vector]") {
+TEST_CASE("default constructor: vector with size and val", "[vector][coplien form]") {
 	std::vector<int> std_first(99);
 	ft::vector<int> ft_first(99);
 	std::vector<char> std_second(123);
@@ -33,7 +33,7 @@ TEST_CASE("2. default constructor: vector with size and val", "[vector]") {
 	REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
 }
 
-TEST_CASE("3. default constructor: vector with InputIterator", "[vector]") {
+TEST_CASE("default constructor: vector with InputIterator", "[vector][coplien form]") {
 
 	std::vector<int> std_first(4, 100);
 	std::vector<int> std_second(std_first.begin(), std_first.end());
@@ -57,7 +57,7 @@ TEST_CASE("3. default constructor: vector with InputIterator", "[vector]") {
 	REQUIRE(str==" 16 2 77 29");
 }
 
-TEST_CASE("4 & 5. copy & assignation constructor", "[vector]"){
+TEST_CASE("copy & assignation constructor", "[vector][coplien form]"){
 
 	SECTION("empty vector") {
 		std::vector<int> std_first;
@@ -123,7 +123,35 @@ TEST_CASE("4 & 5. copy & assignation constructor", "[vector]"){
 	}
 }
 
-TEST_CASE("7. assign()", "[vector]")
+TEST_CASE("size()", "[vector][capacity]")
+{
+	std::vector<int> empty;
+	ft::vector<int> ft_empty;
+	std::vector<int> small(5);
+	ft::vector<int> ft_small(5);
+	std::vector<int> big(555, 555);
+	ft::vector<int> ft_big(555, 555);
+
+	REQUIRE(ft_empty.size() == empty.size());
+	REQUIRE(ft_small.size() == small.size());
+	REQUIRE(ft_big.size() == big.size());
+}
+
+TEST_CASE("max_size()", "[vector][capacity]")
+{
+	std::vector<int> empty;
+	ft::vector<int> ft_empty;
+	std::vector<int> small(5);
+	ft::vector<int> ft_small(5);
+	std::vector<int> big(555, 555);
+	ft::vector<int> ft_big(555, 555);
+
+	REQUIRE(ft_empty.max_size() == empty.max_size());
+	REQUIRE(ft_small.max_size() == small.max_size());
+	REQUIRE(ft_big.max_size() == big.max_size());
+}
+
+TEST_CASE("assign()", "[vector][element access]")
 {
 	SECTION("assign value to empty vector")
 	{
