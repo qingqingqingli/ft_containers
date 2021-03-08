@@ -248,3 +248,21 @@ TEST_CASE("empty()", "[vector][capacity]")
 	REQUIRE(first.empty() == ft_first.empty());
 	REQUIRE(second.empty() == ft_second.empty());
 }
+
+TEST_CASE("assign()", "[vector][capacity]")
+{
+	std::vector<int> first;
+	std::vector<int> second;
+	std::vector<int> third;
+
+	ft::vector<int> ft_first;
+	ft::vector<int> ft_second;
+	ft::vector<int> ft_third;
+
+	first.assign (7,100);
+	ft_first.assign (7,100);
+
+	REQUIRE(first.size() == ft_first.size());
+	REQUIRE(second.size() == ft_second.size());
+	REQUIRE(second.size() == ft_second.size());
+}

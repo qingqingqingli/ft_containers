@@ -239,7 +239,6 @@ public:
 			this->_array = new_vector->_array;
 			*this = new_vector;
 		}
-		//invalid read
 		this->_array[this->size()] = val;
 		this->_size += 1;
 	}
