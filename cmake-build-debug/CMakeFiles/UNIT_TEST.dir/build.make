@@ -54,19 +54,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = "/home/qli/Documents/Installed programs/clion-2020.2.4/bin/cmake/linux/bin/cmake"
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
+RM = "/home/qli/Documents/Installed programs/clion-2020.2.4/bin/cmake/linux/bin/cmake" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/qli/Desktop/ft_containers
+CMAKE_SOURCE_DIR = /home/qli/CLionProjects/ft_containers
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/qli/Desktop/ft_containers/cmake-build-debug
+CMAKE_BINARY_DIR = /home/qli/CLionProjects/ft_containers/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/UNIT_TEST.dir/depend.make
@@ -79,29 +79,29 @@ include CMakeFiles/UNIT_TEST.dir/flags.make
 
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o: CMakeFiles/UNIT_TEST.dir/flags.make
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o: ../unit_test/catch2/catch.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/qli/Desktop/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o"
-	clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o -c /Users/qli/Desktop/ft_containers/unit_test/catch2/catch.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o"
+	clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o -c /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.cpp
 
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/qli/Desktop/ft_containers/unit_test/catch2/catch.cpp > CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.cpp > CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.i
 
 CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/qli/Desktop/ft_containers/unit_test/catch2/catch.cpp -o CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.cpp -o CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s
 
 CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o: CMakeFiles/UNIT_TEST.dir/flags.make
 CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o: ../unit_test/vector.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/qli/Desktop/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o"
-	clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o -c /Users/qli/Desktop/ft_containers/unit_test/vector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o"
+	clang++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o -c /home/qli/CLionProjects/ft_containers/unit_test/vector.cpp
 
 CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/qli/Desktop/ft_containers/unit_test/vector.cpp > CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/qli/CLionProjects/ft_containers/unit_test/vector.cpp > CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.i
 
 CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/qli/Desktop/ft_containers/unit_test/vector.cpp -o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/qli/CLionProjects/ft_containers/unit_test/vector.cpp -o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.s
 
 # Object files for target UNIT_TEST
 UNIT_TEST_OBJECTS = \
@@ -115,7 +115,7 @@ UNIT_TEST: CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o
 UNIT_TEST: CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o
 UNIT_TEST: CMakeFiles/UNIT_TEST.dir/build.make
 UNIT_TEST: CMakeFiles/UNIT_TEST.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/qli/Desktop/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable UNIT_TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable UNIT_TEST"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/UNIT_TEST.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/UNIT_TEST.dir/clean:
 .PHONY : CMakeFiles/UNIT_TEST.dir/clean
 
 CMakeFiles/UNIT_TEST.dir/depend:
-	cd /Users/qli/Desktop/ft_containers/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/qli/Desktop/ft_containers /Users/qli/Desktop/ft_containers /Users/qli/Desktop/ft_containers/cmake-build-debug /Users/qli/Desktop/ft_containers/cmake-build-debug /Users/qli/Desktop/ft_containers/cmake-build-debug/CMakeFiles/UNIT_TEST.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/qli/CLionProjects/ft_containers/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/qli/CLionProjects/ft_containers /home/qli/CLionProjects/ft_containers /home/qli/CLionProjects/ft_containers/cmake-build-debug /home/qli/CLionProjects/ft_containers/cmake-build-debug /home/qli/CLionProjects/ft_containers/cmake-build-debug/CMakeFiles/UNIT_TEST.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/UNIT_TEST.dir/depend
 

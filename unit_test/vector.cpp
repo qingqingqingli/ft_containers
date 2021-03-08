@@ -229,7 +229,7 @@ TEST_CASE("8. at()", "[vector]"){
 	}
 }
 
-TEST_CASE("9. back()", "[vector]")
+TEST_CASE("back()", "[vector]")
 {
 	std::vector<int> first(10);
 	std::vector<int> second(10, 30);
@@ -237,84 +237,14 @@ TEST_CASE("9. back()", "[vector]")
 	ft::vector<int> ft_second(10, 30);
 	REQUIRE(first.back() == ft_first.back());
 	REQUIRE(second.back() == ft_second.back());
-
 }
 
-//TEST_CASE("21. pop_back", "[vector]") {
-//
-//	SECTION("check initial list end")
-//	{
-//		std::vector<int> myvector(5, 10);
-//		std::vector<int> ft_myvector(5, 10);
-//		REQUIRE(myvector[4] == 10);
-//		REQUIRE(ft_myvector[4] == 10);
-//	}
-//
-//	SECTION("increase size")
-//	{
-//		std::vector<int> myvector(5);
-//		ft::vector<int> ft_myvector(5);
-//		myvector.push_back(6);
-//		myvector.push_back(6);
-//		ft_myvector.push_back(6);
-//		ft_myvector.push_back(6);
-//
-//		REQUIRE(myvector.size() == ft_myvector.size());
-//		REQUIRE(myvector.capacity() == ft_myvector.capacity());
-//
-//		REQUIRE(myvector[0] == ft_myvector[0]);
-//		REQUIRE(myvector[1] == ft_myvector[1]);
-//		REQUIRE(myvector[2] == ft_myvector[2]);
-//		REQUIRE(myvector[3] == ft_myvector[3]);
-//		REQUIRE(myvector[4] == ft_myvector[4]);
-//		//invalid read
-//		REQUIRE(myvector[5] == ft_myvector[5]);
-//		REQUIRE(myvector[6] == ft_myvector[6]);
-//		REQUIRE(myvector[9] == 0);
-////		REQUIRE(myvector[9] == ft_myvector[9]);
-//	}
-//}
-
-TEST_CASE("copy & assignation operator: with value", "[vector]"){
-
-	unsigned long int size = 10;
-	std::vector<int> std_second(size, 10);
-	std::vector<int> std_third = std_second;
-	std_second[0] = 100;
-	REQUIRE(std_third[0] == 10);
-
-	SECTION("testing resize"){
-		std_second.resize(88);
-		REQUIRE(std_third.size() == 10);
-		REQUIRE(std_second.size() == 88);
-		REQUIRE(std_third.capacity() == 10);
-		REQUIRE(std_second.capacity() == 88);
-	}
-}
-
-TEST_CASE("test constructor with an array", "[vector]"){
-	std::string arr[] = {"first", "second", "third", "fourth"};
-
-	std::vector<std::string> vecOfStr1(arr, arr+sizeof(arr)/sizeof(std::string));
-//	ft::vector<std::string> vecOfStr2(arr, arr+sizeof(arr)/sizeof(std::string));
-	REQUIRE(vecOfStr1.size() == 4);
-	REQUIRE(vecOfStr1[0] == "first");
-	REQUIRE(vecOfStr1[1] == "second");
-	REQUIRE(vecOfStr1[2] == "third");
-	REQUIRE(vecOfStr1[3] == "fourth");
-}
-
-TEST_CASE("test copy constructor", "[vector]") {
-	std::vector<std::string> vecOfStr;
-	vecOfStr.push_back("first");
-	vecOfStr.push_back("second");
-	vecOfStr.push_back("third");
-	vecOfStr.push_back("fourth");
-	std::vector<std::string> vecOfStr2(vecOfStr);
-	REQUIRE(vecOfStr2[0] == "first");
-	REQUIRE(vecOfStr2[1] == "second");
-	REQUIRE(vecOfStr2[2] == "third");
-	REQUIRE(vecOfStr2[3] == "fourth");
-
-
+TEST_CASE("empty()", "[vector][capacity]")
+{
+	std::vector<int> first(0);
+	std::vector<int> second;
+	ft::vector<int> ft_first(0);
+	ft::vector<int> ft_second;
+	REQUIRE(first.empty() == ft_first.empty());
+	REQUIRE(second.empty() == ft_second.empty());
 }

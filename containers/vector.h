@@ -209,8 +209,6 @@ public:
 		return const_back_ref;
 	}
 
-
-
 //---------------------------------------Modifier-----------------------------------
 
 	//** [element access] assign (assign new contents to the vector)
