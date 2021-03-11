@@ -172,8 +172,14 @@ TEST_CASE("resize()", "[vector][capacity]")
 		first.resize(17, 456);
 		ft_first.resize(17, 456);
 		REQUIRE(first[4] == ft_first[4]);
-		REQUIRE(first.size() == ft_first.size());
-		REQUIRE(first.capacity() == ft_first.capacity());
+		REQUIRE(first.size() == 17);
+		REQUIRE(first.capacity() == 20);
+
+		first.resize(47, 456);
+		ft_first.resize(47, 456);
+		REQUIRE(first[4] == ft_first[4]);
+		REQUIRE(first.size() == 47);
+		REQUIRE(first.capacity() == 47);
 
 		for (size_t i=0;i<first.size();i++)
 			REQUIRE(first[i] == ft_first[i]);
@@ -435,4 +441,21 @@ TEST_CASE("clear()", "[vector][modifier]")
 		REQUIRE(myvector.size() == ft_myvector.size());
 		REQUIRE(myvector.capacity() == ft_myvector.capacity());
 	}
+}
+
+TEST_CASE("swap()", "[vector][modifier]")
+{
+	std::vector<int> foo (3,100);
+	std::vector<int> bar (5,200);
+	ft::vector<int> ft_foo (3,100);
+	ft::vector<int> ft_bar (5,200);
+
+	foo.swap(bar);
+	ft_foo.swap(ft_bar);
+
+	for (unsigned i=0; i<foo.size(); i++)
+		REQUIRE(foo[i] == ft_foo[i]);
+
+	for (unsigned i=0; i<bar.size(); i++)
+		REQUIRE(bar[i] == ft_bar[i]);
 }

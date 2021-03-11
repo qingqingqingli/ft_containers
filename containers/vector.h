@@ -283,7 +283,7 @@ public:
 	//** [modifier] insert (insert new elements to the vector)
 //	iterator insert (iterator position, const value_type& val);
 
-	void insert (iterator position, size_type n, const value_type& val);
+//	void insert (iterator position, size_type n, const value_type& val);
 
 //	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
@@ -292,7 +292,22 @@ public:
 //	iterator erase (iterator first, iterator last);
 
 	//** [modifier] swap (exchange the content of the container by the content of another container)
-	void swap (vector& x);
+	void swap (vector& x) {
+		value_type *array_swap = x._array;
+		size_type size_swap = x._size;
+		size_type capacity_swap = x._capacity;
+		allocator_type alloc_swap = x._alloc;
+
+		x._array = this->_array;
+		x._size = this->_size;
+		x._capacity = this->_capacity;
+		x._alloc = this->_alloc;
+
+		this->_array = array_swap;
+		this->_size = size_swap;
+		this->_capacity = capacity_swap;
+		this->_alloc = alloc_swap;
+	}
 
 	//** [modifier] clear (remove all elements from the vector)
 	void clear() { this->_size = 0; }
