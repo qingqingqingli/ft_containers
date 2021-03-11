@@ -32,9 +32,29 @@ private:
 	allocator_type		 	_alloc;
 	pointer 				_array;
 
+// helper function
+private:
+	void reallocation(size_type realloc_size)
+	{
+		value_type *new_array = new value_type [realloc_size];
+		for (size_type i = 0; i < this->size(); i++)
+			new_array[i] = this->_array[i];
+		delete [] this->_array;
+		this->_array = new_array;
+		this->_capacity = realloc_size;
+	}
+
+	void copy_vector_value(size_type n, value_type val)
+	{
+		while (this->size() < n)
+		{
+			this->_array[this->size()] = val;
+			this->_size++;
+		}
+	}
+
 public:
 //-> Coplien form
-
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
@@ -82,54 +102,23 @@ public:
 
 //-> Capacity
 
-	//** [capacity] size (return the number of elements in the vector)
-	size_type size() const {return this->_size;}
+	size_type size() const { return this->_size; }
+	size_type max_size() const { return this->_alloc.max_size(); }
+	size_type capacity() const {return this->_capacity;}
 
-	//** [capacity] max_size (return the max number of elements)
-	size_type max_size() const {return this->_alloc.max_size();}
-
-	//** [capacity] resize (resize the container so that it contains n elements)
 	void resize (size_type n, value_type val = value_type()) {
 		if (n < this->size())
 			this->_size = n;
-		else if (n > this->size() && n < this->capacity())
+		else if (n > this->size())
 		{
-			while (this->size() < n)
-			{
-				this->_array[this->size()] = val;
-				this->_size++;
-			}
-		}
-		else if (n > this->capacity())
-		{
-			// reallocation
-			size_type realloc_size = 0;
-			if (n <= this->capacity() * 2)
-				realloc_size = this->capacity() * 2;
-			else
-				realloc_size = n;
-			value_type *new_array = new value_type [realloc_size];
-			size_type i = 0;
-			while (i < this->size())
-			{
-				new_array[i] = this->_array[i];
-				i++;
-			}
-			delete [] this->_array;
-			this->_array = new_array;
-			while (this->size() < n)
-			{
-				this->_array[this->size()] = val;
-				this->_size++;
-			}
-			this->_capacity = realloc_size;
+			if (n > this->capacity() && n <= this->capacity() * 2)
+				reallocation(this->capacity() * 2);
+			else if (n > this->capacity() * 2)
+				reallocation(n);
+			copy_vector_value(n, val);
 		}
 	}
 
-	//** [capacity] capacity (return the size of the storage space)
-	size_type capacity() const {return this->_capacity;}
-
-	//** [capacity] empty (test whether the vector is empty)
 	bool empty() const {
 		if (!this->size())
 			return true;
@@ -137,21 +126,9 @@ public:
 			return false;
 	}
 
-	//** [capacity] reverse (request that the vector capacity be at least enough to contain n elements)
 	void reserve (size_type n) {
 		if (n > this->capacity())
-		{
-			value_type *new_array = new value_type [n];
-			size_type i = 0;
-			while (i < this->size())
-			{
-				new_array[i] = this->_array[i];
-				i++;
-			}
-			delete [] this->_array;
-			this->_array = new_array;
-			this->_capacity = n;
-		}
+			reallocation(n);
 	}
 
 //-> Element access
