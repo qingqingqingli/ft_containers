@@ -33,12 +33,10 @@ private:
 	pointer 				_array;
 
 public:
-//---------------------------------------Coplien form-----------------------------------
+//-> Coplien form
 
-	//** [coplien form] default constructor: empty vector
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
-	//** [coplien form] default constructor: vector with size and val
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
 		this->_array = new value_type [n];
@@ -50,17 +48,12 @@ public:
 		}
 	}
 
-	//** [coplien form] default constructor: vector with InputIterator
 //	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
 //
 //	}
 
-	//** [coplien form] copy constructor
-	vector (const vector& x){
-		*this = x;
-	}
+	vector (const vector& x){*this = x;}
 
-	//** [coplien form] assignation operator ->update later
 	vector& operator= (const vector& x) {
 		if (this != &x)
 		{
@@ -78,13 +71,10 @@ public:
 		return *this;
 	}
 
-	//** [coplien form] default destructor
-	// need to see if to delete the individual element
-	~vector() {
-		delete [] this->_array;
-	}
+	~vector() {delete [] this->_array;}
 
-//---------------------------------------Iterators----------------------------------
+//-> Iterators
+
 	//** [iterator] begin (returns an iterator pointing to the first element in the vector)
 	iterator begin();
 	const_iterator begin() const;
@@ -101,17 +91,13 @@ public:
 	reverse_iterator rend();
 	const_reverse_iterator rend() const;
 
-//---------------------------------------Capacity-----------------------------------
+//-> Capacity
 
 	//** [capacity] size (return the number of elements in the vector)
-	size_type size() const {
-		return this->_size;
-	}
+	size_type size() const {return this->_size;}
 
 	//** [capacity] max_size (return the max number of elements)
-	size_type max_size() const {
-		return this->_alloc.max_size();
-	}
+	size_type max_size() const {return this->_alloc.max_size();}
 
 	//** [capacity] resize (resize the container so that it contains n elements)
 	void resize (size_type n, value_type val = value_type()) {
@@ -148,7 +134,7 @@ public:
 	void reserve (size_type n);
 
 
-//---------------------------------------Element access-----------------------------
+//-> Element access
 
 	//** [element access] operator[] (return a reference to the element at position n)
 	reference operator[] (size_type n) {
@@ -209,7 +195,7 @@ public:
 		return const_back_ref;
 	}
 
-//---------------------------------------Modifier-----------------------------------
+//-> Modifier
 
 	//** [element access] assign (assign new contents to the vector)
 

@@ -151,47 +151,6 @@ TEST_CASE("max_size()", "[vector][capacity]")
 	REQUIRE(ft_big.max_size() == big.max_size());
 }
 
-TEST_CASE("assign()", "[vector][element access]")
-{
-	SECTION("assign value to empty vector")
-	{
-		std::vector<int> first;
-
-		first.assign(5, 100);
-		REQUIRE(first.size() == 5);
-		REQUIRE(first.capacity() == 5);
-		REQUIRE(first[0] == 100);
-	}
-	SECTION("assign value to bigger vector")
-	{
-		std::vector<int> second(25);
-
-		REQUIRE(second.size() == 25);
-		REQUIRE(second.capacity() == 25);
-		second.assign(5, 100);
-		// size changed
-		REQUIRE(second.size() == 5);
-		REQUIRE(second.capacity() == 25);
-		REQUIRE(second[0] == 100);
-		REQUIRE(second[5] == 0);
-		REQUIRE(second[6] == 0);
-	}
-	SECTION("assign value to bigger vector")
-	{
-		std::vector<int> second(3);
-
-		REQUIRE(second.size() == 3);
-		REQUIRE(second.capacity() == 3);
-		second.assign(5, 100);
-		// size changed
-		REQUIRE(second.size() == 5);
-		REQUIRE(second.capacity() == 5);
-		REQUIRE(second[0] == 100);
-		REQUIRE(second[1] == 100);
-		REQUIRE(second[2] == 100);
-		REQUIRE(second[3] == 100);
-	}
-}
 
 TEST_CASE("8. at()", "[vector]"){
 
@@ -259,10 +218,4 @@ TEST_CASE("assign()", "[vector][capacity]")
 	ft::vector<int> ft_second;
 	ft::vector<int> ft_third;
 
-	first.assign (7,100);
-	ft_first.assign (7,100);
-
-	REQUIRE(first.size() == ft_first.size());
-	REQUIRE(second.size() == ft_second.size());
-	REQUIRE(second.size() == ft_second.size());
 }
