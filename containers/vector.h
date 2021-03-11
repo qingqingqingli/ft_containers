@@ -104,7 +104,7 @@ public:
 
 	size_type size() const { return this->_size; }
 	size_type max_size() const { return this->_alloc.max_size(); }
-	size_type capacity() const {return this->_capacity;}
+	size_type capacity() const { return this->_capacity; }
 
 	void resize (size_type n, value_type val = value_type()) {
 		if (n < this->size())
