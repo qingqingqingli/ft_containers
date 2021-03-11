@@ -234,7 +234,7 @@ public:
 
 	//** [modifier] assign (assign new contents to the vector)
 
-	template <class InputIterator> void assign (InputIterator first, InputIterator last);
+//	template <class InputIterator> void assign (InputIterator first, InputIterator last);
 
 	void assign (size_type n, const value_type& val) {
 		if (n <= this->capacity())
@@ -259,16 +259,11 @@ public:
 	void push_back (const value_type& val) {
 		if (this->size() + 1 > this->capacity())
 		{
-			// create new vector
-//			vector *new_vector = new vector;
-//			new_vector->_size = this->size();
 			if (!this->size())
 				this->_capacity = 1;
 			else
 				this->_capacity = this->size() * 2;
 			value_type *new_array = new value_type [this->capacity()];
-
-			//  copy old value into new vector
 			size_type i = 0;
 			while(i < this->size())
 			{
@@ -283,24 +278,24 @@ public:
 	}
 
 	//** [modifier] pop_back (removes the last element in the vector)
-	void pop_back();
+	void pop_back() { this->_size -= 1; }
 
 	//** [modifier] insert (insert new elements to the vector)
-	iterator insert (iterator position, const value_type& val);
+//	iterator insert (iterator position, const value_type& val);
 
 	void insert (iterator position, size_type n, const value_type& val);
 
-	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+//	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
 	//** [modifier] erase (erase element(s) from the vector)
-	iterator erase (iterator position);
-	iterator erase (iterator first, iterator last);
+//	iterator erase (iterator position);
+//	iterator erase (iterator first, iterator last);
 
 	//** [modifier] swap (exchange the content of the container by the content of another container)
 	void swap (vector& x);
 
 	//** [modifier] clear (remove all elements from the vector)
-	void clear();
+	void clear() { this->_size = 0; }
 
 };
 }

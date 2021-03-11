@@ -369,3 +369,70 @@ TEST_CASE("assign()", "[vector][modifier]")
 		REQUIRE(second[i] == ft_second[i]);
 	}
 }
+
+TEST_CASE("push_back()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	ft::vector<int> ft_myvector;
+	for (unsigned i = 0; i < 200; i++)
+	{
+		myvector.push_back(i);
+		ft_myvector.push_back(i);
+		REQUIRE(myvector[i] == ft_myvector[i]);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+		REQUIRE(myvector.max_size() == ft_myvector.max_size());
+	}
+}
+
+TEST_CASE("pop_back()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	ft::vector<int> ft_myvector;
+	int sum = 0;
+	int ft_sum = 0;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	ft_myvector.push_back (100);
+	ft_myvector.push_back (200);
+	ft_myvector.push_back (300);
+
+	while (!myvector.empty())
+	{
+		sum+=myvector.back();
+		ft_sum+=ft_myvector.back();
+		myvector.pop_back();
+		ft_myvector.pop_back();
+		REQUIRE(sum == ft_sum);
+	}
+}
+
+TEST_CASE("clear()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	myvector.clear();
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	ft::vector<int> ft_myvector;
+	ft_myvector.push_back (100);
+	ft_myvector.push_back (200);
+	ft_myvector.push_back (300);
+
+	ft_myvector.clear();
+	ft_myvector.push_back (1101);
+	ft_myvector.push_back (2202);
+
+	for (unsigned i=0; i<myvector.size(); i++)
+	{
+		REQUIRE(myvector[i] == ft_myvector[i]);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	}
+}
