@@ -40,17 +40,11 @@ public:
 	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
 		this->_array = new value_type [n];
-		size_type i = 0;
-		while (i < this->size())
-		{
+		for (size_type i = 0; i < this->size(); i++)
 			this->_array[i] = val;
-			i++;
-		}
 	}
 
 //	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-
-	vector (const vector& x){*this = x;}
 
 	vector& operator= (const vector& x) {
 		if (this != &x)
@@ -59,17 +53,14 @@ public:
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
 			this->_array = new value_type [this->_size];
-			size_type i = 0;
-			while (i < this->_size)
-			{
+			for (size_type i = 0; i < this->size(); i++)
 				this->_array[i] = x._array[i];
-				i++;
-			}
 		}
 		return *this;
 	}
 
-	~vector() {delete [] this->_array;}
+	vector (const vector& x){ *this = x; }
+	~vector() { delete [] this->_array; }
 
 //-> Iterators
 
