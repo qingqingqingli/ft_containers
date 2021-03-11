@@ -169,11 +169,11 @@ TEST_CASE("resize()", "[vector][capacity]")
 		for (size_t i=0;i<first.size();i++)
 			REQUIRE(first[i] == ft_first[i]);
 
-		first.resize(17, 456);
-		ft_first.resize(17, 456);
+		first.resize(21, 456);
+		ft_first.resize(21, 456);
 		REQUIRE(first[4] == ft_first[4]);
-		REQUIRE(first.size() == 17);
-		REQUIRE(first.capacity() == 20);
+		REQUIRE(first.size() == 21);
+		REQUIRE(first.capacity() == 21);
 
 		first.resize(47, 456);
 		ft_first.resize(47, 456);
