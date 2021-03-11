@@ -34,14 +34,24 @@ private:
 
 // helper function
 private:
-	void reallocation(size_type realloc_size)
+	void reallocation(size_type n)
 	{
-		value_type *new_array = new value_type [realloc_size];
+		value_type *new_array = new value_type [n];
 		for (size_type i = 0; i < this->size(); i++)
 			new_array[i] = this->_array[i];
 		delete [] this->_array;
 		this->_array = new_array;
-		this->_capacity = realloc_size;
+		this->_capacity = n;
+	}
+
+	void reallocation_new_value(size_type n, value_type val)
+	{
+		value_type *new_array = new value_type [n];
+		this->_capacity = n;
+		for (size_type i = 0; i < this->size(); i++)
+			new_array[i] = val;
+		delete [] this->_array;
+		this->_array = new_array;
 	}
 
 	void copy_vector_value(size_type n, value_type val)
@@ -190,67 +200,51 @@ public:
 
 //-> Modifier
 
-	//** [modifier] assign (assign new contents to the vector)
-
-//	template <class InputIterator> void assign (InputIterator first, InputIterator last);
+//	template <class InputIterator>
+//	void assign (InputIterator first, InputIterator last);
 
 	void assign (size_type n, const value_type& val) {
+		this->_size = n;
 		if (n <= this->capacity())
-		{
-			this->_size = n;
 			for (size_type i = 0; i < this->size(); i++)
 				this->_array[i] = val;
-		}
 		else
-		{
-			value_type *new_array = new value_type [n];
-			this->_capacity = n;
-			this->_size = n;
-			for (size_type i = 0; i < this->size(); i++)
-				new_array[i] = val;
-			delete [] this->_array;
-			this->_array = new_array;
-		}
+			reallocation_new_value(n, val);
 	}
 
-	//** [modifier] push_back (add a new element at the end of the vector)
 	void push_back (const value_type& val) {
 		if (this->size() + 1 > this->capacity())
 		{
 			if (!this->size())
-				this->_capacity = 1;
+				reallocation(1);
 			else
-				this->_capacity = this->size() * 2;
-			value_type *new_array = new value_type [this->capacity()];
-			size_type i = 0;
-			while(i < this->size())
-			{
-				new_array[i] = this->_array[i];
-				i++;
-			}
-			delete [] this->_array;
-			this->_array = new_array;
+				reallocation(this->size() * 2);
 		}
 		this->_array[this->size()] = val;
 		this->_size += 1;
 	}
 
-	//** [modifier] pop_back (removes the last element in the vector)
 	void pop_back() { this->_size -= 1; }
 
-	//** [modifier] insert (insert new elements to the vector)
 //	iterator insert (iterator position, const value_type& val);
 
 //	void insert (iterator position, size_type n, const value_type& val);
 
 //	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
-	//** [modifier] erase (erase element(s) from the vector)
 //	iterator erase (iterator position);
 //	iterator erase (iterator first, iterator last);
 
-	//** [modifier] swap (exchange the content of the container by the content of another container)
+//	void copy_vector_properties(vector *dst, vector *src)
+//	{
+//		dst->_array = src->_array;
+//		dst->_size = src->_size;
+//		dst->_capacity = src->_capacity;
+//		dst->_alloc = src->_alloc;
+//	}
+
 	void swap (vector& x) {
+
 		value_type *array_swap = x._array;
 		size_type size_swap = x._size;
 		size_type capacity_swap = x._capacity;
@@ -267,7 +261,6 @@ public:
 		this->_alloc = alloc_swap;
 	}
 
-	//** [modifier] clear (remove all elements from the vector)
 	void clear() { this->_size = 0; }
 
 };
