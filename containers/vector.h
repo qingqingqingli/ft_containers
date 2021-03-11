@@ -133,7 +133,6 @@ public:
 
 //-> Element access
 
-	//** [element access] operator[] (return a reference to the element at position n)
 	reference operator[] (size_type n) {
 		T& elem_ref = *(this->_array + n);
 		return elem_ref;
@@ -144,8 +143,6 @@ public:
 		return elem_ref;
 	}
 
-	//** [element access] at (returns a reference to the element at position n in the vector)
-
 	reference at (size_type n) {
 		if (n > this->_size - 1)
 		{
@@ -154,11 +151,8 @@ public:
 			std::string error_msg = sstm.str();
 			throw std::out_of_range(error_msg);
 		}
-		else
-		{
-			reference elem_ref = *(this->_array + n);
-			return elem_ref;
-		}
+		reference elem_ref = *(this->_array + n);
+		return elem_ref;
 	}
 
 	const_reference at (size_type n) const {
@@ -169,14 +163,11 @@ public:
 			std::string error_msg = sstm.str();
 			throw std::out_of_range(error_msg);
 		}
-		else
-		{
-			const_reference elem_ref = *(this->_array + n);
-			return elem_ref;
-		}
+		const_reference elem_ref = *(this->_array + n);
+		return elem_ref;
 	}
 
-	//** [element access] front (return a reference to the first element)
+	// to understand if this can be simplified
 	reference front() {
 		reference front_ref = this->_array[0];
 		return front_ref;
@@ -187,7 +178,6 @@ public:
 		return front_ref;
 	}
 
-	//** [element access] back (returns a reference to the last element in the vector)
 	reference back() {
 		reference back_ref = this->_array[this->size() - 1];
 		return back_ref;
