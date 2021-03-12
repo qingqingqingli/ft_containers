@@ -119,12 +119,12 @@ public:
 	void resize (size_type n, value_type val = value_type()) {
 		if (n < this->size())
 			this->_size = n;
-		else if (n > this->size())
-		{
-			if (n > this->capacity() && n <= this->capacity() * 2)
-				reallocation(this->capacity() * 2);
-			else if (n > this->capacity() * 2)
-				reallocation(n);
+		else if (n > this->capacity() && n <= this->capacity() * 2) {
+			reallocation(this->capacity() * 2);
+			copy_vector_value(n, val);
+		}
+		else if (n > this->capacity() * 2) {
+			reallocation(n);
 			copy_vector_value(n, val);
 		}
 	}
