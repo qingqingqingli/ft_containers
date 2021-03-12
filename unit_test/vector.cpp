@@ -443,3 +443,15 @@ TEST_CASE("swap()", "[vector][modifier]")
 	for (unsigned i=0; i<bar.size(); i++)
 		REQUIRE(bar[i] == ft_bar[i]);
 }
+
+TEST_CASE("begin()", "[vector][iterator]")
+{
+	std::vector<int> myvector;
+	for (int i=1; i<=5; i++) myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	for (ft::vector<int>::iterator it = ft_myvector.begin() ; it != ft_myvector.end(); ++it)
+		std::cout << ' ' << *it;
+}

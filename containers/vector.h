@@ -82,9 +82,9 @@ public:
 			this->_array[i] = val;
 	}
 
-	template <class InputIterator>
-	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
-	}
+//	template <class InputIterator>
+//	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+//	}
 
 	vector& operator= (const vector& x) {
 		if (this != &x)
@@ -104,13 +104,19 @@ public:
 
 //-> Iterators
 
-	//** [iterator] begin (returns an iterator pointing to the first element in the vector)
-	iterator begin();
-	const_iterator begin() const;
+	iterator begin() {
+		return iterator(this->_array);
+	}
 
-	//** [iterator] end (return iterator to end)
-	iterator end();
-	const_iterator end() const;
+//	const_iterator begin() const;
+
+	iterator end() {
+		iterator begin(this->_array);
+		for (size_type i = 0; i < this->size(); i++)
+			begin++;
+		return begin;
+	}
+//	const_iterator end() const;
 
 	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
 	reverse_iterator rbegin();
