@@ -151,49 +151,134 @@ TEST_CASE("max_size()", "[vector][capacity]")
 	REQUIRE(ft_big.max_size() == big.max_size());
 }
 
-TEST_CASE("assign()", "[vector][element access]")
+TEST_CASE("resize()", "[vector][capacity]")
 {
-	SECTION("assign value to empty vector")
-	{
-		std::vector<int> first;
+	std::vector<int> first(5, 100);
+	std::vector<char> second(5, 'a');
+	ft::vector<int> ft_first(5, 100);
+	ft::vector<char> ft_second(5, 'a');
 
-		first.assign(5, 100);
-		REQUIRE(first.size() == 5);
-		REQUIRE(first.capacity() == 5);
-		REQUIRE(first[0] == 100);
+	SECTION("int vector")
+	{
+		first.resize(10);
+		ft_first.resize(10);
+		REQUIRE(first.size() == ft_first.size());
+		REQUIRE(first[9] == ft_first[9]);
+		REQUIRE(first.capacity() == ft_first.capacity());
+
+		for (size_t i=0;i<first.size();i++)
+			REQUIRE(first[i] == ft_first[i]);
+
+		first.resize(21, 456);
+		ft_first.resize(21, 456);
+		REQUIRE(first[4] == ft_first[4]);
+		REQUIRE(first.size() == 21);
+		REQUIRE(first.capacity() == 21);
+
+		first.resize(47, 456);
+		ft_first.resize(47, 456);
+		REQUIRE(first[4] == ft_first[4]);
+		REQUIRE(first.size() == 47);
+		REQUIRE(first.capacity() == 47);
+
+		for (size_t i=0;i<first.size();i++)
+			REQUIRE(first[i] == ft_first[i]);
+
+		first.resize(12);
+		ft_first.resize(12);
+		REQUIRE(first[11] == ft_first[11]);
+		REQUIRE(first.size() == ft_first.size());
+		REQUIRE(first.capacity() == ft_first.capacity());
+		for (size_t i=0;i<first.size();i++)
+			REQUIRE(first[i] == ft_first[i]);
 	}
-	SECTION("assign value to bigger vector")
-	{
-		std::vector<int> second(25);
 
-		REQUIRE(second.size() == 25);
-		REQUIRE(second.capacity() == 25);
-		second.assign(5, 100);
-		// size changed
-		REQUIRE(second.size() == 5);
-		REQUIRE(second.capacity() == 25);
-		REQUIRE(second[0] == 100);
-		REQUIRE(second[5] == 0);
-		REQUIRE(second[6] == 0);
+	SECTION("char_vector")
+	{
+		second.resize(10);
+		ft_second.resize(10);
+		REQUIRE(second.size() == ft_second.size());
+		REQUIRE(second[9] == ft_second[9]);
+		REQUIRE(second.capacity() == ft_second.capacity());
+
+		for (size_t i=0;i<second.size();i++)
+			REQUIRE(second[i] == ft_second[i]);
+
+		second.resize(17, 'c');
+		ft_second.resize(17, 'c');
+		REQUIRE(second[4] == ft_second[4]);
+		REQUIRE(second.size() == ft_second.size());
+		REQUIRE(second.capacity() == ft_second.capacity());
+
+		for (size_t i=0;i<second.size();i++)
+			REQUIRE(second[i] == ft_second[i]);
+
+		second.resize(12);
+		ft_second.resize(12);
+		REQUIRE(second[11] == ft_second[11]);
+		REQUIRE(second.size() == ft_second.size());
+		REQUIRE(second.capacity() == ft_second.capacity());
+		for (size_t i=0;i<second.size();i++)
+			REQUIRE(second[i] == ft_second[i]);
 	}
-	SECTION("assign value to bigger vector")
-	{
-		std::vector<int> second(3);
 
-		REQUIRE(second.size() == 3);
-		REQUIRE(second.capacity() == 3);
-		second.assign(5, 100);
-		// size changed
-		REQUIRE(second.size() == 5);
-		REQUIRE(second.capacity() == 5);
-		REQUIRE(second[0] == 100);
-		REQUIRE(second[1] == 100);
-		REQUIRE(second[2] == 100);
-		REQUIRE(second[3] == 100);
+//	100 100 100 100 100 0 0 0 0 0
+//	100 100 100 100 100 0 0 0 0 0 456 456 456 456 456 456 456
+//	100 100 100 100 100 0 0 0 0 0 456 456
+//	a a a a a \x00 \x00 \x00 \x00 \x00
+//	a a a a a \x00 \x00 \x00 \x00 \x00 c c c c c c c
+//	a a a a a \x00 \x00 \x00 \x00 \x00 c c
+}
+
+TEST_CASE("capacity()", "[vector][capacity]") {
+	std::vector<int> myvector(100, 100);
+	ft::vector<int> ft_myvector(100, 100);
+
+	REQUIRE(myvector.size() == ft_myvector.size());
+	REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	REQUIRE(myvector.max_size() == ft_myvector.max_size());
+
+	myvector.resize(345);
+	ft_myvector.resize(345);
+	REQUIRE(myvector.size() == ft_myvector.size());
+	REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	REQUIRE(myvector.max_size() == ft_myvector.max_size());
+
+	myvector.resize(10);
+	ft_myvector.resize(10);
+	REQUIRE(myvector.size() == ft_myvector.size());
+	REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	REQUIRE(myvector.max_size() == ft_myvector.max_size());
+
+	myvector.resize(0);
+	ft_myvector.resize(0);
+	REQUIRE(myvector.size() == ft_myvector.size());
+	REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	REQUIRE(myvector.max_size() == ft_myvector.max_size());
+}
+
+TEST_CASE("reserve()", "[vector][capacity]")
+{
+	std::vector<int> foo;
+	ft::vector<int> ft_foo;
+	for (int i=0; i<100; ++i) {
+		foo.push_back(i);
+		ft_foo.push_back(i);
+		REQUIRE(foo.capacity() == ft_foo.capacity());
+	}
+
+	std::vector<int> bar;
+	ft::vector<int> ft_bar;
+	bar.reserve(100);
+	ft_bar.reserve(100);
+	for (int i=0; i<100; ++i) {
+		bar.push_back(i);
+		ft_bar.push_back(i);
+		REQUIRE(bar.capacity() == ft_bar.capacity());
 	}
 }
 
-TEST_CASE("8. at()", "[vector]"){
+TEST_CASE("at()", "[vector][element access]"){
 
 	SECTION("non-const type")
 	{
@@ -229,7 +314,30 @@ TEST_CASE("8. at()", "[vector]"){
 	}
 }
 
-TEST_CASE("back()", "[vector]")
+TEST_CASE("front()", "[vector][element access]")
+{
+	std::vector<int> first(10);
+	std::vector<int> second(10, 30);
+	ft::vector<int> ft_first(10);
+	ft::vector<int> ft_second(10, 30);
+	REQUIRE(first.front() == ft_first.front());
+	REQUIRE(second.front() == ft_second.front());
+
+	std::vector<int> myvector;
+	ft::vector<int> ft_myvector;
+
+	myvector.push_back(78);
+	myvector.push_back(16);
+	ft_myvector.push_back(78);
+	ft_myvector.push_back(16);
+
+	myvector.front() -= myvector.back();
+	ft_myvector.front() -= ft_myvector.back();
+
+	REQUIRE(myvector.front() == ft_myvector.front());
+}
+
+TEST_CASE("back()", "[vector][element access]")
 {
 	std::vector<int> first(10);
 	std::vector<int> second(10, 30);
@@ -249,20 +357,105 @@ TEST_CASE("empty()", "[vector][capacity]")
 	REQUIRE(second.empty() == ft_second.empty());
 }
 
-TEST_CASE("assign()", "[vector][capacity]")
+TEST_CASE("assign()", "[vector][modifier]")
 {
 	std::vector<int> first;
-	std::vector<int> second;
-	std::vector<int> third;
+	std::vector<int> second(39, 200);
+	first.assign (7,100);
+	second.assign (7,100);
 
 	ft::vector<int> ft_first;
-	ft::vector<int> ft_second;
-	ft::vector<int> ft_third;
-
-	first.assign (7,100);
+	ft::vector<int> ft_second(39, 200);
 	ft_first.assign (7,100);
+	ft_second.assign (7,100);
 
-	REQUIRE(first.size() == ft_first.size());
-	REQUIRE(second.size() == ft_second.size());
-	REQUIRE(second.size() == ft_second.size());
+	for (unsigned i=0; i<first.size(); i++)
+	{
+		REQUIRE(first[i] == ft_first[i]);
+		REQUIRE(second[i] == ft_second[i]);
+	}
+}
+
+TEST_CASE("push_back()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	ft::vector<int> ft_myvector;
+	for (unsigned i = 0; i < 200; i++)
+	{
+		myvector.push_back(i);
+		ft_myvector.push_back(i);
+		REQUIRE(myvector[i] == ft_myvector[i]);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+		REQUIRE(myvector.max_size() == ft_myvector.max_size());
+	}
+}
+
+TEST_CASE("pop_back()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	ft::vector<int> ft_myvector;
+	int sum = 0;
+	int ft_sum = 0;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	ft_myvector.push_back (100);
+	ft_myvector.push_back (200);
+	ft_myvector.push_back (300);
+
+	while (!myvector.empty())
+	{
+		sum+=myvector.back();
+		ft_sum+=ft_myvector.back();
+		myvector.pop_back();
+		ft_myvector.pop_back();
+		REQUIRE(sum == ft_sum);
+	}
+}
+
+TEST_CASE("clear()", "[vector][modifier]")
+{
+	std::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	myvector.clear();
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	ft::vector<int> ft_myvector;
+	ft_myvector.push_back (100);
+	ft_myvector.push_back (200);
+	ft_myvector.push_back (300);
+
+	ft_myvector.clear();
+	ft_myvector.push_back (1101);
+	ft_myvector.push_back (2202);
+
+	for (unsigned i=0; i<myvector.size(); i++)
+	{
+		REQUIRE(myvector[i] == ft_myvector[i]);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	}
+}
+
+TEST_CASE("swap()", "[vector][modifier]")
+{
+	std::vector<int> foo (3,100);
+	std::vector<int> bar (5,200);
+	ft::vector<int> ft_foo (3,100);
+	ft::vector<int> ft_bar (5,200);
+
+	foo.swap(bar);
+	ft_foo.swap(ft_bar);
+
+	for (unsigned i=0; i<foo.size(); i++)
+		REQUIRE(foo[i] == ft_foo[i]);
+
+	for (unsigned i=0; i<bar.size(); i++)
+		REQUIRE(bar[i] == ft_bar[i]);
 }

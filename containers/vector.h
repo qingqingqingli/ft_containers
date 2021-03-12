@@ -32,35 +32,50 @@ private:
 	allocator_type		 	_alloc;
 	pointer 				_array;
 
-public:
-//---------------------------------------Coplien form-----------------------------------
-
-	//** [coplien form] default constructor: empty vector
-	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
-
-	//** [coplien form] default constructor: vector with size and val
-	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
+// helper function
+private:
+	void reallocation(size_type n)
 	{
-		this->_array = new value_type [n];
-		size_type i = 0;
-		while (i < this->size())
+		value_type *new_array = new value_type [n];
+		for (size_type i = 0; i < this->size(); i++)
+			new_array[i] = this->_array[i];
+		delete [] this->_array;
+		this->_array = new_array;
+		this->_capacity = n;
+	}
+
+	void reallocation_new_value(size_type n, value_type val)
+	{
+		value_type *new_array = new value_type [n];
+		this->_capacity = n;
+		for (size_type i = 0; i < this->size(); i++)
+			new_array[i] = val;
+		delete [] this->_array;
+		this->_array = new_array;
+	}
+
+	void copy_vector_value(size_type n, value_type val)
+	{
+		while (this->size() < n)
 		{
-			this->_array[i] = val;
-			i++;
+			this->_array[this->size()] = val;
+			this->_size++;
 		}
 	}
 
-	//** [coplien form] default constructor: vector with InputIterator
-//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {
-//
-//	}
+public:
+//-> Coplien form
+	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
-	//** [coplien form] copy constructor
-	vector (const vector& x){
-		*this = x;
+	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
+	{
+		this->_array = new value_type [n];
+		for (size_type i = 0; i < this->size(); i++)
+			this->_array[i] = val;
 	}
 
-	//** [coplien form] assignation operator ->update later
+//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+
 	vector& operator= (const vector& x) {
 		if (this != &x)
 		{
@@ -68,23 +83,17 @@ public:
 			this->_capacity = x._capacity;
 			this->_alloc = x._alloc;
 			this->_array = new value_type [this->_size];
-			size_type i = 0;
-			while (i < this->_size)
-			{
+			for (size_type i = 0; i < this->size(); i++)
 				this->_array[i] = x._array[i];
-				i++;
-			}
 		}
 		return *this;
 	}
 
-	//** [coplien form] default destructor
-	// need to see if to delete the individual element
-	~vector() {
-		delete [] this->_array;
-	}
+	vector (const vector& x){ *this = x; }
+	~vector() { delete [] this->_array; }
 
-//---------------------------------------Iterators----------------------------------
+//-> Iterators
+
 	//** [iterator] begin (returns an iterator pointing to the first element in the vector)
 	iterator begin();
 	const_iterator begin() const;
@@ -101,42 +110,25 @@ public:
 	reverse_iterator rend();
 	const_reverse_iterator rend() const;
 
-//---------------------------------------Capacity-----------------------------------
+//-> Capacity
 
-	//** [capacity] size (return the number of elements in the vector)
-	size_type size() const {
-		return this->_size;
-	}
+	size_type size() const { return this->_size; }
+	size_type max_size() const { return this->_alloc.max_size(); }
+	size_type capacity() const { return this->_capacity; }
 
-	//** [capacity] max_size (return the max number of elements)
-	size_type max_size() const {
-		return this->_alloc.max_size();
-	}
-
-	//** [capacity] resize (resize the container so that it contains n elements)
 	void resize (size_type n, value_type val = value_type()) {
-		if (n <= this->size())
+		if (n < this->size())
 			this->_size = n;
-		else if (n > this->size() && n <= this->capacity())
+		else if (n > this->size())
 		{
-			while (this->_size < n)
-			{
-				this->push_back(val);
-				(this->_size)++;
-			}
-		}
-		else if (n > this->capacity())
-		{
-
+			if (n > this->capacity() && n <= this->capacity() * 2)
+				reallocation(this->capacity() * 2);
+			else if (n > this->capacity() * 2)
+				reallocation(n);
+			copy_vector_value(n, val);
 		}
 	}
 
-	//** [capacity] capacity (return the size of the storage space)
-	size_type capacity() const {
-		return this->_capacity;
-	}
-
-	//** [capacity] empty (test whether the vector is empty)
 	bool empty() const {
 		if (!this->size())
 			return true;
@@ -144,13 +136,13 @@ public:
 			return false;
 	}
 
-	//** [capacity] reverse (request that the vector capacity be at least enough to contain n elements)
-	void reserve (size_type n);
+	void reserve (size_type n) {
+		if (n > this->capacity())
+			reallocation(n);
+	}
 
+//-> Element access
 
-//---------------------------------------Element access-----------------------------
-
-	//** [element access] operator[] (return a reference to the element at position n)
 	reference operator[] (size_type n) {
 		T& elem_ref = *(this->_array + n);
 		return elem_ref;
@@ -161,9 +153,6 @@ public:
 		return elem_ref;
 	}
 
-	//** [element access] at (returns a reference to the element at position n in the vector)
-	// the first element has a position of 0
-
 	reference at (size_type n) {
 		if (n > this->_size - 1)
 		{
@@ -172,11 +161,8 @@ public:
 			std::string error_msg = sstm.str();
 			throw std::out_of_range(error_msg);
 		}
-		else
-		{
-			reference elem_ref = *(this->_array + n);
-			return elem_ref;
-		}
+		reference elem_ref = *(this->_array + n);
+		return elem_ref;
 	}
 
 	const_reference at (size_type n) const {
@@ -187,18 +173,21 @@ public:
 			std::string error_msg = sstm.str();
 			throw std::out_of_range(error_msg);
 		}
-		else
-		{
-			const_reference elem_ref = *(this->_array + n);
-			return elem_ref;
-		}
+		const_reference elem_ref = *(this->_array + n);
+		return elem_ref;
 	}
 
-	//** [element access] front (return a reference to the first element)
-	reference front();
-	const_reference front() const;
+	// to understand if this can be simplified
+	reference front() {
+		reference front_ref = this->_array[0];
+		return front_ref;
+	}
 
-	//** [element access] back (returns a reference to the last element in the vector)
+	const_reference front() const {
+		const_reference front_ref = this->_array[0];
+		return front_ref;
+	}
+
 	reference back() {
 		reference back_ref = this->_array[this->size() - 1];
 		return back_ref;
@@ -209,59 +198,70 @@ public:
 		return const_back_ref;
 	}
 
-//---------------------------------------Modifier-----------------------------------
+//-> Modifier
 
-	//** [element access] assign (assign new contents to the vector)
+//	template <class InputIterator>
+//	void assign (InputIterator first, InputIterator last);
 
-	template <class InputIterator> void assign (InputIterator first, InputIterator last);
+	void assign (size_type n, const value_type& val) {
+		this->_size = n;
+		if (n <= this->capacity())
+			for (size_type i = 0; i < this->size(); i++)
+				this->_array[i] = val;
+		else
+			reallocation_new_value(n, val);
+	}
 
-	void assign (size_type n, const value_type& val);
-
-	//** [element access] push_back (add a new element at the end of the vector)
 	void push_back (const value_type& val) {
 		if (this->size() + 1 > this->capacity())
 		{
-			// create new vector
-			vector *new_vector = new vector;
-			new_vector->_size = this->size();
-			new_vector->_capacity = this->size() * 2;
-			new_vector->_alloc = this->_alloc;
-			new_vector->_array = new value_type [new_vector->_capacity];
-
-			//  copy old value into new vector
-			size_type i = 0;
-			while(i < this->size())
-			{
-				new_vector->_array[i] = this->_array[i];
-				i++;
-			}
-			delete [] this->_array;
-			this->_array = new_vector->_array;
-			*this = new_vector;
+			if (!this->size())
+				reallocation(1);
+			else
+				reallocation(this->size() * 2);
 		}
 		this->_array[this->size()] = val;
 		this->_size += 1;
 	}
 
-	//** [element access] pop_back (removes the last element in the vector)
-	void pop_back();
+	void pop_back() { this->_size -= 1; }
 
-	//** [element access] insert (insert new elements to the vector)
-	iterator insert (iterator position, const value_type& val);
+//	iterator insert (iterator position, const value_type& val);
 
-	void insert (iterator position, size_type n, const value_type& val);
+//	void insert (iterator position, size_type n, const value_type& val);
 
-	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+//	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
-	//** [element access] erase (erase element(s) from the vector)
-	iterator erase (iterator position);
-	iterator erase (iterator first, iterator last);
+//	iterator erase (iterator position);
+//	iterator erase (iterator first, iterator last);
 
-	//** [element access] swap (exchange the content of the container by the content of another container)
-	void swap (vector& x);
+//	void copy_vector_properties(vector *dst, vector *src)
+//	{
+//		dst->_array = src->_array;
+//		dst->_size = src->_size;
+//		dst->_capacity = src->_capacity;
+//		dst->_alloc = src->_alloc;
+//	}
 
-	//** [element access] clear (remove all elements from the vector)
-	void clear();
+	void swap (vector& x) {
+
+		value_type *array_swap = x._array;
+		size_type size_swap = x._size;
+		size_type capacity_swap = x._capacity;
+		allocator_type alloc_swap = x._alloc;
+
+		x._array = this->_array;
+		x._size = this->_size;
+		x._capacity = this->_capacity;
+		x._alloc = this->_alloc;
+
+		this->_array = array_swap;
+		this->_size = size_swap;
+		this->_capacity = capacity_swap;
+		this->_alloc = alloc_swap;
+	}
+
+	void clear() { this->_size = 0; }
 
 };
 }
