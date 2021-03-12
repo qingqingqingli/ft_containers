@@ -3,7 +3,6 @@
 //
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
-#include <fstream>
 
 TEST_CASE("default constructor: empty vector", "[vector][coplien form]") {
 	std::vector<char> std_first;
@@ -38,23 +37,8 @@ TEST_CASE("default constructor: vector with InputIterator", "[vector][coplien fo
 	std::vector<int> std_first(4, 100);
 	std::vector<int> std_second(std_first.begin(), std_first.end());
 
-	int myints[] = {16,2,77,29};
-	std::ofstream ofs;
-	ofs.open("test.txt");
-	std::ifstream ifs("test.txt");
-	std::string str;
-	std::vector<int> std_third(myints, myints + sizeof(myints) / sizeof(int) );
-	for (std::vector<int>::iterator it = std_third.begin(); it != std_third.end(); ++it)
-		ofs << ' ' << *it;
-	ofs << std::endl;
-	std::getline(ifs, str);
-
-	REQUIRE(std_second.size() == 4);
-	REQUIRE(std_second[0] == 100);
-	REQUIRE(std_second[1] == 100);
-	REQUIRE(std_second[2] == 100);
-	REQUIRE(std_second[3] == 100);
-	REQUIRE(str==" 16 2 77 29");
+	for (unsigned i = 0; i < std_second.size(); i++)
+		std::cout << std_second[i] << std::endl;
 }
 
 TEST_CASE("copy & assignation constructor", "[vector][coplien form]"){

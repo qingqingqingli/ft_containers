@@ -5,6 +5,7 @@
 #ifndef FT_CONTAINERS_VECTOR_H
 # define FT_CONTAINERS_VECTOR_H
 # include <iostream>
+# include "../iterators/random_access_iterator.h"
 
 namespace ft {
 
@@ -12,15 +13,14 @@ template < class T, class Alloc = std::allocator<T> >
 class vector {
 
 public:
-	//		existing_type							new_type_name
 	typedef T										value_type;
 	typedef Alloc									allocator_type;
 	typedef T&										reference;
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef std::random_access_iterator_tag			iterator;
-	typedef const std::random_access_iterator_tag	const_iterator;
+	typedef ft::random_access_iterator<T> 		iterator;
+	typedef const ft::random_access_iterator<T> const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	typedef ptrdiff_t								difference_type;
@@ -82,7 +82,9 @@ public:
 			this->_array[i] = val;
 	}
 
-//	template <class InputIterator>	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+	template <class InputIterator>
+	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+	}
 
 	vector& operator= (const vector& x) {
 		if (this != &x)
@@ -224,22 +226,16 @@ public:
 
 	void pop_back() { this->_size -= 1; }
 
-//	iterator insert (iterator position, const value_type& val);
+	iterator insert (iterator position, const value_type& val);
 
-//	void insert (iterator position, size_type n, const value_type& val);
+	void insert (iterator position, size_type n, const value_type& val);
 
-//	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+	template <class InputIterator>
+	void insert (iterator position, InputIterator first, InputIterator last);
 
-//	iterator erase (iterator position);
-//	iterator erase (iterator first, iterator last);
+	iterator erase (iterator position);
 
-//	void copy_vector_properties(vector *dst, vector *src)
-//	{
-//		dst->_array = src->_array;
-//		dst->_size = src->_size;
-//		dst->_capacity = src->_capacity;
-//		dst->_alloc = src->_alloc;
-//	}
+	iterator erase (iterator first, iterator last);
 
 	void swap (vector& x) {
 
