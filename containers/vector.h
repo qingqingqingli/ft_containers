@@ -240,7 +240,15 @@ public:
 	template <class InputIterator>
 	void insert (iterator position, InputIterator first, InputIterator last);
 
-	iterator erase (iterator position);
+	iterator erase (iterator position) {
+		iterator itr = this->end();
+		if (position == this->end() - 1)
+		{
+			this->_size--;
+			itr--;
+		}
+		return itr;
+	}
 
 	iterator erase (iterator first, iterator last);
 

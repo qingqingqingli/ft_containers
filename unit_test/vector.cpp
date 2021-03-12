@@ -448,6 +448,25 @@ TEST_CASE("swap()", "[vector][modifier]")
 		REQUIRE(bar[i] == ft_bar[i]);
 }
 
+TEST_CASE("erase()", "[vector][modifier]")
+{
+	std::vector<int> first(5, 100);
+	ft::vector<int> ft_first(5, 100);
+
+	SECTION("one parameter - remove last") {
+		first.erase(first.end() - 1);
+		ft_first.erase(ft_first.end() - 1);
+		REQUIRE(first.size() == ft_first.size());
+		REQUIRE(first.capacity() == ft_first.capacity());
+	}
+	SECTION("one parameter - remove last") {
+		first.erase(first.begin() + first.size() - 1);
+		ft_first.erase(ft_first.begin() + ft_first.size() - 1);
+		REQUIRE(first.size() == ft_first.size());
+		REQUIRE(first.capacity() == ft_first.capacity());
+	}
+}
+
 TEST_CASE("begin()", "[vector][iterator]")
 {
 	std::vector<int> myvector;

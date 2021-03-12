@@ -40,14 +40,13 @@ public:
 	friend bool operator!= (const iterator& a, const iterator& b)
 	{ return a._ptr != b._ptr; }
 
-	// dereference: *a, a->m
+	// dereference: *a, a->m, *a = t
 	pointer operator-> () { return _ptr; }
 	reference operator* () { return *_ptr; }
 
-	// for mutable iterators: *a = t
 
 	//++a; a++; *a++;
-	iterator& operator++ () {_ptr++; return *this; }
+	iterator& operator++ () { _ptr++; return *this; }
 
 	iterator operator++ (T) {
 		iterator tmp = *this;
@@ -56,7 +55,7 @@ public:
 	}
 
 	//--a; a--; *a--;
-	iterator& operator-- () {_ptr--; return *this; }
+	iterator& operator-- () { _ptr--; return *this; }
 
 	iterator operator-- (T) {
 		iterator tmp = *this;
@@ -65,6 +64,17 @@ public:
 	}
 
 	// a + n | n + a | a - n | a - b
+	iterator& operator- (size_type x) {
+		for (size_type i = 0; i < x ; i++)
+			this->_ptr--;
+		return *this;
+	}
+
+	iterator& operator+ (size_type x) {
+		for (size_type i = 0; i < x ; i++)
+			this->_ptr++;
+		return *this;
+	}
 
 	// a < b | b < a | a <= b | a >= b
 
@@ -74,7 +84,6 @@ public:
 
 private:
 	pointer _ptr;
-
 };
 }
 
