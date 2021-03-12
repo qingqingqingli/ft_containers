@@ -119,10 +119,10 @@ public:
 //	const_iterator begin() const;
 
 	iterator end() {
-		iterator begin(this->_array);
+		iterator tmp = this->begin();
 		for (size_type i = 0; i < this->size(); i++)
-			begin++;
-		return begin;
+			tmp++;
+		return tmp;
 	}
 //	const_iterator end() const;
 

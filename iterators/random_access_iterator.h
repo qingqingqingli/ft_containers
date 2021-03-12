@@ -18,40 +18,47 @@ public:
 	typedef const T*								const_pointer;
 	typedef ptrdiff_t								difference_type;
 	typedef size_t									size_type;
-	typedef ft::random_access_iterator<T> 		iterator;
-	typedef const ft::random_access_iterator<T> const_iterator;
+	typedef ft::random_access_iterator<T> 			iterator;
+	typedef const ft::random_access_iterator<T> 	const_iterator;
 
 public:
 	// X a; X b(a); b = a;
 	random_access_iterator(pointer ptr) : _ptr(ptr) {}
+	random_access_iterator() : _ptr(NULL) {}
+	random_access_iterator (const random_access_iterator& x) { *this = x; }
+	random_access_iterator& operator= (const random_access_iterator& x) {
+		if (this != &x)
+			this->_ptr = x._ptr;
+		return *this;
+	}
 	~random_access_iterator() {}
 
 	// a==b; a!= b;
-	friend bool operator==(const iterator& a, const iterator& b)
+	friend bool operator== (const iterator& a, const iterator& b)
 	{ return a._ptr == b._ptr; }
 
-	friend bool operator!=(const iterator& a, const iterator& b)
+	friend bool operator!= (const iterator& a, const iterator& b)
 	{ return a._ptr != b._ptr; }
 
 	// dereference: *a, a->m
-	pointer operator->() { return _ptr; }
-	reference operator*() { return *_ptr; }
+	pointer operator-> () { return _ptr; }
+	reference operator* () { return *_ptr; }
 
 	// for mutable iterators: *a = t
 
 	//++a; a++; *a++;
-	iterator& operator++() {_ptr++; return *this; }
+	iterator& operator++ () {_ptr++; return *this; }
 
-	iterator operator++(T) {
+	iterator operator++ (T) {
 		iterator tmp = *this;
 		++(*this);
 		return tmp;
 	}
 
 	//--a; a--; *a--;
-	iterator& operator--() {_ptr--; return *this; }
+	iterator& operator-- () {_ptr--; return *this; }
 
-	iterator operator--(T) {
+	iterator operator-- (T) {
 		iterator tmp = *this;
 		--(*this);
 		return tmp;
