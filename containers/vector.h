@@ -116,7 +116,7 @@ public:
 
 //	const_iterator begin() const;
 
-	iterator end() { return iterator(&this->_array[this->size() - 1]); }
+	iterator end() { return iterator(&this->_array[this->size()]); }
 //	const_iterator end() const;
 
 	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
