@@ -63,6 +63,14 @@ private:
 		}
 	}
 
+	const 	std::string out_of_range_msg(size_type n) const
+	{
+		std::stringstream sstm;
+		sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << this->size() << ")" << std::endl;
+		std::string error_msg = sstm.str();
+		return error_msg;
+	}
+
 public:
 //-> Coplien form
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
@@ -155,24 +163,14 @@ public:
 
 	reference at (size_type n) {
 		if (n > this->_size - 1)
-		{
-			std::stringstream sstm;
-			sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << this->size() << ")" << std::endl;
-			std::string error_msg = sstm.str();
-			throw std::out_of_range(error_msg);
-		}
+			throw std::out_of_range(out_of_range_msg(n));
 		reference elem_ref = *(this->_array + n);
 		return elem_ref;
 	}
 
 	const_reference at (size_type n) const {
 		if (n > this->_size - 1)
-		{
-			std::stringstream sstm;
-			sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << this->size() << ")" << std::endl;
-			std::string error_msg = sstm.str();
-			throw std::out_of_range(error_msg);
-		}
+			throw std::out_of_range(out_of_range_msg(n));
 		const_reference elem_ref = *(this->_array + n);
 		return elem_ref;
 	}
