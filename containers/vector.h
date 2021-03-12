@@ -241,13 +241,15 @@ public:
 	void insert (iterator position, InputIterator first, InputIterator last);
 
 	iterator erase (iterator position) {
-		iterator itr = this->end();
-		if (position == this->end() - 1)
+		iterator end = this->end() - 1;
+		if (position != this->end() - 1)
 		{
-			this->_size--;
-			itr--;
+			for (iterator tmp = position + 1; position != end; tmp++)
+				*position = *tmp;
+			end--;
 		}
-		return itr;
+		this->_size--;
+		return end;
 	}
 
 	iterator erase (iterator first, iterator last);

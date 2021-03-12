@@ -450,20 +450,44 @@ TEST_CASE("swap()", "[vector][modifier]")
 
 TEST_CASE("erase()", "[vector][modifier]")
 {
-	std::vector<int> first(5, 100);
-	ft::vector<int> ft_first(5, 100);
+	std::vector<int> first(0);
+	for (int i = 0; i < 5; i++)
+		first.push_back(i);
+
+	ft::vector<int> ft_first(0);
+	for (int i = 0; i < 5; i++)
+		ft_first.push_back(i);
 
 	SECTION("one parameter - remove last") {
-		first.erase(first.end() - 1);
-		ft_first.erase(ft_first.end() - 1);
+		std::vector<int>::iterator itr = first.erase(first.end() - 1);
+		ft::vector<int>::iterator ft_itr = ft_first.erase(ft_first.end() - 1);
+		for (size_t i = 0; i < first.size(); i++)
+			REQUIRE(first[i] == ft_first[i]);
 		REQUIRE(first.size() == ft_first.size());
 		REQUIRE(first.capacity() == ft_first.capacity());
+		REQUIRE(*itr == *ft_itr);
 	}
 	SECTION("one parameter - remove last") {
-		first.erase(first.begin() + first.size() - 1);
-		ft_first.erase(ft_first.begin() + ft_first.size() - 1);
+		std::vector<int>::iterator itr = first.erase(first.begin() + first.size() - 1);
+		ft::vector<int>::iterator ft_itr = ft_first.erase(ft_first.begin() + ft_first.size() - 1);
+		for (size_t i = 0; i < first.size(); i++)
+			REQUIRE(first[i] == ft_first[i]);
 		REQUIRE(first.size() == ft_first.size());
 		REQUIRE(first.capacity() == ft_first.capacity());
+		REQUIRE(*itr == *ft_itr);
+	}
+	SECTION("one parameter - remove middle") {
+		std::vector<int>::iterator itr = first.erase(first.end() - 2);
+		ft::vector<int>::iterator ft_itr = ft_first.erase(ft_first.end() - 2);
+		for (size_t i = 0; i < first.size(); i++)
+		{
+			std::cout << first[i] << std::endl;
+			std::cout << ft_first[i] << std::endl;
+		}
+//			REQUIRE(first[i] == ft_first[i]);
+		REQUIRE(first.size() == ft_first.size());
+		REQUIRE(first.capacity() == ft_first.capacity());
+		REQUIRE(*(itr - 1) == *(ft_itr - 1));
 	}
 }
 
