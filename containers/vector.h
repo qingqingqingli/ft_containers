@@ -112,18 +112,11 @@ public:
 
 //-> Iterators
 
-	iterator begin() {
-		return iterator(this->_array);
-	}
+	iterator begin() { return iterator(&this->_array[0]); }
 
 //	const_iterator begin() const;
 
-	iterator end() {
-		iterator tmp = this->begin();
-		for (size_type i = 0; i < this->size(); i++)
-			tmp++;
-		return tmp;
-	}
+	iterator end() { return iterator(&this->_array[this->size() - 1]); }
 //	const_iterator end() const;
 
 	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
