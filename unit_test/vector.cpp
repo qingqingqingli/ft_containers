@@ -32,14 +32,18 @@ TEST_CASE("default constructor: vector with size and val", "[vector][coplien for
 	REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
 }
 
-TEST_CASE("default constructor: vector with InputIterator", "[vector][coplien form]") {
-
-	std::vector<int> std_first(4, 100);
-	std::vector<int> std_second(std_first.begin(), std_first.end());
-
-	for (unsigned i = 0; i < std_second.size(); i++)
-		std::cout << std_second[i] << std::endl;
-}
+//TEST_CASE("default constructor: vector with InputIterator", "[vector][coplien form]") {
+//
+//	std::vector<int> std_first(4, 100);
+//	std::vector<int> std_second(std_first.begin(), std_first.end());
+//
+//	ft::vector<int> ft_first(4, 100);
+//	ft::vector<int> ft_second(std_first.begin(), std_first.end());
+//
+//	for (unsigned i = 0; i < std_second.size(); i++)
+//		REQUIRE(ft_first[i] == ft_second[i]);
+//
+//}
 
 TEST_CASE("copy & assignation constructor", "[vector][coplien form]"){
 
@@ -452,6 +456,10 @@ TEST_CASE("begin()", "[vector][iterator]")
 	ft::vector<int> ft_myvector;
 	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
 
+	std::vector<int>::iterator std = myvector.begin();
 	for (ft::vector<int>::iterator it = ft_myvector.begin() ; it != ft_myvector.end(); ++it)
-		std::cout << ' ' << *it;
+	{
+		REQUIRE(*it == *std);
+		++std;
+	}
 }

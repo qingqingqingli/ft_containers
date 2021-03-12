@@ -83,7 +83,15 @@ public:
 	}
 
 //	template <class InputIterator>
-//	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+//	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc) {
+//		for (iterator tmp = first; tmp != last; ++tmp)
+//		{
+//			this->_size++;
+//			this->_capacity++;
+//		}
+//		this->_array = new value_type [this->size()];
+//		for (iterator tmp = first; tmp != last; ++tmp)
+//			this->_array = *tmp;
 //	}
 
 	vector& operator= (const vector& x) {
