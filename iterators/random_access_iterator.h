@@ -41,21 +41,23 @@ public:
 
 	// dereference: *a, a->m, *a = t
 	// it is a reference as you can't overwrite the dereference value
-	reference operator* () { return *_ptr; }
-	pointer operator-> () { return _ptr; }
+	reference operator* () { return *this->_ptr; }
+	// not sure about the implementation
+	pointer operator-> () { return this->_ptr; }
 
 
 	//prefixing: ++a; a++; *a++;
-	iterator& operator++ () { _ptr++; return *this; }
+	iterator& operator++ () { ++this->_ptr; return *this; }
 
 	iterator operator++ (value_type) {
 		iterator tmp = *this;
+		// why does this need to be prefix?
 		++(*this);
 		return tmp;
 	}
 
 	//postfixing: --a; a--; *a--;
-	iterator& operator-- () { _ptr--; return *this; }
+	iterator& operator-- () { --this->_ptr; return *this; }
 
 	iterator operator-- (value_type) {
 		iterator tmp = *this;
@@ -64,15 +66,16 @@ public:
 	}
 
 	// a + n | n + a | a - n | a - b
+	// not correct
 	iterator& operator- (size_type x) {
 		for (size_type i = 0; i < x ; i++)
-			this->_ptr--;
+			--this->_ptr;
 		return *this;
 	}
 
 	iterator& operator+ (size_type x) {
 		for (size_type i = 0; i < x ; i++)
-			this->_ptr++;
+			++this->_ptr;
 		return *this;
 	}
 
