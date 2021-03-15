@@ -463,3 +463,30 @@ TEST_CASE("begin()", "[vector][iterator]")
 		++std;
 	}
 }
+
+TEST_CASE("iterator a < b | a > b | a <= b | a >= b", "[vector][iterator]")
+{
+	ft::vector<int> ft_myvector;
+	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
+
+	ft::vector<int>::iterator ft_it = ft_myvector.begin();
+	ft::vector<int>::iterator ft_it_1 = ft_myvector.begin() + 1;
+	REQUIRE(ft_it < ft_it_1);
+	REQUIRE(ft_it <= ft_it_1);
+	REQUIRE(ft_it_1 == ft_it_1);
+	REQUIRE(ft_it_1 >= ft_it);
+	REQUIRE(ft_it_1 > ft_it);
+	REQUIRE(ft_it == ft_it);
+	REQUIRE(*ft_it == 5);
+	REQUIRE(*ft_it_1 == 4);
+
+}
+
+TEST_CASE("constructor iterator", "[vector][iterator]") {
+
+	std::vector<int> myvector;
+	for (int i=5; i>=0; i--) myvector.push_back(i);
+
+	std::vector<int>::iterator begin(myvector.begin());
+	std::cout << (*begin) << std::endl;
+}

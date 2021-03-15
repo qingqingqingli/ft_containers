@@ -7,6 +7,7 @@
 # include <iostream>
 # include "../iterators/random_access_iterator.h"
 
+
 namespace ft {
 
 template < class T, class Alloc = std::allocator<T> >

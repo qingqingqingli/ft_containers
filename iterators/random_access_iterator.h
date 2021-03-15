@@ -7,7 +7,7 @@
 
 namespace ft {
 
-template < class T>
+template < class T >
 class random_access_iterator {
 
 public:
@@ -23,8 +23,7 @@ public:
 
 public:
 	// X a; X b(a); b = a; -> Finished
-	random_access_iterator(pointer ptr) : _ptr(ptr) {}
-	random_access_iterator() : _ptr(NULL) {}
+	random_access_iterator(pointer ptr = NULL) : _ptr(ptr) {}
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
 		if (this != &x)
@@ -33,7 +32,7 @@ public:
 	}
 	~random_access_iterator() {}
 
-	// a==b; a!= b; -> Finished
+	// a==b; a!= b; [Finished]
 	friend bool operator== (const iterator& a, const iterator& b)
 	{ return a._ptr == b._ptr; }
 
@@ -41,13 +40,15 @@ public:
 	{ return a._ptr != b._ptr; }
 
 	// dereference: *a, a->m, *a = t
-	pointer operator-> () { return _ptr; }
+	// it is a reference as you can't overwrite the dereference value
 	reference operator* () { return *_ptr; }
+	pointer operator-> () { return _ptr; }
+
 
 	//prefixing: ++a; a++; *a++;
 	iterator& operator++ () { _ptr++; return *this; }
 
-	iterator operator++ (T) {
+	iterator operator++ (value_type) {
 		iterator tmp = *this;
 		++(*this);
 		return tmp;
@@ -56,7 +57,7 @@ public:
 	//postfixing: --a; a--; *a--;
 	iterator& operator-- () { _ptr--; return *this; }
 
-	iterator operator-- (T) {
+	iterator operator-- (value_type) {
 		iterator tmp = *this;
 		--(*this);
 		return tmp;
@@ -75,9 +76,22 @@ public:
 		return *this;
 	}
 
-	// a < b | b < a | a <= b | a >= b
+	// a < b | a > b | a <= b | a >= b
+	friend bool operator > (const iterator& a, const iterator& b)
+	{ return a._ptr > b._ptr; }
+
+	friend bool operator < (const iterator& a, const iterator& b)
+	{ return a._ptr < b._ptr; }
+
+	friend bool operator >= (const iterator& a, const iterator& b)
+	{ return a._ptr >= b._ptr; }
+
+	friend bool operator <= (const iterator& a, const iterator& b)
+	{ return a._ptr <= b._ptr; }
 
 	// a += n | a -= n
+	iterator& operator += (difference_type& n) { this->_ptr += n; return *this; }
+	iterator& operator -= (difference_type& n) { this->_ptr -= n; return *this; }
 
 	// a[n]
 
