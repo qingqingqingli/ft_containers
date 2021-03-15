@@ -12,6 +12,6 @@ set(SOURCES
 set(CMAKE_CXX_COMPILER clang++)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
 add_executable(UNIT_TEST ${SOURCES})

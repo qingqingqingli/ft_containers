@@ -19,8 +19,8 @@ public:
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef ft::random_access_iterator<T> 		iterator;
-	typedef const ft::random_access_iterator<T> const_iterator;
+	typedef ft::random_access_iterator<T> 			iterator;
+	typedef const ft::random_access_iterator<T> 	const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	typedef ptrdiff_t								difference_type;
@@ -154,6 +154,8 @@ public:
 	}
 
 	void reserve (size_type n) {
+		if (n > this->max_size())
+			throw std::length_error("vector::reserve");
 		if (n > this->capacity())
 			reallocation(n);
 	}
@@ -184,7 +186,6 @@ public:
 		return elem_ref;
 	}
 
-	// to understand if this can be simplified
 	reference front() {
 		reference front_ref = this->_array[0];
 		return front_ref;

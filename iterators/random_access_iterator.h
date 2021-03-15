@@ -25,7 +25,7 @@ public:
 	// X a; X b(a); b = a;
 	random_access_iterator(pointer ptr) : _ptr(ptr) {}
 	random_access_iterator() : _ptr(NULL) {}
-	random_access_iterator (const random_access_iterator& x) { *this = x; }
+	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
 		if (this != &x)
 			this->_ptr = x._ptr;
@@ -41,9 +41,9 @@ public:
 	{ return a._ptr != b._ptr; }
 
 	// dereference: *a, a->m, *a = t
+	// need to better understand
 	pointer operator-> () { return _ptr; }
 	reference operator* () { return *_ptr; }
-
 
 	//++a; a++; *a++;
 	iterator& operator++ () { _ptr++; return *this; }
