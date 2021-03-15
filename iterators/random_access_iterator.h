@@ -22,7 +22,7 @@ public:
 	typedef const ft::random_access_iterator<T> 	const_iterator;
 
 public:
-	// X a; X b(a); b = a;
+	// X a; X b(a); b = a; -> Finished
 	random_access_iterator(pointer ptr) : _ptr(ptr) {}
 	random_access_iterator() : _ptr(NULL) {}
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
@@ -33,7 +33,7 @@ public:
 	}
 	~random_access_iterator() {}
 
-	// a==b; a!= b;
+	// a==b; a!= b; -> Finished
 	friend bool operator== (const iterator& a, const iterator& b)
 	{ return a._ptr == b._ptr; }
 
@@ -41,11 +41,10 @@ public:
 	{ return a._ptr != b._ptr; }
 
 	// dereference: *a, a->m, *a = t
-	// need to better understand
 	pointer operator-> () { return _ptr; }
 	reference operator* () { return *_ptr; }
 
-	//++a; a++; *a++;
+	//prefixing: ++a; a++; *a++;
 	iterator& operator++ () { _ptr++; return *this; }
 
 	iterator operator++ (T) {
@@ -54,7 +53,7 @@ public:
 		return tmp;
 	}
 
-	//--a; a--; *a--;
+	//postfixing: --a; a--; *a--;
 	iterator& operator-- () { _ptr--; return *this; }
 
 	iterator operator-- (T) {

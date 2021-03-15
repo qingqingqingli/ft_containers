@@ -163,12 +163,12 @@ public:
 //-> Element access
 
 	reference operator[] (size_type n) {
-		T& elem_ref = *(this->_array + n);
+		reference elem_ref = *(this->_array + n);
 		return elem_ref;
 	}
 
 	const_reference operator[] (size_type n) const {
-		const T& elem_ref = *(this->_array + n);
+		const_reference elem_ref = *(this->_array + n);
 		return elem_ref;
 	}
 
@@ -241,17 +241,7 @@ public:
 	template <class InputIterator>
 	void insert (iterator position, InputIterator first, InputIterator last);
 
-	iterator erase (iterator position) {
-		iterator end = this->end() - 1;
-		if (position != this->end() - 1)
-		{
-			for (iterator tmp = position + 1; position != end; tmp++)
-				*position = *tmp;
-			end--;
-		}
-		this->_size--;
-		return end;
-	}
+	iterator erase (iterator position);
 
 	iterator erase (iterator first, iterator last);
 
