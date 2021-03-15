@@ -33,11 +33,11 @@ public:
 	~random_access_iterator() {}
 
 	// a==b; a!= b; [Finished]
-	friend bool operator== (const iterator& a, const iterator& b)
-	{ return a._ptr == b._ptr; }
+	bool operator== (const iterator& rhs) const
+	{ return this->_ptr == rhs._ptr; }
 
-	friend bool operator!= (const iterator& a, const iterator& b)
-	{ return a._ptr != b._ptr; }
+	bool operator!= (const iterator& rhs) const
+	{ return this->_ptr != rhs._ptr; }
 
 	// dereference: *a, a->m, *a = t
 	// it is a reference as you can't overwrite the dereference value
@@ -77,17 +77,17 @@ public:
 	}
 
 	// a < b | a > b | a <= b | a >= b
-	friend bool operator > (const iterator& a, const iterator& b)
-	{ return a._ptr > b._ptr; }
+	bool operator > (const iterator& rhs) const
+	{ return this->_ptr > rhs._ptr; }
 
-	friend bool operator < (const iterator& a, const iterator& b)
-	{ return a._ptr < b._ptr; }
+	bool operator < (const iterator& rhs) const
+	{ return this->_ptr < rhs._ptr; }
 
-	friend bool operator >= (const iterator& a, const iterator& b)
-	{ return a._ptr >= b._ptr; }
+	bool operator >= (const iterator& rhs) const
+	{ return this->_ptr >= rhs._ptr; }
 
-	friend bool operator <= (const iterator& a, const iterator& b)
-	{ return a._ptr <= b._ptr; }
+	bool operator <= (const iterator& rhs) const
+	{ return this->_ptr <= rhs._ptr; }
 
 	// a += n | a -= n
 	iterator& operator += (difference_type& n) { this->_ptr += n; return *this; }
