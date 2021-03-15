@@ -7,7 +7,7 @@ set(SOURCES
         unit_test/catch2/catch.cpp
         unit_test/vector.cpp
         containers/vector.h
-        iterators/random_access_iterator.h)
+        iterators/random_access_iterator.h unit_test/random_access_iterator.cpp)
 
 set(CMAKE_CXX_COMPILER clang++)
 

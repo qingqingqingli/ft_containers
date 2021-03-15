@@ -94,6 +94,9 @@
 		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>
+		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/random_access_iterator.cpp">
+			<Option target="UNIT_TEST"/>
+		</Unit>
 		<Unit filename="/home/qli/CLionProjects/ft_containers/unit_test/vector.cpp">
 			<Option target="UNIT_TEST"/>
 		</Unit>

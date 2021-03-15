@@ -170,6 +170,33 @@ unit_test/catch2/catch.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.s
 .PHONY : unit_test/catch2/catch.cpp.s
 
+unit_test/random_access_iterator.o: unit_test/random_access_iterator.cpp.o
+
+.PHONY : unit_test/random_access_iterator.o
+
+# target to build an object file
+unit_test/random_access_iterator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/random_access_iterator.cpp.o
+.PHONY : unit_test/random_access_iterator.cpp.o
+
+unit_test/random_access_iterator.i: unit_test/random_access_iterator.cpp.i
+
+.PHONY : unit_test/random_access_iterator.i
+
+# target to preprocess a source file
+unit_test/random_access_iterator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/random_access_iterator.cpp.i
+.PHONY : unit_test/random_access_iterator.cpp.i
+
+unit_test/random_access_iterator.s: unit_test/random_access_iterator.cpp.s
+
+.PHONY : unit_test/random_access_iterator.s
+
+# target to generate assembly for a file
+unit_test/random_access_iterator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/UNIT_TEST.dir/build.make CMakeFiles/UNIT_TEST.dir/unit_test/random_access_iterator.cpp.s
+.PHONY : unit_test/random_access_iterator.cpp.s
+
 unit_test/vector.o: unit_test/vector.cpp.o
 
 .PHONY : unit_test/vector.o
@@ -209,6 +236,9 @@ help:
 	@echo "... unit_test/catch2/catch.o"
 	@echo "... unit_test/catch2/catch.i"
 	@echo "... unit_test/catch2/catch.s"
+	@echo "... unit_test/random_access_iterator.o"
+	@echo "... unit_test/random_access_iterator.i"
+	@echo "... unit_test/random_access_iterator.s"
 	@echo "... unit_test/vector.o"
 	@echo "... unit_test/vector.i"
 	@echo "... unit_test/vector.s"

@@ -380,6 +380,12 @@ vector
 cstring
 -
 
+/home/qli/CLionProjects/ft_containers/unit_test/random_access_iterator.cpp
+catch2/catch.hpp
+/home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
+../containers/vector.h
+/home/qli/CLionProjects/ft_containers/containers/vector.h
+
 /home/qli/CLionProjects/ft_containers/unit_test/vector.cpp
 catch2/catch.hpp
 /home/qli/CLionProjects/ft_containers/unit_test/catch2/catch.hpp
