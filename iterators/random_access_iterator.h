@@ -16,10 +16,10 @@ public:
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef ptrdiff_t								difference_type;
+	typedef std::ptrdiff_t								difference_type;
 	typedef size_t									size_type;
-	typedef ft::random_access_iterator<T> 			iterator;
-	typedef const ft::random_access_iterator<T> 	const_iterator;
+	typedef random_access_iterator<T> 				iterator;
+	typedef const random_access_iterator<T> 	const_iterator;
 
 public:
 	// X a; X b(a); b = a; [Finished]
@@ -40,43 +40,36 @@ public:
 	{ return this->_ptr != rhs._ptr; }
 
 	// dereference: *a, a->m, *a = t
-	// it is a reference as you can't overwrite the dereference value
 	reference operator* () { return *this->_ptr; }
-	// not sure about the implementation
 	pointer operator-> () { return this->_ptr; }
 
-
-	//prefixing: ++a; a++; *a++;
+	//++a; a++; *a++;
 	iterator& operator++ () { ++this->_ptr; return *this; }
 
-	iterator operator++ (value_type) {
+	iterator operator++ (int) {
 		iterator tmp = *this;
-		// why does this need to be prefix?
-		++(*this);
+		++(this->_ptr);
 		return tmp;
 	}
 
-	//postfixing: --a; a--; *a--;
+	//--a; a--; *a--;
 	iterator& operator-- () { --this->_ptr; return *this; }
 
-	iterator operator-- (value_type) {
+	iterator operator-- (int) {
 		iterator tmp = *this;
-		--(*this);
+		--(this->_ptr);
 		return tmp;
 	}
 
 	// a + n | n + a | a - n | a - b
-	// not correct
-	iterator& operator- (size_type x) {
-		for (size_type i = 0; i < x ; i++)
-			--this->_ptr;
-		return *this;
+	iterator operator- (const difference_type& x) {
+		iterator tmp = this->_ptr - x;
+		return tmp;
 	}
 
-	iterator& operator+ (size_type x) {
-		for (size_type i = 0; i < x ; i++)
-			++this->_ptr;
-		return *this;
+	iterator operator+ (const difference_type& x) {
+		iterator tmp = this->_ptr + x;
+		return tmp;
 	}
 
 	// a < b | a > b | a <= b | a >= b [Finished]
@@ -100,6 +93,7 @@ public:
 
 private:
 	pointer _ptr;
+
 };
 }
 

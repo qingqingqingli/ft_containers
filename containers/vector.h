@@ -7,7 +7,6 @@
 # include <iostream>
 # include "../iterators/random_access_iterator.h"
 
-
 namespace ft {
 
 template < class T, class Alloc = std::allocator<T> >
@@ -20,8 +19,8 @@ public:
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef ft::random_access_iterator<T> 			iterator;
-	typedef const ft::random_access_iterator<T> 	const_iterator;
+	typedef random_access_iterator<T> 			iterator;
+	typedef const random_access_iterator<T> 	const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	typedef ptrdiff_t								difference_type;
