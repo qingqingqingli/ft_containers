@@ -91,6 +91,7 @@ public:
 
 	// a[n]
 
+
 private:
 	pointer _ptr;
 

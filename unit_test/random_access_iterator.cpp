@@ -158,74 +158,31 @@ TEST_CASE("--a; a--; *a--;", "[vector][iterator]")
 
 TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 {
-//	std::vector<int> first;
-//	first.push_back(1);
-//	first.push_back(2);
-//	first.push_back(3);
-//	first.push_back(4);
-//	first.push_back(5);
-//	std::vector<int>::iterator first_itr = first.begin();
-//
-//	ft::vector<int> ft_first;
-//	ft_first.push_back(1);
-//	ft_first.push_back(2);
-//	ft_first.push_back(3);
-//	ft_first.push_back(4);
-//	ft_first.push_back(5);
-//	ft::vector<int>::iterator ft_first_itr = ft_first.begin();
-//
-//	for (size_t i = 0; i < ft_first.size(); i++)
-//		REQUIRE(first[i] == ft_first[i]);
-//
-//	SECTION("a + n") {
-//
-//		for
-//		REQUIRE(*(first_itr) == *(ft_first_itr));
-//		REQUIRE(*(first_itr + 1) == *(ft_first_itr + 1));
-//		REQUIRE(*(first_itr + 2) == *(ft_first_itr + 2));
-//		REQUIRE(*(first_itr + 3) == *(ft_first_itr + 3));
-//		REQUIRE(*(first_itr + 4) == *(ft_first_itr + 4));
-//	}
+	std::vector<int> first;
+	first.push_back(1);
+	first.push_back(2);
+	first.push_back(3);
+	first.push_back(4);
+	first.push_back(5);
+	std::vector<int>::iterator first_itr = first.begin();
 
-	ft::vector<std::string> ft_vector;
-	std::vector<std::string> std_vector;
+	ft::vector<int> ft_first;
+	ft_first.push_back(1);
+	ft_first.push_back(2);
+	ft_first.push_back(3);
+	ft_first.push_back(4);
+	ft_first.push_back(5);
+	ft::vector<int>::iterator ft_first_itr = ft_first.begin();
 
-	ft_vector.push_back("hallo");
-	std_vector.push_back("hallo");
-	ft_vector.push_back("world");
-	std_vector.push_back("world");
-	ft_vector.push_back("here");
-	std_vector.push_back("here");
-	ft_vector.push_back("there");
-	std_vector.push_back("there");
+	SECTION("a + n") {
 
-	ft::vector<std::string>::iterator ft_it = ft_vector.begin();
-	std::vector<std::string>::iterator std_it = std_vector.begin();
-
-	ft::vector<std::string>::iterator ft_it_end = ft_vector.end();
-	std::vector<std::string>::iterator std_it_end = std_vector.end();
-
-	ft::vector<int> ft_vector_int;
-	ft_vector_int.push_back(2);
-	ft_vector_int.push_back(4);
-
-	ft::vector<int>::iterator ft_two = ft_vector_int.begin();
-	ft::vector<int>::iterator ft_four = ft_vector_int.begin() + 1;
-
-	SECTION("+ overload") {
-		ft_it = ft_it + 2;
-		std_it = std_it + 2;
-		REQUIRE(*ft_it == *std_it);
-		int res = *ft_two + *ft_two;
-		REQUIRE(res == 4);
+		REQUIRE(*(first_itr) == *(ft_first_itr));
+		REQUIRE(*(first_itr + 1) == *(ft_first_itr + 1));
+		REQUIRE(*(first_itr + 2) == *(ft_first_itr + 2));
+		REQUIRE(*(first_itr + 3) == *(ft_first_itr + 3));
+		REQUIRE(*(first_itr + 4) == *(ft_first_itr + 4));
 	}
-	SECTION("- overload") {
-		ft_it_end = ft_it_end - 3;
-		std_it_end = std_it_end - 3;
-		REQUIRE(*ft_it_end == *std_it_end);
-		int res = *ft_four - *ft_two;
-		REQUIRE(res == 2);
-	}
+
 }
 
 TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector][iterator]")
