@@ -644,3 +644,11 @@ TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector][iterator]")
 	REQUIRE(*ft_it == 5);
 	REQUIRE(*ft_it_1 == 4);
 }
+
+TEST_CASE("get_allocator()", "[vector][allocator]")
+{
+	ft::vector<int> ft_myvector(5, 10);
+	std::vector<int> myvector(5, 10);
+
+	REQUIRE(ft_myvector.get_allocator() == myvector.get_allocator());
+}
