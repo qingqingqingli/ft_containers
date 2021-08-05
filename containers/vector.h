@@ -19,8 +19,8 @@ public:
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef random_access_iterator<T> 			iterator;
-	typedef const random_access_iterator<T> 	const_iterator;
+	typedef random_access_iterator<T> 				iterator;
+	typedef const random_access_iterator<T> 		const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	typedef ptrdiff_t								difference_type;
@@ -107,6 +107,7 @@ public:
 		return *this;
 	}
 
+	// This one needs to be removed
 	vector (const vector& x){ *this = x; }
 	~vector() { delete [] this->_array; }
 

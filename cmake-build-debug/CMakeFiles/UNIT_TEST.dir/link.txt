@@ -1,1 +1,1 @@
-clang++   -Wall -Wextra -g   CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/random_access_iterator.cpp.o  -o UNIT_TEST 
+clang++  -Wall -Wextra -Werror -std=c++98 -g CMakeFiles/UNIT_TEST.dir/unit_test/catch2/catch.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/vector.cpp.o CMakeFiles/UNIT_TEST.dir/unit_test/random_access_iterator.cpp.o -o UNIT_TEST 
