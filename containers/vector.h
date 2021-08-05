@@ -26,32 +26,36 @@ public:
 	typedef ptrdiff_t								difference_type;
 	typedef size_t									size_type;
 
+//******************************************** Private attributes ********************************************
+
 private:
 	size_type				_size;
 	size_type				_capacity;
 	allocator_type		 	_alloc;
 	pointer 				_array;
 
-// helper function
+//***************************************** Private helper functions *****************************************
+
 private:
 	void reallocation(size_type n)
 	{
-		value_type *new_array = new value_type [n];
+		value_type *new_array = _alloc.allocate(n, &_array);
 		for (size_type i = 0; i < _size; i++)
 			new_array[i] = _array[i];
-		delete [] _array;
+		_alloc.deallocate(_array, _size);
 		_array = new_array;
 		_capacity = n;
 	}
 
 	void reallocation_new_value(size_type n, value_type val)
 	{
-		value_type *new_array = new value_type [n];
-		_capacity = n;
+		value_type *new_array = _alloc.allocate(n);
 		for (size_type i = 0; i < _size; i++)
 			new_array[i] = val;
-		delete [] _array;
+		_alloc.deallocate(_array, _size);
 		_array = new_array;
+		_capacity = n;
+
 	}
 
 	void copy_vector_value(size_type n, value_type val)
@@ -63,7 +67,7 @@ private:
 		}
 	}
 
-	const 	std::string out_of_range_msg(size_type n) const
+	const std::string out_of_range_msg(size_type n) const
 	{
 		std::stringstream sstm;
 		sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << _size << ")" << std::endl;
@@ -72,16 +76,19 @@ private:
 	}
 
 public:
-//-> Coplien form
+//******************************************** Coplien form ********************************************
+	// default
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
-	explicit vector (size_type n, const value_type& val = value_type(),const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
+	// fill
+	explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc)
 	{
-		_array = new value_type [n];
+		_array = _alloc.allocate(n);
 		for (size_type i = 0; i < _size; i++)
 			_array[i] = val;
 	}
 
+	// range
 //	template <class InputIterator>
 //	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc) {
 //		for (iterator tmp = first; tmp != last; ++tmp)
@@ -89,29 +96,32 @@ public:
 //			_size++;
 //			_capacity++;
 //		}
-//		_array = new value_type [_size];
+//		_array = _alloc.allocate(_size);
 //		for (iterator tmp = first; tmp != last; ++tmp)
 //			_array = *tmp;
 //	}
 
+	// copy
+	vector (const vector& x){ *this = x; }
+
+	// destructor
+	~vector() { _alloc.deallocate(_array, _size); }
+
+	// assignation operator
 	vector& operator= (const vector& x) {
 		if (this != &x)
 		{
 			_size = x._size;
 			_capacity = x._capacity;
 			_alloc = x._alloc;
-			_array = new value_type [_size];
+			_array = _alloc.allocate(_size, &x._array);
 			for (size_type i = 0; i < _size; i++)
 				_array[i] = x._array[i];
 		}
 		return *this;
 	}
 
-	// This one needs to be removed
-	vector (const vector& x){ *this = x; }
-	~vector() { delete [] _array; }
-
-//-> Iterators
+//******************************************** Iterators ********************************************
 
 	iterator begin() { return iterator(&_array[0]); }
 
@@ -128,7 +138,7 @@ public:
 	reverse_iterator rend();
 	const_reverse_iterator rend() const;
 
-//-> Capacity
+//******************************************** Capacity ********************************************
 
 	size_type size() const { return _size; }
 	size_type max_size() const { return _alloc.max_size(); }
@@ -161,7 +171,7 @@ public:
 			reallocation(n);
 	}
 
-//-> Element access
+//******************************************** Element access ********************************************
 
 	reference operator[] (size_type n) {
 		reference elem_ref = *(_array + n);
@@ -207,7 +217,7 @@ public:
 		return const_back_ref;
 	}
 
-//-> Modifier
+//******************************************** Modifier  ********************************************
 
 //	template <class InputIterator>
 //	void assign (InputIterator first, InputIterator last);
