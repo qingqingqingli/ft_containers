@@ -647,11 +647,31 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 		REQUIRE(*(end_itr - 4) == *(ft_end_itr - 4));
 	}
 
-	SECTION("n + a") {
+	SECTION("n + a & a - b") {
 
 		REQUIRE(*(first_itr) == *(ft_first_itr));
-//		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
+		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
+		REQUIRE(end_itr - first_itr == ft_end_itr - ft_first_itr);
+	}
 
+	SECTION ("a+=n")
+	{
+		first_itr += 1;
+		ft_first_itr += 1;
+		REQUIRE(*(first_itr) == *(ft_first_itr));
+		first_itr += 3;
+		ft_first_itr += 3;
+		REQUIRE(*(first_itr) == *(ft_first_itr));
+	}
+
+	SECTION("a -= n")
+	{
+		end_itr -= 1;
+		ft_end_itr -= 1;
+		REQUIRE(*(end_itr) == *(ft_end_itr));
+		end_itr -= 3;
+		ft_end_itr -= 3;
+		REQUIRE(*(end_itr) == *(ft_end_itr));
 	}
 
 }
@@ -671,6 +691,22 @@ TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector][iterator]")
 	REQUIRE(ft_it == ft_it);
 	REQUIRE(*ft_it == 5);
 	REQUIRE(*ft_it_1 == 4);
+}
+
+TEST_CASE("a[n]", "[vector][iterator]")
+{
+	ft::vector<int> ft_myvector;
+	ft::vector<int>::iterator ft_it = ft_myvector.begin();
+	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
+
+	std::vector<int> std_myvector;
+	std::vector<int>::iterator std_it = std_myvector.begin();
+	for (int i=5; i>=0; i--) std_myvector.push_back(i);
+
+	REQUIRE(&ft_it[1] == &std_it[1]);
+	REQUIRE(&ft_it[2] == &std_it[2]);
+	REQUIRE(&ft_it[3] == &std_it[3]);
+	REQUIRE(&ft_it[4] == &std_it[4]);
 }
 
 TEST_CASE("get_allocator()", "[vector][allocator]")

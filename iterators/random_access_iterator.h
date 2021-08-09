@@ -19,7 +19,7 @@ public:
 	typedef random_access_iterator<T> 				iterator;
 
 public:
-	// X a; X b(a); b = a; [Finished]
+	// X a; X b(a); b = a; ~X() [Finished]
 	explicit random_access_iterator(pointer ptr = NULL) : _ptr(ptr) {}
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
@@ -27,7 +27,7 @@ public:
 			this->_ptr = x._ptr;
 		return *this;
 	}
-	~random_access_iterator() = default;
+	~random_access_iterator() {};
 
 	// a==b; a!= b; [Finished]
 	bool operator== (const iterator& rhs) const
@@ -36,7 +36,7 @@ public:
 	bool operator!= (const iterator& rhs) const
 	{ return this->_ptr != rhs._ptr; }
 
-	// dereference: *a, a->m, *a = t
+	// dereference: *a[finished], a->m, *a = t
 	reference operator* () { return *this->_ptr; }
 	pointer operator-> () { return this->_ptr; }
 
@@ -58,17 +58,24 @@ public:
 		return tmp;
 	}
 
-	// a + n [finished] | n + a | a - n [finished] | a - b
+	// a - n
 	iterator operator- (const difference_type& x) {
-		pointer tmp = this->_ptr - x;
-		iterator itr(tmp);
-		return itr;
+		return iterator(this->_ptr - x);
 	}
 
+	// a - b
+	difference_type operator-(const iterator& rhs) const {
+		return this->_ptr - rhs._ptr;
+	}
+
+	// a + n
 	iterator operator+ (const difference_type& x) {
-		pointer tmp = this->_ptr + x;
-		iterator itr(tmp);
-		return itr;
+		return iterator(this->_ptr + x);
+	}
+
+	// n + a
+	difference_type operator+ (const iterator& rhs) {
+		return this->_ptr + rhs._ptr;
 	}
 
 	// a < b | a > b | a <= b | a >= b [Finished]
@@ -85,10 +92,11 @@ public:
 	{ return this->_ptr <= rhs._ptr; }
 
 	// a += n | a -= n [Finished]
-	iterator& operator += (difference_type& n) { this->_ptr += n; return *this; }
-	iterator& operator -= (difference_type& n) { this->_ptr -= n; return *this; }
+	iterator& operator += (int n) { this->_ptr += n; return *this; }
+	iterator& operator -= (int n) { this->_ptr -= n; return *this; }
 
 	// a[n]
+	reference operator[](const difference_type n) const {return _ptr[n];}
 
 protected:
 	pointer _ptr;
