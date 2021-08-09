@@ -23,7 +23,7 @@ public:
 	typedef const random_access_iterator<T> 		const_iterator;
 	typedef std::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
-	typedef ptrdiff_t								difference_type;
+	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
 
 //******************************************** Private attributes ********************************************
@@ -67,12 +67,11 @@ private:
 		}
 	}
 
-	const std::string out_of_range_msg(size_type n) const
+	std::string out_of_range_msg(size_type n) const
 	{
 		std::stringstream sstm;
 		sstm << "vector::_M_range_check: __n (which is " << n << ") this->size() (which is " << _size << ")" << std::endl;
-		std::string error_msg = sstm.str();
-		return error_msg;
+		return sstm.str();
 	}
 
 public:
@@ -125,10 +124,10 @@ public:
 
 	iterator begin() { return iterator(&_array[0]); }
 
-//	const_iterator begin() const;
+//	const_iterator begin() const { return const_iterator(&_array[0]); };
 
 	iterator end() { return iterator(&_array[_size]); }
-//	const_iterator end() const;
+	const_iterator end() const;
 
 	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
 	reverse_iterator rbegin();

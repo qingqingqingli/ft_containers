@@ -8,7 +8,7 @@ set(SOURCES
         unit_test/vector.cpp
         containers/vector.h
         iterators/random_access_iterator.h
-        )
+        iterators/iterator_traits.h iterators/reverse_iterator.h)
 
 set(CMAKE_CXX_COMPILER clang++)
 

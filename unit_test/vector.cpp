@@ -448,17 +448,32 @@ TEST_CASE("swap()", "[vector][modifier]")
 		REQUIRE(bar[i] == ft_bar[i]);
 }
 
+//******************************************** iterator ********************************************
+
+
 TEST_CASE("coplien form", "[vector][iterator]")
 {
-	ft::vector<int> first(5, 100);
+	std::vector<int> first_std;
+	first_std.push_back(100);
+	first_std.push_back(200);
+	first_std.push_back(300);
+	std::vector<int>::iterator itr_std = first_std.begin();
+	std::vector<int>::iterator itr_copy_std = itr_std;
+
+	ft::vector<int> first;
+	first.push_back(100);
+	first.push_back(200);
+	first.push_back(300);
 	ft::vector<int>::iterator itr = first.begin();
 	ft::vector<int>::iterator itr_copy = itr;
 	REQUIRE(itr == itr_copy);
+	REQUIRE(*itr == *itr_std);
 	REQUIRE(*itr == *itr_copy);
 	while (itr != first.end())
 	{
-		REQUIRE(*itr == 100);
+		REQUIRE(*itr == *itr_copy_std);
 		itr++;
+		itr_copy_std++;
 	}
 }
 
@@ -608,6 +623,7 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 	first.push_back(4);
 	first.push_back(5);
 	std::vector<int>::iterator first_itr = first.begin();
+	std::vector<int>::iterator end_itr = first.end();
 
 	ft::vector<int> ft_first;
 	ft_first.push_back(1);
@@ -616,14 +632,26 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 	ft_first.push_back(4);
 	ft_first.push_back(5);
 	ft::vector<int>::iterator ft_first_itr = ft_first.begin();
+	ft::vector<int>::iterator ft_end_itr = ft_first.end();
 
-	SECTION("a + n") {
+	SECTION("a + n & a - n") {
 
 		REQUIRE(*(first_itr) == *(ft_first_itr));
 		REQUIRE(*(first_itr + 1) == *(ft_first_itr + 1));
 		REQUIRE(*(first_itr + 2) == *(ft_first_itr + 2));
 		REQUIRE(*(first_itr + 3) == *(ft_first_itr + 3));
 		REQUIRE(*(first_itr + 4) == *(ft_first_itr + 4));
+		REQUIRE(*(end_itr - 1) == *(ft_end_itr - 1));
+		REQUIRE(*(end_itr - 2) == *(ft_end_itr - 2));
+		REQUIRE(*(end_itr - 3) == *(ft_end_itr - 3));
+		REQUIRE(*(end_itr - 4) == *(ft_end_itr - 4));
+	}
+
+	SECTION("n + a") {
+
+		REQUIRE(*(first_itr) == *(ft_first_itr));
+//		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
+
 	}
 
 }

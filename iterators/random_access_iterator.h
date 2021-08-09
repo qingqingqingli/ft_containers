@@ -4,6 +4,7 @@
 
 #ifndef RANDOM_ACCESS_ITERATOR_H
 #define RANDOM_ACCESS_ITERATOR_H
+#include "iterator_traits.h"
 
 namespace ft {
 
@@ -11,26 +12,22 @@ template < class T >
 class random_access_iterator {
 
 public:
-	typedef T										value_type;
+	typedef std::random_access_iterator_tag			iterator_category;
 	typedef T&										reference;
-	typedef const T&								const_reference;
 	typedef T*										pointer;
-	typedef const T*								const_pointer;
-	typedef std::ptrdiff_t								difference_type;
-	typedef size_t									size_type;
+	typedef std::ptrdiff_t							difference_type;
 	typedef random_access_iterator<T> 				iterator;
-	typedef const random_access_iterator<T> 	const_iterator;
 
 public:
 	// X a; X b(a); b = a; [Finished]
-	random_access_iterator(pointer ptr = NULL) : _ptr(ptr) {}
+	explicit random_access_iterator(pointer ptr = NULL) : _ptr(ptr) {}
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
 		if (this != &x)
 			this->_ptr = x._ptr;
 		return *this;
 	}
-	~random_access_iterator() {}
+	~random_access_iterator() = default;
 
 	// a==b; a!= b; [Finished]
 	bool operator== (const iterator& rhs) const
@@ -44,7 +41,7 @@ public:
 	pointer operator-> () { return this->_ptr; }
 
 	//++a; a++; *a++;
-	iterator& operator++ () { ++this->_ptr; return *this; }
+	iterator& operator++ () { this->_ptr++; return *this; }
 
 	iterator operator++ (int) {
 		iterator tmp = *this;
@@ -53,7 +50,7 @@ public:
 	}
 
 	//--a; a--; *a--;
-	iterator& operator-- () { --this->_ptr; return *this; }
+	iterator& operator-- () { this->_ptr--; return *this; }
 
 	iterator operator-- (int) {
 		iterator tmp = *this;
@@ -61,15 +58,17 @@ public:
 		return tmp;
 	}
 
-	// a + n | n + a | a - n | a - b
+	// a + n [finished] | n + a | a - n [finished] | a - b
 	iterator operator- (const difference_type& x) {
-		iterator tmp = this->_ptr - x;
-		return tmp;
+		pointer tmp = this->_ptr - x;
+		iterator itr(tmp);
+		return itr;
 	}
 
 	iterator operator+ (const difference_type& x) {
-		iterator tmp = this->_ptr + x;
-		return tmp;
+		pointer tmp = this->_ptr + x;
+		iterator itr(tmp);
+		return itr;
 	}
 
 	// a < b | a > b | a <= b | a >= b [Finished]
@@ -91,8 +90,7 @@ public:
 
 	// a[n]
 
-
-private:
+protected:
 	pointer _ptr;
 
 };
