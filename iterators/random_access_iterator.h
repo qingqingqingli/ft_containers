@@ -36,7 +36,7 @@ public:
 	bool operator!= (const iterator& rhs) const
 	{ return this->_ptr != rhs._ptr; }
 
-	// dereference: *a[finished], a->m, *a = t
+	// dereference: *a, *a = t, a->m
 	reference operator* () { return *this->_ptr; }
 	pointer operator-> () { return this->_ptr; }
 
