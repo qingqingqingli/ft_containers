@@ -4,48 +4,53 @@
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
 
-TEST_CASE("default constructor: empty vector", "[vector][coplien form]") {
-	std::vector<char> std_first;
-	ft::vector<int> ft_first;
+TEST_CASE("0. default constructor", "[vector][coplien form]") {
 
-	REQUIRE(ft_first.size() == std_first.size());
-	REQUIRE(ft_first.capacity() == std_first.capacity());
+	SECTION("empty vector")
+	{
+		std::vector<char> std_first;
+		ft::vector<int> ft_first;
+
+		REQUIRE(ft_first.size() == std_first.size());
+		REQUIRE(ft_first.capacity() == std_first.capacity());
+	}
+
+	SECTION("vector with size and val")
+	{
+		std::vector<int> std_first(99);
+		ft::vector<int> ft_first(99);
+		std::vector<char> std_second(123);
+		ft::vector<char> ft_second(123);
+		std::vector<int> std_third(9000, 99);
+		ft::vector<int> ft_third(9000, 99);
+		std::vector<float> std_fourth(45);
+		ft::vector<float> ft_fourth(45);
+
+		REQUIRE(ft_first.size() == std_first.size());
+		REQUIRE(ft_first.capacity() == std_first.capacity());
+		REQUIRE(ft_second.size() == std_second.size());
+		REQUIRE(ft_second.capacity() == std_second.capacity());
+		REQUIRE(ft_third.size() == std_third.size());
+		REQUIRE(ft_third.capacity() == std_third.capacity());
+		REQUIRE(ft_fourth.size() == std_fourth.size());
+		REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
+	}
+
+//	SECTION("vector with InputIterator")
+//	{
+//		std::vector<int> std_first(4, 100);
+//		std::vector<int> std_second(std_first.begin(), std_first.end());
+//
+//		ft::vector<int> ft_first(4, 100);
+//		ft::vector<int> ft_second(std_first.begin(), std_first.end());
+//
+//		for (unsigned i = 0; i < std_second.size(); i++)
+//			REQUIRE(ft_first[i] == ft_second[i]);
+//	}
+
 }
 
-TEST_CASE("default constructor: vector with size and val", "[vector][coplien form]") {
-	std::vector<int> std_first(99);
-	ft::vector<int> ft_first(99);
-	std::vector<char> std_second(123);
-	ft::vector<char> ft_second(123);
-	std::vector<int> std_third(9000, 99);
-	ft::vector<int> ft_third(9000, 99);
-	std::vector<float> std_fourth(45);
-	ft::vector<float> ft_fourth(45);
-
-	REQUIRE(ft_first.size() == std_first.size());
-	REQUIRE(ft_first.capacity() == std_first.capacity());
-	REQUIRE(ft_second.size() == std_second.size());
-	REQUIRE(ft_second.capacity() == std_second.capacity());
-	REQUIRE(ft_third.size() == std_third.size());
-	REQUIRE(ft_third.capacity() == std_third.capacity());
-	REQUIRE(ft_fourth.size() == std_fourth.size());
-	REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
-}
-
-//TEST_CASE("default constructor: vector with InputIterator", "[vector][coplien form]") {
-//
-//	std::vector<int> std_first(4, 100);
-//	std::vector<int> std_second(std_first.begin(), std_first.end());
-//
-//	ft::vector<int> ft_first(4, 100);
-//	ft::vector<int> ft_second(std_first.begin(), std_first.end());
-//
-//	for (unsigned i = 0; i < std_second.size(); i++)
-//		REQUIRE(ft_first[i] == ft_second[i]);
-//
-//}
-
-TEST_CASE("copy & assignation constructor", "[vector][coplien form]"){
+TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]"){
 
 	SECTION("empty vector") {
 		std::vector<int> std_first;
@@ -111,7 +116,7 @@ TEST_CASE("copy & assignation constructor", "[vector][coplien form]"){
 	}
 }
 
-TEST_CASE("size()", "[vector][capacity]")
+TEST_CASE("2. size()", "[vector][capacity]")
 {
 	std::vector<int> empty;
 	ft::vector<int> ft_empty;
@@ -125,7 +130,7 @@ TEST_CASE("size()", "[vector][capacity]")
 	REQUIRE(ft_big.size() == big.size());
 }
 
-TEST_CASE("max_size()", "[vector][capacity]")
+TEST_CASE("2. max_size()", "[vector][capacity]")
 {
 	std::vector<int> empty;
 	ft::vector<int> ft_empty;
@@ -139,7 +144,7 @@ TEST_CASE("max_size()", "[vector][capacity]")
 	REQUIRE(ft_big.max_size() == big.max_size());
 }
 
-TEST_CASE("resize()", "[vector][capacity]")
+TEST_CASE("2. resize()", "[vector][capacity]")
 {
 	std::vector<int> first(5, 100);
 	std::vector<char> second(5, 'a');
@@ -218,7 +223,7 @@ TEST_CASE("resize()", "[vector][capacity]")
 //	a a a a a \x00 \x00 \x00 \x00 \x00 c c
 }
 
-TEST_CASE("capacity()", "[vector][capacity]") {
+TEST_CASE("2. capacity()", "[vector][capacity]") {
 	std::vector<int> myvector(100, 100);
 	ft::vector<int> ft_myvector(100, 100);
 
@@ -245,7 +250,17 @@ TEST_CASE("capacity()", "[vector][capacity]") {
 	REQUIRE(myvector.max_size() == ft_myvector.max_size());
 }
 
-TEST_CASE("reserve()", "[vector][capacity]")
+TEST_CASE("2. empty()", "[vector][capacity]")
+{
+	std::vector<int> first(0);
+	std::vector<int> second;
+	ft::vector<int> ft_first(0);
+	ft::vector<int> ft_second;
+	REQUIRE(first.empty() == ft_first.empty());
+	REQUIRE(second.empty() == ft_second.empty());
+}
+
+TEST_CASE("2. reserve()", "[vector][capacity]")
 {
 	std::vector<int> foo;
 	ft::vector<int> ft_foo;
@@ -266,7 +281,7 @@ TEST_CASE("reserve()", "[vector][capacity]")
 	}
 }
 
-TEST_CASE("at()", "[vector][element access]"){
+TEST_CASE("3. at()", "[vector][element access]"){
 
 	SECTION("non-const type")
 	{
@@ -302,7 +317,7 @@ TEST_CASE("at()", "[vector][element access]"){
 	}
 }
 
-TEST_CASE("front()", "[vector][element access]")
+TEST_CASE("3. front()", "[vector][element access]")
 {
 	std::vector<int> first(10);
 	std::vector<int> second(10, 30);
@@ -325,7 +340,7 @@ TEST_CASE("front()", "[vector][element access]")
 	REQUIRE(myvector.front() == ft_myvector.front());
 }
 
-TEST_CASE("back()", "[vector][element access]")
+TEST_CASE("3. back()", "[vector][element access]")
 {
 	std::vector<int> first(10);
 	std::vector<int> second(10, 30);
@@ -335,17 +350,7 @@ TEST_CASE("back()", "[vector][element access]")
 	REQUIRE(second.back() == ft_second.back());
 }
 
-TEST_CASE("empty()", "[vector][capacity]")
-{
-	std::vector<int> first(0);
-	std::vector<int> second;
-	ft::vector<int> ft_first(0);
-	ft::vector<int> ft_second;
-	REQUIRE(first.empty() == ft_first.empty());
-	REQUIRE(second.empty() == ft_second.empty());
-}
-
-TEST_CASE("assign()", "[vector][modifier]")
+TEST_CASE("4. assign()", "[vector][modifier]")
 {
 	std::vector<int> first;
 	std::vector<int> second(39, 200);
@@ -364,7 +369,7 @@ TEST_CASE("assign()", "[vector][modifier]")
 	}
 }
 
-TEST_CASE("push_back()", "[vector][modifier]")
+TEST_CASE("4. push_back()", "[vector][modifier]")
 {
 	std::vector<int> myvector;
 	ft::vector<int> ft_myvector;
@@ -379,7 +384,7 @@ TEST_CASE("push_back()", "[vector][modifier]")
 	}
 }
 
-TEST_CASE("pop_back()", "[vector][modifier]")
+TEST_CASE("4. pop_back()", "[vector][modifier]")
 {
 	std::vector<int> myvector;
 	ft::vector<int> ft_myvector;
@@ -403,7 +408,24 @@ TEST_CASE("pop_back()", "[vector][modifier]")
 	}
 }
 
-TEST_CASE("clear()", "[vector][modifier]")
+TEST_CASE("4. swap()", "[vector][modifier]")
+{
+	std::vector<int> foo (3,100);
+	std::vector<int> bar (5,200);
+	ft::vector<int> ft_foo (3,100);
+	ft::vector<int> ft_bar (5,200);
+
+	foo.swap(bar);
+	ft_foo.swap(ft_bar);
+
+	for (unsigned i=0; i<foo.size(); i++)
+		REQUIRE(foo[i] == ft_foo[i]);
+
+	for (unsigned i=0; i<bar.size(); i++)
+		REQUIRE(bar[i] == ft_bar[i]);
+}
+
+TEST_CASE("4. clear()", "[vector][modifier]")
 {
 	std::vector<int> myvector;
 	myvector.push_back (100);
@@ -431,298 +453,7 @@ TEST_CASE("clear()", "[vector][modifier]")
 	}
 }
 
-TEST_CASE("swap()", "[vector][modifier]")
-{
-	std::vector<int> foo (3,100);
-	std::vector<int> bar (5,200);
-	ft::vector<int> ft_foo (3,100);
-	ft::vector<int> ft_bar (5,200);
-
-	foo.swap(bar);
-	ft_foo.swap(ft_bar);
-
-	for (unsigned i=0; i<foo.size(); i++)
-		REQUIRE(foo[i] == ft_foo[i]);
-
-	for (unsigned i=0; i<bar.size(); i++)
-		REQUIRE(bar[i] == ft_bar[i]);
-}
-
-//******************************************** iterator ********************************************
-
-
-TEST_CASE("coplien form", "[vector][iterator]")
-{
-	std::vector<int> first_std;
-	first_std.push_back(100);
-	first_std.push_back(200);
-	first_std.push_back(300);
-	std::vector<int>::iterator itr_std = first_std.begin();
-	std::vector<int>::iterator itr_copy_std = itr_std;
-
-	ft::vector<int> first;
-	first.push_back(100);
-	first.push_back(200);
-	first.push_back(300);
-	ft::vector<int>::iterator itr = first.begin();
-	ft::vector<int>::iterator itr_copy = itr;
-	REQUIRE(itr == itr_copy);
-	REQUIRE(*itr == *itr_std);
-	REQUIRE(*itr == *itr_copy);
-	while (itr != first.end())
-	{
-		REQUIRE(*itr == *itr_copy_std);
-		itr++;
-		itr_copy_std++;
-	}
-}
-
-TEST_CASE("iterator a==b; a!= b", "[vector][iterator]")
-{
-	ft::vector<int> first(5, 100);
-	ft::vector<int>::iterator itr = first.begin();
-	ft::vector<int>::iterator itr_copy = itr;
-	REQUIRE(itr == itr_copy);
-	REQUIRE(*itr == *itr_copy);
-	ft::vector<int>::iterator itr_copy_2 = first.end();
-	REQUIRE(itr != itr_copy_2);
-}
-
-TEST_CASE("*a", "[vector][iterator]")
-{
-	ft::vector<int> first(5, 100);
-	std::vector<int> std_first(5, 100);
-
-	std::vector<int>::iterator std_itr = std_first.begin();
-	ft::vector<int>::iterator itr = first.begin();
-	while (itr != first.end())
-	{
-		REQUIRE(*itr == *std_itr);
-		itr++;
-		std_itr++;
-	}
-
-	SECTION("*a = t")
-	{
-		*std_itr = -666;
-		*itr = -666;
-		REQUIRE(*itr == *std_itr);
-		*itr = 777;
-		REQUIRE(*itr != *std_itr);
-	}
-}
-
-TEST_CASE("++a; a++; *a++;", "[vector][iterator]")
-{
-	ft::vector<int> first(5, 100);
-	std::vector<int> std_first(5, 100);
-	std::vector<int>::iterator std_itr = std_first.begin();
-	ft::vector<int>::iterator itr = first.begin();
-
-	SECTION("++a") {
-		++std_itr;
-		++itr;
-		while (itr != first.end())
-		{
-			REQUIRE(*itr == *std_itr);
-			++std_itr;
-			++itr;
-		}
-	}
-
-	SECTION("a++") {
-		std_itr++;
-		itr++;
-		while (itr != first.end())
-		{
-			REQUIRE(*itr == *std_itr);
-			std_itr++;
-			itr++;
-		}
-	}
-
-	SECTION("*a++") {
-		std::vector<int> second;
-		second.push_back(1);
-		second.push_back(2);
-		second.push_back(3);
-		second.push_back(4);
-		std::vector<int>::iterator second_itr = second.begin();
-		*second_itr++;
-
-
-		ft::vector<int> ft_second;
-		ft_second.push_back(1);
-		ft_second.push_back(2);
-		ft_second.push_back(3);
-		ft_second.push_back(4);
-
-		ft::vector<int>::iterator ft_second_itr = ft_second.begin();
-		*ft_second_itr++;
-
-		while (ft_second_itr != ft_second.end())
-		{
-			REQUIRE(*ft_second_itr == *second_itr);
-			REQUIRE(*second_itr++ == *ft_second_itr++);
-		}
-	}
-
-}
-
-TEST_CASE("--a; a--; *a--;", "[vector][iterator]")
-{
-	ft::vector<int> first(5, 100);
-	std::vector<int> std_first(5, 100);
-	std::vector<int>::iterator std_itr = std_first.end() - 1;
-	ft::vector<int>::iterator itr = first.end() - 1;
-
-	SECTION("--a") {
-		--std_itr;
-		--itr;
-		while (itr != first.begin())
-		{
-			REQUIRE(*itr == *std_itr);
-			--std_itr;
-			--itr;
-		}
-	}
-
-	SECTION("a--") {
-		std_itr--;
-		itr--;
-		while (itr != first.begin())
-		{
-			REQUIRE(*itr == *std_itr);
-			std_itr--;
-			itr--;
-		}
-	}
-
-	SECTION("*a--") {
-		std::vector<int> second;
-		second.push_back(1);
-		second.push_back(2);
-		second.push_back(3);
-		second.push_back(4);
-		std::vector<int>::iterator second_itr = second.end() - 1;
-		*second_itr--;
-
-
-		ft::vector<int> ft_second;
-		ft_second.push_back(1);
-		ft_second.push_back(2);
-		ft_second.push_back(3);
-		ft_second.push_back(4);
-
-		ft::vector<int>::iterator ft_second_itr = ft_second.end() - 1;
-		*ft_second_itr--;
-
-		while (ft_second_itr != ft_second.begin())
-		{
-			REQUIRE(*ft_second_itr == *second_itr);
-			REQUIRE(*second_itr-- == *ft_second_itr--);
-		}
-	}
-}
-
-TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
-{
-	std::vector<int> first;
-	first.push_back(1);
-	first.push_back(2);
-	first.push_back(3);
-	first.push_back(4);
-	first.push_back(5);
-	std::vector<int>::iterator first_itr = first.begin();
-	std::vector<int>::iterator end_itr = first.end();
-
-	ft::vector<int> ft_first;
-	ft_first.push_back(1);
-	ft_first.push_back(2);
-	ft_first.push_back(3);
-	ft_first.push_back(4);
-	ft_first.push_back(5);
-	ft::vector<int>::iterator ft_first_itr = ft_first.begin();
-	ft::vector<int>::iterator ft_end_itr = ft_first.end();
-
-	SECTION("a + n & a - n")
-	{
-		REQUIRE(*(first_itr) == *(ft_first_itr));
-		REQUIRE(*(first_itr + 1) == *(ft_first_itr + 1));
-		REQUIRE(*(first_itr + 2) == *(ft_first_itr + 2));
-		REQUIRE(*(first_itr + 3) == *(ft_first_itr + 3));
-		REQUIRE(*(first_itr + 4) == *(ft_first_itr + 4));
-		REQUIRE(*(end_itr - 1) == *(ft_end_itr - 1));
-		REQUIRE(*(end_itr - 2) == *(ft_end_itr - 2));
-		REQUIRE(*(end_itr - 3) == *(ft_end_itr - 3));
-		REQUIRE(*(end_itr - 4) == *(ft_end_itr - 4));
-	}
-
-	SECTION("n + a & a - b")
-	{
-		REQUIRE(*(first_itr) == *(ft_first_itr));
-		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
-		REQUIRE(*(2 + first_itr) == *(2 + ft_first_itr));
-		REQUIRE(*(3 + first_itr) == *(3 + ft_first_itr));
-		REQUIRE(end_itr - first_itr == ft_end_itr - ft_first_itr);
-	}
-
-	SECTION ("a+=n")
-	{
-		first_itr += 1;
-		ft_first_itr += 1;
-		REQUIRE(*(first_itr) == *(ft_first_itr));
-		first_itr += 3;
-		ft_first_itr += 3;
-		REQUIRE(*(first_itr) == *(ft_first_itr));
-	}
-
-	SECTION("a -= n")
-	{
-		end_itr -= 1;
-		ft_end_itr -= 1;
-		REQUIRE(*(end_itr) == *(ft_end_itr));
-		end_itr -= 3;
-		ft_end_itr -= 3;
-		REQUIRE(*(end_itr) == *(ft_end_itr));
-	}
-
-}
-
-TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector][iterator]")
-{
-	ft::vector<int> ft_myvector;
-	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
-
-	ft::vector<int>::iterator ft_it = ft_myvector.begin();
-	ft::vector<int>::iterator ft_it_1 = ft_myvector.begin() + 1;
-	REQUIRE(ft_it < ft_it_1);
-	REQUIRE(ft_it <= ft_it_1);
-	REQUIRE(ft_it_1 == ft_it_1);
-	REQUIRE(ft_it_1 >= ft_it);
-	REQUIRE(ft_it_1 > ft_it);
-	REQUIRE(ft_it == ft_it);
-	REQUIRE(*ft_it == 5);
-	REQUIRE(*ft_it_1 == 4);
-}
-
-TEST_CASE("a[n]", "[vector][iterator]")
-{
-	ft::vector<int> ft_myvector;
-	ft::vector<int>::iterator ft_it = ft_myvector.begin();
-	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
-
-	std::vector<int> std_myvector;
-	std::vector<int>::iterator std_it = std_myvector.begin();
-	for (int i=5; i>=0; i--) std_myvector.push_back(i);
-
-	REQUIRE(&ft_it[1] == &std_it[1]);
-	REQUIRE(&ft_it[2] == &std_it[2]);
-	REQUIRE(&ft_it[3] == &std_it[3]);
-	REQUIRE(&ft_it[4] == &std_it[4]);
-}
-
-TEST_CASE("get_allocator()", "[vector][allocator]")
+TEST_CASE("5. get_allocator()", "[vector][allocator]")
 {
 	ft::vector<int> ft_myvector(5, 10);
 	std::vector<int> myvector(5, 10);

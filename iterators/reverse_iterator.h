@@ -13,11 +13,11 @@ class reverse_iterator {
 
 public:
 	typedef Iterator											iterator_type;
-	typedef ft::iterator_traits<Iterator>::iterator_category 	iterator_category;
-	typedef ft::iterator_traits<Iterator>::value_type			value_type;
-	typedef ft::iterator_traits<Iterator>::difference_type		difference_type;
-	typedef ft::iterator_traits<Iterator>::pointer				pointer;
-	typedef ft::iterator_traits<Iterator>::reference			reference;
+	typedef typename ft::iterator_traits<Iterator>::iterator_category 	iterator_category;
+	typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
+	typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
+	typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
+	typedef typename ft::iterator_traits<Iterator>::reference			reference;
 
 private:
 	iterator_type _base_itr;
@@ -34,13 +34,14 @@ explicit reverse_iterator (iterator_type it) : _base_itr(it) {}
 
 // copy
 template <class Iter>
-reverse_iterator (const reverse_iterator<Iter>& rev_it);
+explicit reverse_iterator (const reverse_iterator<Iter>& rev_it): _base_itr(rev_it.base()) {}
 
 //******************************************** Member functions ********************************************
 
-iterator_type base() const;
+// return the current iterator
+iterator_type base() const { return _base_itr; }
 
-reference operator*() const;
+reference operator*() const { return *(_base_itr - 1); }
 
 reverse_iterator operator+ (difference_type n) const;
 
@@ -48,7 +49,7 @@ reverse_iterator operator+ (difference_type n) const;
 reverse_iterator& operator++();
 
 // The post-increment version (2) returns the value *this had before the call.
-reverse_iterator  operator++(int);
+reverse_iterator operator++(int);
 
 reverse_iterator& operator+= (difference_type n);
 
