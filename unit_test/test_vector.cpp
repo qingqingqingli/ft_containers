@@ -4,8 +4,10 @@
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
 
-TEST_CASE("0. default constructor", "[vector][coplien form]") {
+//****************** coplien form **************
 
+TEST_CASE("0. default constructor", "[vector][coplien form]")
+{
 	SECTION("empty vector")
 	{
 		std::vector<char> std_first;
@@ -50,7 +52,8 @@ TEST_CASE("0. default constructor", "[vector][coplien form]") {
 
 }
 
-TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]"){
+TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]")
+{
 
 	SECTION("empty vector") {
 		std::vector<int> std_first;
@@ -115,6 +118,8 @@ TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]"){
 		REQUIRE(ft_second_copy[7] != ft_first_copy[7]);
 	}
 }
+
+//****************** capacity **************
 
 TEST_CASE("2. size()", "[vector][capacity]")
 {
@@ -223,7 +228,8 @@ TEST_CASE("2. resize()", "[vector][capacity]")
 //	a a a a a \x00 \x00 \x00 \x00 \x00 c c
 }
 
-TEST_CASE("2. capacity()", "[vector][capacity]") {
+TEST_CASE("2. capacity()", "[vector][capacity]")
+{
 	std::vector<int> myvector(100, 100);
 	ft::vector<int> ft_myvector(100, 100);
 
@@ -281,7 +287,34 @@ TEST_CASE("2. reserve()", "[vector][capacity]")
 	}
 }
 
-TEST_CASE("3. at()", "[vector][element access]"){
+//****************** element access **************
+
+TEST_CASE("3. operator[]", "[vector][element access]")
+{
+	std::vector<int> std_vec;
+	std_vec.push_back(1);
+	std_vec.push_back(2);
+	std_vec.push_back(3);
+	std_vec.push_back(4);
+	std_vec.push_back(5);
+
+	ft::vector<int> ft_vec;
+	ft_vec.push_back(1);
+	ft_vec.push_back(2);
+	ft_vec.push_back(3);
+	ft_vec.push_back(4);
+	ft_vec.push_back(5);
+
+	REQUIRE(std_vec[0] == ft_vec[0]);
+	REQUIRE(std_vec[1] == ft_vec[1]);
+	REQUIRE(std_vec[2] == ft_vec[2]);
+	REQUIRE(std_vec[3] == ft_vec[3]);
+	REQUIRE(std_vec[4] == ft_vec[4]);
+
+}
+
+TEST_CASE("3. at()", "[vector][element access]")
+{
 
 	SECTION("non-const type")
 	{
@@ -350,23 +383,29 @@ TEST_CASE("3. back()", "[vector][element access]")
 	REQUIRE(second.back() == ft_second.back());
 }
 
+//****************** modifier **************
+
 TEST_CASE("4. assign()", "[vector][modifier]")
 {
-	std::vector<int> first;
-	std::vector<int> second(39, 200);
-	first.assign (7,100);
-	second.assign (7,100);
-
-	ft::vector<int> ft_first;
-	ft::vector<int> ft_second(39, 200);
-	ft_first.assign (7,100);
-	ft_second.assign (7,100);
-
-	for (unsigned i=0; i<first.size(); i++)
+	SECTION("fill")
 	{
-		REQUIRE(first[i] == ft_first[i]);
-		REQUIRE(second[i] == ft_second[i]);
+		std::vector<int> first;
+		std::vector<int> second(39, 200);
+		first.assign (7,100);
+		second.assign (7,100);
+
+		ft::vector<int> ft_first;
+		ft::vector<int> ft_second(39, 200);
+		ft_first.assign (7,100);
+		ft_second.assign (7,100);
+
+		for (unsigned i=0; i<first.size(); i++)
+		{
+			REQUIRE(first[i] == ft_first[i]);
+			REQUIRE(second[i] == ft_second[i]);
+		}
 	}
+
 }
 
 TEST_CASE("4. push_back()", "[vector][modifier]")
@@ -406,6 +445,16 @@ TEST_CASE("4. pop_back()", "[vector][modifier]")
 		ft_myvector.pop_back();
 		REQUIRE(sum == ft_sum);
 	}
+}
+
+TEST_CASE("4. insert()", "[vector][modifier]")
+{
+	// to add
+}
+
+TEST_CASE("4. erase()", "[vector][modifier]")
+{
+	// to add
 }
 
 TEST_CASE("4. swap()", "[vector][modifier]")
@@ -452,6 +501,8 @@ TEST_CASE("4. clear()", "[vector][modifier]")
 		REQUIRE(myvector.capacity() == ft_myvector.capacity());
 	}
 }
+
+//****************** allocator **************
 
 TEST_CASE("5. get_allocator()", "[vector][allocator]")
 {
