@@ -20,7 +20,8 @@
 
 - `reverse_iterator` is an iterator adaptor that enables backwards traversal of a range. 
 - A copy of the original iterator (the `base iterator`) is kept internally and used to reflect the operations performed on the `reverse_iterator`: whenever the reverse_iterator is incremented, its base iterator is decreased, and vice versa.
-- **Notice however that when an iterator is reversed, the reversed version does not point to the same element in the range, but to the one preceding it.** 
+- **Notice however that when an iterator is reversed, the reversed version does not point to the same element in the range, but to the one preceding it.**
+- This mapping is dictated by the fact that while there is always a pointer past the end of an array, there might not be a valid pointer before the beginning of an array.
 
 ### Operator overloading member vs. non-member functions
 - In random access iterator implementation, `a + n` and `n + a` have different implementations. The first one can be implemented as a member function overload, but the second one a non-member function overload. 

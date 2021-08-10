@@ -27,7 +27,7 @@ public:
 //***************** Constructor *****************
 
 // default
-reverse_iterator() : _current(NULL) {}
+reverse_iterator() : _current() {}
 
 // initialization
 explicit reverse_iterator (iterator_type it) : _current(it) {}
@@ -40,54 +40,62 @@ explicit reverse_iterator (const reverse_iterator<Iter>& rev_it): _current(rev_i
 
 iterator_type base() const { return _current; }
 
+// *a
 reference operator*() const {
 	iterator_type tmp = _current;
 	--tmp;
 	return *tmp;
 }
 
-pointer operator->() const { &(operator*()); }
-
+// a + n
 reverse_iterator operator+ (difference_type n) const {
 	return reverse_iterator(_current - n);
 }
 
+// ++a
 reverse_iterator& operator++ () {
 	--_current;
 	return *this;
 }
 
+// a++
 reverse_iterator operator++ (int) {
 	reverse_iterator tmp = *this;
 	--_current;
 	return tmp;
 }
 
+// a += n
 reverse_iterator& operator+= (difference_type n) {
 	_current -= n;
 	return *this;
 }
 
+// a - n
 reverse_iterator operator- (difference_type n) const {
 	return reverse_iterator(_current + n);
 }
 
+// --a
 reverse_iterator& operator-- () {
 	++_current;
 	return *this;
 }
 
+// a--
 reverse_iterator  operator-- (int) {
 	reverse_iterator tmp = *this;
 	++_current;
 	return tmp;
 }
 
+// a -= n
 reverse_iterator& operator-= (difference_type n) {
 	_current += n;
 	return *this;
 }
 
+// a[n]
 reference operator[] (difference_type n) const { return *(*this + n); }
 
 };
