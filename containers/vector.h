@@ -129,11 +129,9 @@ public:
 	iterator end() { return iterator(&_array[_size]); }
 	const_iterator end() const { return const_iterator(&_array[_size]); }
 
-	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
 	reverse_iterator rbegin() { return reverse_iterator(end()); }
 	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
-	//** [iterator] rend (return a reverse iterator pointing to the theoretical element preceding the first element in the vector)
 	reverse_iterator rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 

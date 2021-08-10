@@ -57,10 +57,10 @@ public:
 	}
 
 	// a - n | a - b | a + n | n + a
-	iterator operator- (const difference_type& x) { return iterator(_ptr - x); }
+	iterator operator- (const difference_type& x) const { return iterator(_ptr - x); }
 	difference_type operator-(const iterator& rhs) const { return _ptr - rhs._ptr;	}
 	friend iterator operator+ (int n, iterator itr) { return iterator(itr._ptr + n); }
-	iterator operator+ (const int n) { return iterator(_ptr + n); }
+	iterator operator+ (const int n) const { return iterator(_ptr + n); }
 
 	// a < b | a > b | a <= b | a >= b
 	bool operator > (const iterator& rhs) const { return _ptr > rhs._ptr; }
