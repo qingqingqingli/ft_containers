@@ -24,76 +24,76 @@ public:
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
 		if (this != &x)
-			this->_ptr = x._ptr;
+			_ptr = x._ptr;
 		return *this;
 	}
-	~random_access_iterator() {};
+	~random_access_iterator() = default;;
 
 	// a==b; a!= b; [Finished]
 	bool operator== (const iterator& rhs) const
-	{ return this->_ptr == rhs._ptr; }
+	{ return _ptr == rhs._ptr; }
 
 	bool operator!= (const iterator& rhs) const
-	{ return this->_ptr != rhs._ptr; }
+	{ return _ptr != rhs._ptr; }
 
 	// dereference: *a, *a = t, a->m
-	reference operator* () { return *this->_ptr; }
-	pointer operator-> () { return this->_ptr; }
+	reference operator* () { return *_ptr; }
+	pointer operator-> () { return _ptr; }
 
 	//++a; a++; *a++;
-	iterator& operator++ () { this->_ptr++; return *this; }
+	iterator& operator++ () { _ptr++; return *this; }
 
 	iterator operator++ (int) {
 		iterator tmp = *this;
-		++(this->_ptr);
+		++(_ptr);
 		return tmp;
 	}
 
 	//--a; a--; *a--;
-	iterator& operator-- () { this->_ptr--; return *this; }
+	iterator& operator-- () { _ptr--; return *this; }
 
 	iterator operator-- (int) {
 		iterator tmp = *this;
-		--(this->_ptr);
+		--(_ptr);
 		return tmp;
 	}
 
 	// a - n
 	iterator operator- (const difference_type& x) {
-		return iterator(this->_ptr - x);
+		return iterator(_ptr - x);
 	}
 
 	// a - b
 	difference_type operator-(const iterator& rhs) const {
-		return this->_ptr - rhs._ptr;
+		return _ptr - rhs._ptr;
 	}
 
 	// a + n
 	iterator operator+ (const difference_type& x) {
-		return iterator(this->_ptr + x);
+		return iterator(_ptr + x);
 	}
 
 	// n + a
 	difference_type operator+ (const iterator& rhs) {
-		return this->_ptr + rhs._ptr;
+		return _ptr + rhs._ptr;
 	}
 
 	// a < b | a > b | a <= b | a >= b [Finished]
 	bool operator > (const iterator& rhs) const
-	{ return this->_ptr > rhs._ptr; }
+	{ return _ptr > rhs._ptr; }
 
 	bool operator < (const iterator& rhs) const
-	{ return this->_ptr < rhs._ptr; }
+	{ return _ptr < rhs._ptr; }
 
 	bool operator >= (const iterator& rhs) const
-	{ return this->_ptr >= rhs._ptr; }
+	{ return _ptr >= rhs._ptr; }
 
 	bool operator <= (const iterator& rhs) const
-	{ return this->_ptr <= rhs._ptr; }
+	{ return _ptr <= rhs._ptr; }
 
 	// a += n | a -= n [Finished]
-	iterator& operator += (int n) { this->_ptr += n; return *this; }
-	iterator& operator -= (int n) { this->_ptr -= n; return *this; }
+	iterator& operator += (int n) { _ptr += n; return *this; }
+	iterator& operator -= (int n) { _ptr -= n; return *this; }
 
 	// a[n]
 	reference operator[](const difference_type n) const {return _ptr[n];}

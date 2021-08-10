@@ -7,7 +7,6 @@
 
 namespace ft {
 
-// don't see the value of re-implementing these tags
 struct input_iterator_tag {};
 struct output_iterator_tag {};
 struct forward_iterator_tag : public input_iterator_tag {};
