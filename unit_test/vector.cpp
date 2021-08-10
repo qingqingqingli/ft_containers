@@ -661,7 +661,7 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 	SECTION("n + a & a - b") {
 
 		REQUIRE(*(first_itr) == *(ft_first_itr));
-//		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
+		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
 		REQUIRE(end_itr - first_itr == ft_end_itr - ft_first_itr);
 	}
 

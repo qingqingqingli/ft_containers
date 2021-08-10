@@ -41,20 +41,20 @@ public:
 	pointer operator-> () { return _ptr; }
 
 	//++a; a++; *a++;
-	iterator& operator++ () { _ptr++; return *this; }
+	iterator& operator++ () { ++_ptr; return *this; }
 
 	iterator operator++ (int) {
 		iterator tmp = *this;
-		++(_ptr);
+		++_ptr;
 		return tmp;
 	}
 
 	//--a; a--; *a--;
-	iterator& operator-- () { _ptr--; return *this; }
+	iterator& operator-- () { --_ptr; return *this; }
 
 	iterator operator-- (int) {
 		iterator tmp = *this;
-		--(_ptr);
+		--_ptr;
 		return tmp;
 	}
 
@@ -69,13 +69,13 @@ public:
 	}
 
 	// a + n
-	iterator operator+ (const difference_type& x) {
-		return iterator(_ptr + x);
+	friend iterator operator+ (int n, iterator itr) {
+		return iterator(itr._ptr + n);
 	}
 
 	// n + a
-	difference_type operator+ (const iterator& rhs) {
-		return _ptr + rhs._ptr;
+	iterator operator+ (const int n) {
+		return iterator(_ptr + n);
 	}
 
 	// a < b | a > b | a <= b | a >= b [Finished]
