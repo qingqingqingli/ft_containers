@@ -5,7 +5,7 @@
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
 
-TEST_CASE("coplien form", "[vector_iterator]")
+TEST_CASE("0. coplien form", "[vector_iterator]")
 {
 	std::vector<int> first_std;
 	first_std.push_back(100);
@@ -31,7 +31,7 @@ TEST_CASE("coplien form", "[vector_iterator]")
 	}
 }
 
-TEST_CASE("iterator a==b; a!= b", "[vector_iterator]")
+TEST_CASE("1. a==b; a!= b", "[vector_iterator]")
 {
 	ft::vector<int> first(5, 100);
 	ft::vector<int>::iterator itr = first.begin();
@@ -42,7 +42,7 @@ TEST_CASE("iterator a==b; a!= b", "[vector_iterator]")
 	REQUIRE(itr != itr_copy_2);
 }
 
-TEST_CASE("*a", "[vector_iterator]")
+TEST_CASE("2. *a, *a = t", "[vector_iterator]")
 {
 	ft::vector<int> first(5, 100);
 	std::vector<int> std_first(5, 100);
@@ -66,7 +66,7 @@ TEST_CASE("*a", "[vector_iterator]")
 	}
 }
 
-TEST_CASE("++a; a++; *a++;", "[vector_iterator]")
+TEST_CASE("3. ++a; a++; *a++;", "[vector_iterator]")
 {
 	ft::vector<int> first(5, 100);
 	std::vector<int> std_first(5, 100);
@@ -123,7 +123,7 @@ TEST_CASE("++a; a++; *a++;", "[vector_iterator]")
 
 }
 
-TEST_CASE("--a; a--; *a--;", "[vector_iterator]")
+TEST_CASE("4. --a; a--; *a--;", "[vector_iterator]")
 {
 	ft::vector<int> first(5, 100);
 	std::vector<int> std_first(5, 100);
@@ -179,7 +179,7 @@ TEST_CASE("--a; a--; *a--;", "[vector_iterator]")
 	}
 }
 
-TEST_CASE("a + n | n + a | a - n | a - b", "[vector_iterator]")
+TEST_CASE("5. a + n ; n + a ; a - n ; a - b", "[vector_iterator]")
 {
 	std::vector<int> first;
 	first.push_back(1);
@@ -243,7 +243,7 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector_iterator]")
 
 }
 
-TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector_iterator]")
+TEST_CASE("6. a < b ; a > b ; a <= b ; a >= b", "[vector_iterator]")
 {
 	ft::vector<int> ft_myvector;
 	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
@@ -260,7 +260,32 @@ TEST_CASE("a < b | a > b | a <= b | a >= b", "[vector_iterator]")
 	REQUIRE(*ft_it_1 == 4);
 }
 
-TEST_CASE("a[n]", "[vector_iterator]")
+TEST_CASE("7. a += n; a -= n", "[vector_iterator]")
+{
+	ft::vector<int> ft_myvector;
+	for (int i=5; i>=0; i--) ft_myvector.push_back(i);
+
+	std::vector<int> std_myvector;
+	for (int i=5; i>=0; i--) std_myvector.push_back(i);
+
+	ft::vector<int>::iterator ft_it_begin = ft_myvector.begin();
+	std::vector<int>::iterator std_it_begin = std_myvector.begin();
+
+	ft::vector<int>::iterator ft_it_end = ft_myvector.end();
+	std::vector<int>::iterator std_it_end = std_myvector.end();
+
+	REQUIRE(*(ft_it_begin + 1) == *(std_it_begin + 1));
+	REQUIRE(*(ft_it_begin + 2) == *(std_it_begin + 2));
+	REQUIRE(*(ft_it_begin + 3) == *(std_it_begin + 3));
+	REQUIRE(*(ft_it_begin + 4) == *(std_it_begin + 4));
+
+	REQUIRE(*(ft_it_end - 1) == *(std_it_end - 1));
+	REQUIRE(*(ft_it_end - 2) == *(std_it_end - 2));
+	REQUIRE(*(ft_it_end - 3) == *(std_it_end - 3));
+	REQUIRE(*(ft_it_end - 4) == *(std_it_end - 4));
+}
+
+TEST_CASE("8. a[n]", "[vector_iterator]")
 {
 	ft::vector<int> ft_myvector;
 	ft::vector<int>::iterator ft_it = ft_myvector.begin();
