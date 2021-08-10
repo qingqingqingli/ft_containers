@@ -645,8 +645,8 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 	ft::vector<int>::iterator ft_first_itr = ft_first.begin();
 	ft::vector<int>::iterator ft_end_itr = ft_first.end();
 
-	SECTION("a + n & a - n") {
-
+	SECTION("a + n & a - n")
+	{
 		REQUIRE(*(first_itr) == *(ft_first_itr));
 		REQUIRE(*(first_itr + 1) == *(ft_first_itr + 1));
 		REQUIRE(*(first_itr + 2) == *(ft_first_itr + 2));
@@ -658,10 +658,12 @@ TEST_CASE("a + n | n + a | a - n | a - b", "[vector][iterator]")
 		REQUIRE(*(end_itr - 4) == *(ft_end_itr - 4));
 	}
 
-	SECTION("n + a & a - b") {
-
+	SECTION("n + a & a - b")
+	{
 		REQUIRE(*(first_itr) == *(ft_first_itr));
 		REQUIRE(*(1 + first_itr) == *(1 + ft_first_itr));
+		REQUIRE(*(2 + first_itr) == *(2 + ft_first_itr));
+		REQUIRE(*(3 + first_itr) == *(3 + ft_first_itr));
 		REQUIRE(end_itr - first_itr == ft_end_itr - ft_first_itr);
 	}
 

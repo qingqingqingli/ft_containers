@@ -20,7 +20,27 @@
 
 - `reverse_iterator` is an iterator adaptor that enables backwards traversal of a range. 
 - A copy of the original iterator (the `base iterator`) is kept internally and used to reflect the operations performed on the `reverse_iterator`: whenever the reverse_iterator is incremented, its base iterator is decreased, and vice versa.
-- **Notice however that when an iterator is reversed, the reversed version does not point to the same element in the range, but to the one preceding it.** This is so, in order to arrange for the past-the-end element of a range: An iterator pointing to a past-the-end element in a range, when reversed, is pointing to the last element (not past it) of the range (this would be the first element of the reversed range). And if an iterator to the first element in a range is reversed, the reversed iterator points to the element before the first element (this would be the past-the-end element of the reversed range).
+- **Notice however that when an iterator is reversed, the reversed version does not point to the same element in the range, but to the one preceding it.** 
+
+### Operator overloading member vs. non-member functions
+- In random access iterator implementation, `a + n` and `n + a` have different implementations. The first one can be implemented as a member function overload, but the second one a non-member function overload. 
+- `a + n`: The compiler understands it as `a.operator+(int n)`. This can be implemented as a member function overload.
+```c++
+	// n + a
+	iterator operator+ (const int n) {
+		return iterator(_ptr + n);
+	}
+```
+- `n + a`: Integer type does not understand the iterator type and has no overload for this situation. Therefore, there needs to be a non-member function overload between an integer and an iterator type.
+```c++
+	// a + n
+	friend iterator operator+ (int n, iterator itr) {
+		return iterator(itr._ptr + n);
+	}
+```
+
+### General learnings
+- There is a difference between the return type being const and returning actual const pointer/ref. When I define the typedef, I am specifying the type of term (such as `const_pointer`). However, I still need to make sure in the function, I am returning an actual const pointer.
 
 ### resources
 - [const correctness](https://www.cprogramming.com/tutorial/const_correctness.html)
