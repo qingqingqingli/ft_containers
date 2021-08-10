@@ -22,7 +22,7 @@ public:
 	typedef const T*								const_pointer;
 	typedef random_access_iterator<T> 				iterator;
 	typedef const random_access_iterator<T> 		const_iterator;
-	typedef std::reverse_iterator<iterator>			reverse_iterator;
+	typedef ft::reverse_iterator<iterator>			reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
@@ -124,19 +124,18 @@ public:
 //******************************************** Iterators ********************************************
 
 	iterator begin() { return iterator(&_array[0]); }
-
-//	const_iterator begin() const { return const_iterator(&_array[0]); };
+	const_iterator begin() const { return const_iterator(&_array[0]); };
 
 	iterator end() { return iterator(&_array[_size]); }
-	const_iterator end() const;
+	const_iterator end() const { return const_iterator(&_array[_size]); }
 
 	//** [iterator] rbegin (return a reverse iterator pointing to the last element in the vector)
-	reverse_iterator rbegin() { return reverse_iterator(end() - 1); }
-	const_reverse_iterator rbegin() const;
+	reverse_iterator rbegin() { return reverse_iterator(end()); }
+	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
 	//** [iterator] rend (return a reverse iterator pointing to the theoretical element preceding the first element in the vector)
-	reverse_iterator rend() { return reverse_iterator(begin() - 1); }
-	const_reverse_iterator rend() const;
+	reverse_iterator rend() { return reverse_iterator(begin()); }
+	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 //******************************************** Capacity ********************************************
 

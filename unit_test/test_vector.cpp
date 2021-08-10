@@ -412,7 +412,7 @@ TEST_CASE("4. push_back()", "[vector][modifier]")
 {
 	std::vector<int> myvector;
 	ft::vector<int> ft_myvector;
-	for (unsigned i = 0; i < 200; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		myvector.push_back(i);
 		ft_myvector.push_back(i);

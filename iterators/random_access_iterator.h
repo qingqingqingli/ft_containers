@@ -17,6 +17,7 @@ public:
 	typedef T*										pointer;
 	typedef std::ptrdiff_t							difference_type;
 	typedef random_access_iterator<T> 				iterator;
+	typedef T										value_type;
 
 public:
 	// X a; X b(a); b = a; ~X()
