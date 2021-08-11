@@ -38,17 +38,21 @@ TEST_CASE("0. default constructor", "[vector][coplien form]")
 		REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
 	}
 
-//	SECTION("vector with InputIterator")
-//	{
-//		std::vector<int> std_first(4, 100);
-//		std::vector<int> std_second(std_first.begin(), std_first.end());
-//
-//		ft::vector<int> ft_first(4, 100);
-//		ft::vector<int> ft_second(std_first.begin(), std_first.end());
-//
-//		for (unsigned i = 0; i < std_second.size(); i++)
-//			REQUIRE(ft_first[i] == ft_second[i]);
-//	}
+	SECTION("vector with InputIterator")
+	{
+		std::vector<int> std_first(14, 100);
+		std::vector<int> std_second(std_first.begin(), std_first.end());
+
+		ft::vector<int> ft_first(14, 100);
+		ft::vector<int> ft_second(ft_first.begin(), ft_first.end());
+
+		for (unsigned i = 0; i < std_second.size(); i++)
+			REQUIRE(std_second[i] == ft_second[i]);
+
+		REQUIRE(std_second.size() == ft_second.size());
+		REQUIRE(std_second.capacity() == ft_second.capacity());
+
+	}
 
 }
 

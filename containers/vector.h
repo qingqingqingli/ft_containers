@@ -7,6 +7,7 @@
 # include <iostream>
 # include "../iterators/random_access_iterator.h"
 # include "../iterators/reverse_iterator.h"
+# include "../iterators/type_traits.h"
 
 namespace ft {
 
@@ -20,14 +21,14 @@ public:
 	typedef const T&								const_reference;
 	typedef T*										pointer;
 	typedef const T*								const_pointer;
-	typedef random_access_iterator<T> 				iterator;
-	typedef const random_access_iterator<T> 		const_iterator;
-	typedef ft::reverse_iterator<iterator>			reverse_iterator;
+	typedef random_access_iterator<T> 			iterator;
+	typedef const random_access_iterator<T> 	const_iterator;
+	typedef reverse_iterator<iterator>			reverse_iterator;
 	typedef const ft::reverse_iterator<iterator>	const_reverse_iterator;
 	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
 
-//******************************************** Private attributes ********************************************
+//************************ Private attributes ************************
 
 private:
 	size_type				_size;
@@ -76,7 +77,7 @@ private:
 	}
 
 public:
-//******************************************** Coplien form ********************************************
+//************************ Coplien form ************************
 	// default
 	explicit vector (const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc), _array(NULL) {}
 
@@ -89,17 +90,16 @@ public:
 	}
 
 	// range
-//	template <class InputIterator>
-//	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc) {
-//		for (iterator tmp = first; tmp != last; ++tmp)
-//		{
-//			_size++;
-//			_capacity++;
-//		}
-//		_array = _alloc.allocate(_size);
-//		for (iterator tmp = first; tmp != last; ++tmp)
-//			_array = *tmp;
-//	}
+	template <class InputIterator>
+	vector (InputIterator first, InputIterator last,
+			const allocator_type& alloc = allocator_type(),
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = 0) : _size(0), _capacity(0), _alloc(alloc)
+	{
+		_size = _capacity = last - first;
+		_array = _alloc.allocate(_size);
+		for (size_type i = 0; i < _size; i++)
+			_array[i] = *(first + i);
+	}
 
 	// copy
 	vector (const vector& x){ *this = x; }
@@ -121,7 +121,7 @@ public:
 		return *this;
 	}
 
-//******************************************** Iterators ********************************************
+//************************ Iterators ************************
 
 	iterator begin() { return iterator(&_array[0]); }
 	const_iterator begin() const { return const_iterator(&_array[0]); };
@@ -135,7 +135,7 @@ public:
 	reverse_iterator rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
-//******************************************** Capacity ********************************************
+//************************ Capacity ************************
 
 	size_type size() const { return _size; }
 	size_type max_size() const { return _alloc.max_size(); }
@@ -168,7 +168,7 @@ public:
 			reallocation(n);
 	}
 
-//******************************************** Element access ********************************************
+//************************ Element access ************************
 
 	reference operator[] (size_type n) {
 		reference elem_ref = *(_array + n);
@@ -214,7 +214,7 @@ public:
 		return const_back_ref;
 	}
 
-//******************************************** Modifier  ********************************************
+//************************ Modifier  ************************
 
 	// range
 //	template <class InputIterator>
@@ -286,7 +286,7 @@ public:
 		_size = 0;
 	}
 
-//******************************************** get_allocator ********************************************
+//************************ get_allocator ************************
 
 	allocator_type get_allocator() const
 	{
