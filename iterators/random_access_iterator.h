@@ -8,16 +8,16 @@
 
 namespace ft {
 
-template < class T >
+template < class T, class Pointer, class Reference >
 class random_access_iterator {
 
 public:
-	typedef std::random_access_iterator_tag			iterator_category;
-	typedef T&										reference;
-	typedef T*										pointer;
-	typedef std::ptrdiff_t							difference_type;
-	typedef random_access_iterator<T> 				iterator;
-	typedef T										value_type;
+	typedef std::random_access_iterator_tag					iterator_category;
+	typedef Pointer											pointer;
+	typedef Reference										reference;
+	typedef std::ptrdiff_t									difference_type;
+	typedef random_access_iterator<T, Pointer, Reference> 	iterator;
+	typedef T												value_type;
 
 public:
 	// X a; X b(a); b = a; ~X()

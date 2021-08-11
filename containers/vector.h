@@ -15,18 +15,18 @@ template < class T, class Alloc = std::allocator<T> >
 class vector {
 
 public:
-	typedef T										value_type;
-	typedef Alloc									allocator_type;
-	typedef T&										reference;
-	typedef const T&								const_reference;
-	typedef T*										pointer;
-	typedef const T*								const_pointer;
-	typedef random_access_iterator<T> 			iterator;
-	typedef const random_access_iterator<T> 	const_iterator;
-	typedef reverse_iterator<iterator>			reverse_iterator;
-	typedef const ft::reverse_iterator<iterator>	const_reverse_iterator;
-	typedef std::ptrdiff_t							difference_type;
-	typedef size_t									size_type;
+	typedef T															value_type;
+	typedef Alloc														allocator_type;
+	typedef T&															reference;
+	typedef const T&													const_reference;
+	typedef T*															pointer;
+	typedef const T*													const_pointer;
+	typedef random_access_iterator<T, pointer, reference> 				iterator;
+	typedef random_access_iterator<T, const_pointer, const_reference> 	const_iterator;
+	typedef reverse_iterator<const_iterator>							const_reverse_iterator;
+	typedef reverse_iterator<iterator>									reverse_iterator;
+	typedef std::ptrdiff_t												difference_type;
+	typedef size_t														size_type;
 
 //************************ Private attributes ************************
 
@@ -36,7 +36,7 @@ private:
 	allocator_type		 	_alloc;
 	pointer 				_array;
 
-//***************************************** Private helper functions *****************************************
+//************************ Private helper functions ************************
 
 private:
 	void reallocation(size_type n)
