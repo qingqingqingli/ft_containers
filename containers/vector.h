@@ -281,8 +281,13 @@ public:
 	// fill
 	void insert (iterator position, size_type n, const value_type& val) {
 		size_type pos = position - begin();
-		if (_size + n > _capacity)
-			reallocation(_size + n);
+		// double check reallocation
+		if (_size + n > _capacity) {
+			if (n > _size)
+				reallocation(_size + n);
+			else
+				reallocation(_size * 2);
+		}
 		_size += n;
 		for (size_type i = _size - 1; i > pos + n - 1; i--)
 			_array[i] = _array[i - n];
@@ -291,8 +296,24 @@ public:
 	}
 
 	// range
-//	template <class InputIterator>
-//	void insert (iterator position, InputIterator first, InputIterator last);
+	template <class InputIterator>
+	void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = 0)
+	{
+		size_type pos = position - begin();
+		size_type n = last - first;
+		// double check reallocation
+		if (_size + n > _capacity) {
+			if (n > _size)
+				reallocation(_size + n);
+			else
+				reallocation(_size * 2);
+		}
+		_size += n;
+		for (size_type i = _size - 1; i > pos + n - 1; i--)
+			_array[i] = _array[i - n];
+		for (size_type i = pos; i < n; i++)
+			_array[i] = *(first + i);
+	}
 
 	iterator erase (iterator position);
 
