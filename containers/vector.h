@@ -279,16 +279,16 @@ public:
 	}
 
 	// fill
-//	void insert (iterator position, size_type n, const value_type& val) {
-//		size_type pos = position - begin();
-//		if (_size + n > _capacity)
-//			reallocation(_size * 2);
-//		_size += n;
-//		for (size_type i = _size - 1; i > pos + n - 1; i--)
-//			_array[i] = _array[i - n];
-//		for (size_type i = pos; i < n; i++)
-//			_array[i] = val;
-//	}
+	void insert (iterator position, size_type n, const value_type& val) {
+		size_type pos = position - begin();
+		if (_size + n > _capacity)
+			reallocation(_size + n);
+		_size += n;
+		for (size_type i = _size - 1; i > pos + n - 1; i--)
+			_array[i] = _array[i - n];
+		for (size_type i = pos; i < n; i++)
+			_array[i] = val;
+	}
 
 	// range
 //	template <class InputIterator>
