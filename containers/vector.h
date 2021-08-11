@@ -122,9 +122,8 @@ public:
 	}
 
 //************************ Iterators ************************
-
 	iterator begin() { return iterator(&_array[0]); }
-	const_iterator begin() const { return const_iterator(&_array[0]); };
+	const_iterator begin() const { return const_iterator(&_array[0]); }
 
 	iterator end() { return iterator(&_array[_size]); }
 	const_iterator end() const { return const_iterator(&_array[_size]); }
@@ -217,8 +216,25 @@ public:
 //************************ Modifier  ************************
 
 	// range
-//	template <class InputIterator>
-//	void assign (InputIterator first, InputIterator last);
+	template <class InputIterator>
+	void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type* = 0) {
+		size_type n = last - first;
+		if (n <= _capacity)
+		{
+			_size = last - first;
+			for (size_type i = 0; i < _size; i++)
+				_array[i] = *(first + i);
+		}
+		else {
+			value_type *new_array = _alloc.allocate(n, &_array);
+			for (size_type i = 0; i < n; i++)
+				new_array[i] = *(first + i);
+			_alloc.deallocate(_array, _size);
+			_array = new_array;
+			_size = n;
+			_capacity = n;
+		}
+	}
 
 	// fill
 	void assign (size_type n, const value_type& val) {

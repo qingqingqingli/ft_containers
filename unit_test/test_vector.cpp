@@ -123,6 +123,100 @@ TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]")
 	}
 }
 
+//****************** iterator **************
+
+TEST_CASE("1. begin() ", "[vector][iterator]")
+{
+	std::vector<int> std_myvector;
+	for (int i=1; i<=5; i++) std_myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	SECTION("non-const") {
+		std::vector<int>::iterator std_begin = std_myvector.begin();
+		ft::vector<int>::iterator ft_begin = ft_myvector.begin();
+		REQUIRE(*std_begin == *ft_begin);
+		REQUIRE(*(std_begin + 1) == *(ft_begin + 1));
+		REQUIRE(*(std_begin + 2) == *(ft_begin + 2));
+		REQUIRE(*(std_begin + 3) == *(ft_begin + 3));
+		REQUIRE(*(std_begin + 4) == *(ft_begin + 4));
+	}
+
+	SECTION("const") {
+		//	std::vector<int>::const_iterator std_begin_const = std_myvector.begin();
+		// 	ft::vector<int>::const_iterator ft_begin_const = ft_myvector.begin();
+		//		REQUIRE(*std_begin_const == *ft_begin_const);
+	}
+}
+
+TEST_CASE("1. end() ", "[vector][iterator]")
+{
+	std::vector<int> std_myvector;
+	for (int i=1; i<=5; i++) std_myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	SECTION("non-const") {
+		std::vector<int>::iterator std_end = std_myvector.end();
+		ft::vector<int>::iterator ft_end = ft_myvector.end();
+		REQUIRE(*(std_end - 1) == *(ft_end - 1));
+		REQUIRE(*(std_end - 2) == *(ft_end - 2));
+		REQUIRE(*(std_end - 3) == *(ft_end - 3));
+		REQUIRE(*(std_end - 4) == *(ft_end - 4));
+	}
+
+	SECTION("const") {
+		//	std::vector<int>::const_iterator std_end_const = std_myvector.end();
+		// 	ft::vector<int>::const_iterator ft_end_const = ft_myvector.end();
+	}
+}
+
+TEST_CASE("1. rbegin() ", "[vector][iterator]")
+{
+	std::vector<int> std_myvector;
+	for (int i=1; i<=5; i++) std_myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	SECTION("non-const") {
+		std::vector<int>::reverse_iterator std_begin = std_myvector.rbegin();
+		ft::vector<int>::reverse_iterator ft_begin = ft_myvector.rbegin();
+		REQUIRE(*std_begin == *ft_begin);
+		REQUIRE(*(std_begin + 1) == *(ft_begin + 1));
+		REQUIRE(*(std_begin + 2) == *(ft_begin + 2));
+		REQUIRE(*(std_begin + 3) == *(ft_begin + 3));
+		REQUIRE(*(std_begin + 4) == *(ft_begin + 4));
+	}
+
+	SECTION("const") {
+
+	}
+}
+
+TEST_CASE("1. rend() ", "[vector][iterator]")
+{
+	std::vector<int> std_myvector;
+	for (int i=1; i<=5; i++) std_myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	SECTION("non-const") {
+		std::vector<int>::reverse_iterator std_end = std_myvector.rend();
+		ft::vector<int>::reverse_iterator ft_end = ft_myvector.rend();
+		REQUIRE(*(std_end - 1) == *(ft_end - 1));
+		REQUIRE(*(std_end - 2) == *(ft_end - 2));
+		REQUIRE(*(std_end - 3) == *(ft_end - 3));
+		REQUIRE(*(std_end - 4) == *(ft_end - 4));
+	}
+
+	SECTION("const") {
+	}
+}
+
 //****************** capacity **************
 
 TEST_CASE("2. size()", "[vector][capacity]")
@@ -391,6 +485,22 @@ TEST_CASE("3. back()", "[vector][element access]")
 
 TEST_CASE("4. assign()", "[vector][modifier]")
 {
+	SECTION("range")
+	{
+		std::vector<int> std_fill;
+		std_fill.assign(5, 888);
+		std::vector<int> std_range(1, 2);
+		std_range.assign(std_fill.begin(), std_fill.end());
+
+		ft::vector<int> ft_fill;
+		ft_fill.assign(5, 888);
+		ft::vector<int> ft_range(1, 2);
+		ft_range.assign(ft_fill.begin(), ft_fill.end());
+
+		for (unsigned i=0; i < std_fill.size(); i++)
+			REQUIRE(std_fill[i] == ft_fill[i]);
+	}
+
 	SECTION("fill")
 	{
 		std::vector<int> first;
