@@ -95,6 +95,13 @@ reverse_iterator& operator-= (difference_type n) {
 	return *this;
 }
 
+// a->
+pointer operator->() const {
+	iterator_type tmp = _current;
+	--tmp;
+	return &(*tmp);
+}
+
 // a[n]
 reference operator[] (difference_type n) const { return *(*this + n); }
 
@@ -147,7 +154,6 @@ typename reverse_iterator<Iterator>::difference_type operator- (
 				const reverse_iterator<Iterator>& lhs,
 				const reverse_iterator<Iterator>& rhs)
 				{ return rhs.base() - lhs.base(); }
-
 }
 
 #endif //FT_CONTAINERS_REVERSE_ITERATOR_H

@@ -23,7 +23,7 @@ public:
 	typedef random_access_iterator<T> 				iterator;
 	typedef const random_access_iterator<T> 		const_iterator;
 	typedef ft::reverse_iterator<iterator>			reverse_iterator;
-	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
+	typedef const ft::reverse_iterator<iterator>	const_reverse_iterator;
 	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
 
