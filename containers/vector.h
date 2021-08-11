@@ -123,16 +123,16 @@ public:
 
 //************************ Iterators ************************
 	iterator begin() { return iterator(&_array[0]); }
-	const_iterator begin() const { return const_iterator(&_array[0]); }
+//	const_iterator begin() const { return const_iterator(&_array[0]); }
 
 	iterator end() { return iterator(&_array[_size]); }
-	const_iterator end() const { return const_iterator(&_array[_size]); }
+//	const_iterator end() const { return const_iterator(&_array[_size]); }
 
 	reverse_iterator rbegin() { return reverse_iterator(end()); }
-	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+//	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
 	reverse_iterator rend() { return reverse_iterator(begin()); }
-	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+//	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 //************************ Capacity ************************
 
@@ -265,14 +265,34 @@ public:
 	}
 
 	// single element
-	iterator insert (iterator position, const value_type& val);
+	iterator insert (iterator position, const value_type& val)
+	{
+		size_type n = position - begin();
+		if (_size == _capacity)
+			reallocation(_size * 2);
+
+		_size += 1;
+		for (size_type i = _size - 1; i > n; i--)
+			_array[i] = _array[i - 1];
+		_array[n] = val;
+		return iterator(begin() + n);
+	}
 
 	// fill
-	void insert (iterator position, size_type n, const value_type& val);
+//	void insert (iterator position, size_type n, const value_type& val) {
+//		size_type pos = position - begin();
+//		if (_size + n > _capacity)
+//			reallocation(_size * 2);
+//		_size += n;
+//		for (size_type i = _size - 1; i > pos + n - 1; i--)
+//			_array[i] = _array[i - n];
+//		for (size_type i = pos; i < n; i++)
+//			_array[i] = val;
+//	}
 
 	// range
-	template <class InputIterator>
-	void insert (iterator position, InputIterator first, InputIterator last);
+//	template <class InputIterator>
+//	void insert (iterator position, InputIterator first, InputIterator last);
 
 	iterator erase (iterator position);
 
@@ -315,26 +335,30 @@ public:
 
 	// Relational operators
 	template <class T, class Alloc>
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{ return (lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin())); }
 
 	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (! (lhs == rhs)); }
+
+	// implement the compare function
+	template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
 
 	template <class T, class Alloc>
-	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return rhs < lhs; }
 
 	template <class T, class Alloc>
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs > rhs); }
 
 	template <class T, class Alloc>
-	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
-	template <class T, class Alloc>
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs < rhs); }
 
 	// swap function template
 	template <class T, class Alloc>
-	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) { x.swap(y); }
 }
 
 #endif //FT_CONTAINERS_VECTOR_H

@@ -488,17 +488,29 @@ TEST_CASE("4. assign()", "[vector][modifier]")
 	SECTION("range")
 	{
 		std::vector<int> std_fill;
-		std_fill.assign(5, 888);
-		std::vector<int> std_range(1, 2);
+		for (int i=1; i<=5; i++) std_fill.push_back(i);
+		std::vector<int> std_range;
 		std_range.assign(std_fill.begin(), std_fill.end());
 
 		ft::vector<int> ft_fill;
-		ft_fill.assign(5, 888);
-		ft::vector<int> ft_range(1, 2);
+		for (int i=1; i<=5; i++) ft_fill.push_back(i);
+		ft::vector<int> ft_range;
 		ft_range.assign(ft_fill.begin(), ft_fill.end());
 
 		for (unsigned i=0; i < std_fill.size(); i++)
 			REQUIRE(std_fill[i] == ft_fill[i]);
+
+		REQUIRE(ft_fill.size() == std_fill.size());
+		REQUIRE(ft_fill.capacity() == std_fill.capacity());
+
+		std_fill.assign(500, -888);
+		std_range.assign(std_fill.begin(), std_fill.end());
+
+		ft_fill.assign(500, -888);
+		ft_range.assign(ft_fill.begin(), ft_fill.end());
+
+		REQUIRE(ft_fill.size() == std_fill.size());
+		REQUIRE(ft_fill.capacity() == std_fill.capacity());
 	}
 
 	SECTION("fill")
@@ -506,18 +518,23 @@ TEST_CASE("4. assign()", "[vector][modifier]")
 		std::vector<int> first;
 		std::vector<int> second(39, 200);
 		first.assign (7,100);
-		second.assign (7,100);
+		second.assign (777,100);
 
 		ft::vector<int> ft_first;
 		ft::vector<int> ft_second(39, 200);
 		ft_first.assign (7,100);
-		ft_second.assign (7,100);
+		ft_second.assign (777,100);
 
 		for (unsigned i=0; i<first.size(); i++)
 		{
 			REQUIRE(first[i] == ft_first[i]);
 			REQUIRE(second[i] == ft_second[i]);
 		}
+
+		REQUIRE(ft_first.size() == first.size());
+		REQUIRE(ft_first.capacity() == first.capacity());
+		REQUIRE(ft_second.size() == second.size());
+		REQUIRE(ft_second.capacity() == second.capacity());
 	}
 
 }
@@ -563,7 +580,89 @@ TEST_CASE("4. pop_back()", "[vector][modifier]")
 
 TEST_CASE("4. insert()", "[vector][modifier]")
 {
-	// to add
+
+	std::vector<int> std_myvector;
+	for (int i=1; i<=5; i++) std_myvector.push_back(i);
+
+	ft::vector<int> ft_myvector;
+	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
+
+	std::vector<int>::iterator std_it = std_myvector.begin();
+	ft::vector<int>::iterator ft_it = ft_myvector.begin();
+
+	SECTION("single element")
+	{
+		std_it = std_myvector.insert ( std_it , 123 );
+		ft_it = ft_myvector.insert ( ft_it , 123 );
+
+		REQUIRE(*std_it == *ft_it);
+		REQUIRE(*(std_it + 1) == *(ft_it + 1));
+		REQUIRE(*(std_it + 2) == *(ft_it + 2));
+		REQUIRE(*(std_it + 3) == *(ft_it + 3));
+
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_it = std_myvector.begin();
+		ft_it = ft_myvector.begin();
+
+		std_it = std_myvector.insert ( std_it , -88 );
+		ft_it = ft_myvector.insert ( ft_it , -88 );
+
+		REQUIRE(*std_it == *ft_it);
+		REQUIRE(*(std_it + 1) == *(ft_it + 1));
+		REQUIRE(*(std_it + 2) == *(ft_it + 2));
+		REQUIRE(*(std_it + 3) == *(ft_it + 3));
+
+		std_it = std_myvector.insert ( std_it , 22 );
+		ft_it = ft_myvector.insert ( ft_it , 22 );
+		std_it = std_myvector.insert ( std_it , 678 );
+		ft_it = ft_myvector.insert ( ft_it , 678 );
+		std_it = std_myvector.insert ( std_it , 678 );
+		ft_it = ft_myvector.insert ( ft_it , 678 );
+		std_it = std_myvector.insert ( std_it , 56 );
+		ft_it = ft_myvector.insert ( ft_it , 56 );
+		std_it = std_myvector.insert ( std_it , 678 );
+		ft_it = ft_myvector.insert ( ft_it , 678 );
+		std_it = std_myvector.insert ( std_it , 678 );
+		ft_it = ft_myvector.insert ( ft_it , 678 );
+
+		REQUIRE(*std_it == *ft_it);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+	}
+
+//	SECTION("fill")
+//	{
+//		std_myvector.insert ( std_it , 3, 123 );
+//		ft_myvector.insert ( ft_it , 3, 123 );
+//
+//		std_it = std_myvector.begin();
+//		ft_it = ft_myvector.begin();
+//
+//		REQUIRE(*std_it == *ft_it);
+//		REQUIRE(*(std_it + 1) == *(ft_it + 1));
+//		REQUIRE(*(std_it + 2) == *(ft_it + 2));
+//		REQUIRE(*(std_it + 3) == *(ft_it + 3));
+//
+//		REQUIRE(std_myvector.size() == ft_myvector.size());
+//		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+//
+//		std_it = std_myvector.begin();
+//		ft_it = ft_myvector.begin();
+//
+//		std_myvector.insert ( std_it , 2000, 123 );
+//		ft_myvector.insert ( ft_it , 2000, 123 );
+//
+//		REQUIRE(*std_it == *ft_it);
+//		REQUIRE(*(std_it + 1) == *(ft_it + 1));
+//		REQUIRE(*(std_it + 2) == *(ft_it + 2));
+//		REQUIRE(*(std_it + 3) == *(ft_it + 3));
+//
+//		REQUIRE(std_myvector.size() == ft_myvector.size());
+//		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+//	}
+
 }
 
 TEST_CASE("4. erase()", "[vector][modifier]")
