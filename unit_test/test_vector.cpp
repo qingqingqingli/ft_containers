@@ -841,3 +841,54 @@ TEST_CASE("5. get_allocator()", "[vector][allocator]")
 
 	REQUIRE(ft_myvector.get_allocator() == myvector.get_allocator());
 }
+
+//****************** relational operators **************
+
+//TEST_CASE("6. relational operators", "[vector][relational]")
+//{
+//	ft::vector<int> ft_foo (3,100);
+//	ft::vector<int> ft_bar (2,200);
+//
+//	SECTION("a == b")
+//	{
+//		REQUIRE((ft_foo == ft_foo) == true);
+//		REQUIRE((ft_bar == ft_bar) == true);
+//	}
+//}
+
+
+//****************** swap **************
+
+TEST_CASE("7. non-member function swap()", "[vector][swap]")
+{
+	std::vector<int> std_foo (3,-100);
+	std::vector<int> std_bar (5,200);
+	std_foo.swap(std_bar);
+	std::vector<int>::iterator std_it_foo = std_foo.begin();
+	std::vector<int>::iterator std_it_bar = std_bar.begin();
+
+	ft::vector<int> ft_foo (3,-100);
+	ft::vector<int> ft_bar (5,200);
+	ft_foo.swap(ft_bar);
+	ft::vector<int>::iterator ft_it_foo = ft_foo.begin();
+	ft::vector<int>::iterator ft_it_bar = ft_bar.begin();
+
+	while(std_it_foo != std_foo.end())
+	{
+		REQUIRE(*std_it_foo == *ft_it_foo);
+		std_it_foo++;
+		ft_it_foo++;
+	}
+
+	while(std_it_bar != std_bar.end())
+	{
+		REQUIRE(*std_it_bar == *ft_it_bar);
+		std_it_bar++;
+		ft_it_bar++;
+	}
+
+	REQUIRE(std_foo.size() == ft_foo.size());
+	REQUIRE(std_foo.capacity() == ft_foo.capacity());
+	REQUIRE(std_bar.size() == ft_bar.size());
+	REQUIRE(std_bar.capacity() == ft_bar.capacity());
+}
