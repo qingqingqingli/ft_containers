@@ -5,6 +5,7 @@
 #ifndef FT_CONTAINERS_UTILS_H
 #define FT_CONTAINERS_UTILS_H
 #include "iterator_traits.h"
+#include "random_access_iterator.h"
 
 namespace ft {
 

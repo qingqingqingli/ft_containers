@@ -8,7 +8,7 @@
 
 namespace ft {
 
-template < class T, class Pointer, class Reference >
+template < typename T, typename Pointer, typename Reference >
 class random_access_iterator {
 
 public:
@@ -16,12 +16,14 @@ public:
 	typedef Pointer											pointer;
 	typedef Reference										reference;
 	typedef std::ptrdiff_t									difference_type;
-	typedef random_access_iterator<T, Pointer, Reference> 	iterator;
+	typedef random_access_iterator<T, Pointer, Reference>	iterator;
+	typedef random_access_iterator<T, const T*, const T&> 	if_const;
 	typedef T												value_type;
 
 public:
 	// X a; X b(a); b = a; ~X()
-	explicit random_access_iterator(pointer ptr = NULL) : _ptr(ptr) {}
+	random_access_iterator(): _ptr(NULL) {}
+	explicit random_access_iterator(pointer ptr) : _ptr(ptr) {}
 	random_access_iterator(const random_access_iterator& x) { *this = x; }
 	random_access_iterator& operator= (const random_access_iterator& x) {
 		if (this != &x)
@@ -29,6 +31,9 @@ public:
 		return *this;
 	}
 	~random_access_iterator() = default;
+
+	// const convert
+	operator if_const() const { return if_const(_ptr); }
 
 	// a==b; a!= b;
 	bool operator== (const iterator& rhs) const { return _ptr == rhs._ptr; }
@@ -73,7 +78,7 @@ public:
 	iterator& operator -= (int n) { _ptr -= n; return *this; }
 
 	// a[n]
-	reference operator[](const difference_type n) const {return _ptr[n];}
+	reference operator[](const difference_type n) const { return _ptr[n]; }
 
 protected:
 	pointer _ptr;

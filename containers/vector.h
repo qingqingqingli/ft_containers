@@ -15,18 +15,18 @@ template < class T, class Alloc = std::allocator<T> >
 class vector {
 
 public:
-	typedef T															value_type;
-	typedef Alloc														allocator_type;
-	typedef T&															reference;
-	typedef const T&													const_reference;
-	typedef T*															pointer;
-	typedef const T*													const_pointer;
-	typedef random_access_iterator<T, pointer, reference> 				iterator;
-	typedef random_access_iterator<T, const_pointer, const_reference> 	const_iterator;
-	typedef reverse_iterator<const_iterator>							const_reverse_iterator;
-	typedef reverse_iterator<iterator>									reverse_iterator;
-	typedef std::ptrdiff_t												difference_type;
-	typedef size_t														size_type;
+	typedef T											value_type;
+	typedef Alloc										allocator_type;
+	typedef T&											reference;
+	typedef const T&									const_reference;
+	typedef T*											pointer;
+	typedef const T*									const_pointer;
+	typedef random_access_iterator<T, T*, T&> 			iterator;
+	typedef random_access_iterator<T, const T*, const T&> 	const_iterator;
+	typedef reverse_iterator<const_iterator>		const_reverse_iterator;
+	typedef reverse_iterator<iterator>				reverse_iterator;
+	typedef std::ptrdiff_t							difference_type;
+	typedef size_t									size_type;
 
 //************************ Private attributes ************************
 
@@ -123,16 +123,16 @@ public:
 
 //************************ Iterators ************************
 	iterator begin() { return iterator(&_array[0]); }
-//	const_iterator begin() const { return const_iterator(&_array[0]); }
+	const_iterator begin() const { return const_iterator(&_array[0]); }
 
 	iterator end() { return iterator(&_array[_size]); }
-//	const_iterator end() const { return const_iterator(&_array[_size]); }
+	const_iterator end() const { return const_iterator(&_array[_size]); }
 
 	reverse_iterator rbegin() { return reverse_iterator(end()); }
-//	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
 	reverse_iterator rend() { return reverse_iterator(begin()); }
-//	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
+	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 //************************ Capacity ************************
 

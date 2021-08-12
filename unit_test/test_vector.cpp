@@ -134,6 +134,8 @@ TEST_CASE("1. begin() ", "[vector][iterator]")
 	ft::vector<int> ft_myvector;
 	for (int i=1; i<=5; i++) ft_myvector.push_back(i);
 
+	ft::vector<int> const vector(2, 3);
+
 	SECTION("non-const") {
 		std::vector<int>::iterator std_begin = std_myvector.begin();
 		ft::vector<int>::iterator ft_begin = ft_myvector.begin();
@@ -144,11 +146,11 @@ TEST_CASE("1. begin() ", "[vector][iterator]")
 		REQUIRE(*(std_begin + 4) == *(ft_begin + 4));
 	}
 
-//	SECTION("const") {
-//		std::vector<int>::const_iterator std_begin_const = std_myvector.begin();
-//		ft::vector<int>::const_iterator ft_begin_const = ft_myvector.begin();
-//		REQUIRE(*std_begin_const == *ft_begin_const);
-//	}
+	SECTION("const") {
+		std::vector<int>::const_iterator std_begin_const = std_myvector.begin();
+		ft::vector<int>::const_iterator ft_begin_const = ft_myvector.begin();
+		REQUIRE(*std_begin_const == *ft_begin_const);
+	}
 }
 
 TEST_CASE("1. end() ", "[vector][iterator]")
@@ -169,8 +171,13 @@ TEST_CASE("1. end() ", "[vector][iterator]")
 	}
 
 	SECTION("const") {
-		//	std::vector<int>::const_iterator std_end_const = std_myvector.end();
-		// 	ft::vector<int>::const_iterator ft_end_const = ft_myvector.end();
+		std::vector<int>::const_iterator std_end_const = std_myvector.end();
+		ft::vector<int>::const_iterator ft_end_const = ft_myvector.end();
+		REQUIRE(*(std_end_const - 1) == *(ft_end_const - 1));
+		REQUIRE(*(std_end_const - 2) == *(ft_end_const - 2));
+		REQUIRE(*(std_end_const - 3) == *(ft_end_const - 3));
+		REQUIRE(*(std_end_const - 4) == *(ft_end_const - 4));
+
 	}
 }
 
