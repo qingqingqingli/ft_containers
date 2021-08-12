@@ -10,7 +10,7 @@ set(SOURCES
         iterators/random_access_iterator.h
         iterators/iterator_traits.h
         iterators/reverse_iterator.h
-        iterators/iterator.h
+        iterators/utils.h
         unit_test/test_vector_iterator.cpp unit_test/test_reverse_vector_iterator.cpp iterators/type_traits.h)
 
 set(CMAKE_CXX_COMPILER clang++)

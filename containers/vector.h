@@ -315,9 +315,25 @@ public:
 			_array[i] = *(first + i);
 	}
 
-	iterator erase (iterator position);
+	// single
+	iterator erase (iterator position) {
+		size_type n = position - begin();
+		_size -= 1;
+		for (size_type i = n; i < _size; i++)
+			_array[i] = _array[i + 1];
+		return iterator(begin() + n);
+	}
 
-	iterator erase (iterator first, iterator last);
+	// range
+	iterator erase (iterator first, iterator last)
+	{
+		size_type pos = first - begin();
+		size_type n = last - first;
+		_size -= n;
+		for (size_type i = pos; i < _size; i++)
+			_array[i] = _array[i + n];
+		return iterator(begin() + pos);
+	}
 
 	void swap (vector& x) {
 
