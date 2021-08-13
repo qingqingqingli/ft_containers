@@ -8,6 +8,7 @@
 # include "../iterators/random_access_iterator.h"
 # include "../iterators/reverse_iterator.h"
 # include "../iterators/type_traits.h"
+# include "../iterators/utils.h"
 
 namespace ft {
 
@@ -213,7 +214,7 @@ public:
 		return const_back_ref;
 	}
 
-//************************ Modifier  ************************
+//************************ Modifier ************************
 
 	// range
 	template <class InputIterator>
@@ -381,7 +382,7 @@ public:
 	// implement the compare function
 	template <class T, class Alloc>
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template <class T, class Alloc>

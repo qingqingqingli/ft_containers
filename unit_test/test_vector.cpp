@@ -851,17 +851,23 @@ TEST_CASE("5. get_allocator()", "[vector][allocator]")
 
 //****************** relational operators **************
 
-//TEST_CASE("6. relational operators", "[vector][relational]")
-//{
-//	ft::vector<int> ft_foo (3,100);
-//	ft::vector<int> ft_bar (2,200);
-//
-//	SECTION("a == b")
-//	{
-//		REQUIRE((ft_foo == ft_foo) == true);
-//		REQUIRE((ft_bar == ft_bar) == true);
-//	}
-//}
+TEST_CASE("6. relational operators", "[vector][relational]")
+{
+	ft::vector<int> ft_foo (3,100);
+	ft::vector<int> ft_bar (2,200);
+
+	SECTION("a == b")
+	{
+		REQUIRE((ft_foo == ft_foo) == true);
+		REQUIRE((ft_bar == ft_bar) == true);
+	}
+
+	SECTION("a != b")
+	{
+		REQUIRE((ft_foo != ft_bar) == true);
+		REQUIRE((ft_bar != ft_foo) == true);
+	}
+}
 
 
 //****************** swap **************
