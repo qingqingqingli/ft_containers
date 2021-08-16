@@ -30,11 +30,11 @@ public:
 reverse_iterator() : _current() {}
 
 // initialization
-explicit reverse_iterator (iterator_type it) : _current(it) {}
+reverse_iterator (iterator_type it) : _current(it) {}
 
 // copy
 template <class Iter>
-explicit reverse_iterator (const reverse_iterator<Iter>& rev_it): _current(rev_it.base()) {}
+reverse_iterator (const reverse_iterator<Iter>& rev_it): _current(rev_it.base()) {}
 
 //***************** Member functions *****************
 

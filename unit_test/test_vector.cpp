@@ -177,7 +177,6 @@ TEST_CASE("1. end() ", "[vector][iterator]")
 		REQUIRE(*(std_end_const - 2) == *(ft_end_const - 2));
 		REQUIRE(*(std_end_const - 3) == *(ft_end_const - 3));
 		REQUIRE(*(std_end_const - 4) == *(ft_end_const - 4));
-
 	}
 }
 
@@ -200,7 +199,13 @@ TEST_CASE("1. rbegin() ", "[vector][iterator]")
 	}
 
 	SECTION("const") {
-
+		std::vector<int>::const_reverse_iterator std_begin_const = std_myvector.rbegin();
+		ft::vector<int>::const_reverse_iterator ft_begin_const = ft_myvector.rbegin();
+		REQUIRE(*std_begin_const == *ft_begin_const);
+		REQUIRE(*(std_begin_const + 1) == *(ft_begin_const + 1));
+		REQUIRE(*(std_begin_const + 2) == *(ft_begin_const + 2));
+		REQUIRE(*(std_begin_const + 3) == *(ft_begin_const + 3));
+		REQUIRE(*(std_begin_const + 4) == *(ft_begin_const + 4));
 	}
 }
 
@@ -222,6 +227,13 @@ TEST_CASE("1. rend() ", "[vector][iterator]")
 	}
 
 	SECTION("const") {
+		std::vector<int>::const_reverse_iterator std_end_const = std_myvector.rend();
+		ft::vector<int>::const_reverse_iterator ft_end_const = ft_myvector.rend();
+		REQUIRE(*(std_end_const - 1) == *(ft_end_const - 1));
+		REQUIRE(*(std_end_const - 2) == *(ft_end_const - 2));
+		REQUIRE(*(std_end_const - 3) == *(ft_end_const - 3));
+		REQUIRE(*(std_end_const - 4) == *(ft_end_const - 4));
+
 	}
 }
 
@@ -853,8 +865,8 @@ TEST_CASE("5. get_allocator()", "[vector][allocator]")
 
 TEST_CASE("6. relational operators", "[vector][relational]")
 {
-	ft::vector<int> ft_foo (3,100);
-	ft::vector<int> ft_bar (2,200);
+	ft::vector<int> ft_foo (2,200);
+	ft::vector<int> ft_bar (3,200);
 
 	SECTION("a == b")
 	{
@@ -867,8 +879,19 @@ TEST_CASE("6. relational operators", "[vector][relational]")
 		REQUIRE((ft_foo != ft_bar) == true);
 		REQUIRE((ft_bar != ft_foo) == true);
 	}
-}
 
+	SECTION("a < b && a <= b")
+	{
+		REQUIRE((ft_foo < ft_bar) == true);
+		REQUIRE((ft_foo <= ft_bar) == true);
+	}
+
+	SECTION("a > b && a >= b")
+	{
+		REQUIRE((ft_bar > ft_foo) == true);
+		REQUIRE((ft_bar >= ft_foo) == true);
+	}
+}
 
 //****************** swap **************
 

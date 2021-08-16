@@ -43,5 +43,8 @@
 ### General learnings
 - There is a difference between the return type being const and returning actual const pointer/ref. When I define the typedef, I am specifying the type of term (such as `const_pointer`). However, I still need to make sure in the function, I am returning an actual const pointer.
 
+### explicit keyword
+- Prefixing the explicit keyword to the constructor prevents the compiler from using that constructor for implicit conversions.
+
 ### resources
 - [const correctness](https://www.cprogramming.com/tutorial/const_correctness.html)
