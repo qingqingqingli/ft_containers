@@ -813,10 +813,12 @@ TEST_CASE("5. get_allocator()", "[vector][allocator]")
 TEST_CASE("6. relational operators", "[vector][relational]")
 {
 	ft::vector<int> ft_foo (2,200);
-	ft::vector<int> ft_bar (3,200);
+	ft::vector<int> ft_foo_2 (2,200);
+	ft::vector<int> ft_bar (300,200);
 
 	SECTION("a == b")
 	{
+		REQUIRE((ft_foo == ft_foo_2) == true);
 		REQUIRE((ft_foo == ft_foo) == true);
 		REQUIRE((ft_bar == ft_bar) == true);
 	}
