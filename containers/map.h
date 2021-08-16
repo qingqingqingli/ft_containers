@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_MAP_H
 #include <memory>
 #include "../iterators/value_compare.h"
+#include "../iterators/pair.h"
 
 namespace ft {
 
@@ -15,9 +16,10 @@ class map {
 public:
 	typedef Key										key_type;
 	typedef T										mapped_type;
-	typedef std::pair<const key_type, mapped_type>	value_type;
+	typedef pair<const key_type, mapped_type>		value_type;
 	typedef Compare									key_compare;
-	typedef ft::value_compare<Key,T,Compare,Alloc>	value_compare; // Nested function class to compare elements
+	// Nested function class to compare elements
+	typedef value_compare<Key,T,Compare,Alloc>	value_compare;
 	typedef Alloc									allocator_type;
 	typedef allocator_type::reference				reference;
 	typedef allocator_type::const_reference			const_reference;
