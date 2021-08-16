@@ -369,7 +369,7 @@ public:
 	}
 };
 
-//************************************** Non-member function overloads **************************************
+//*************** Non-member function overloads ***************
 
 	// Relational operators
 	template <class T, class Alloc>

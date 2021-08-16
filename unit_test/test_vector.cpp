@@ -3,59 +3,6 @@
 //
 #include "catch2/catch.hpp"
 #include "../containers/vector.h"
-#include "../iterators/utils.h"
-
-//****************** coplien form **************
-
-//TEST_CASE("0. default constructor", "[vector][coplien form]")
-//{
-//	SECTION("empty vector")
-//	{
-//		std::vector<char> std_first;
-//		ft::vector<int> ft_first;
-//
-//		REQUIRE(ft_first.size() == std_first.size());
-//		REQUIRE(ft_first.capacity() == std_first.capacity());
-//	}
-//
-//	SECTION("vector with size and val")
-//	{
-//		std::vector<int> std_first(99);
-//		ft::vector<int> ft_first(99);
-//		std::vector<char> std_second(123);
-//		ft::vector<char> ft_second(123);
-//		std::vector<int> std_third(9000, 99);
-//		ft::vector<int> ft_third(9000, 99);
-//		std::vector<float> std_fourth(45);
-//		ft::vector<float> ft_fourth(45);
-//
-//		REQUIRE(ft_first.size() == std_first.size());
-//		REQUIRE(ft_first.capacity() == std_first.capacity());
-//		REQUIRE(ft_second.size() == std_second.size());
-//		REQUIRE(ft_second.capacity() == std_second.capacity());
-//		REQUIRE(ft_third.size() == std_third.size());
-//		REQUIRE(ft_third.capacity() == std_third.capacity());
-//		REQUIRE(ft_fourth.size() == std_fourth.size());
-//		REQUIRE(ft_fourth.capacity() == std_fourth.capacity());
-//	}
-//
-//	SECTION("vector with InputIterator")
-//	{
-//		std::vector<int> std_first(14, 100);
-//		std::vector<int> std_second(std_first.begin(), std_first.end());
-//
-//		ft::vector<int> ft_first(14, 100);
-//		ft::vector<int> ft_second(ft_first.begin(), ft_first.end());
-//
-//		for (unsigned i = 0; i < std_second.size(); i++)
-//			REQUIRE(std_second[i] == ft_second[i]);
-//
-//		REQUIRE(std_second.size() == ft_second.size());
-//		REQUIRE(std_second.capacity() == ft_second.capacity());
-//
-//	}
-//
-//}
 
 TEST_CASE("0. copy & assignation constructor", "[vector][coplien form]")
 {
