@@ -5,6 +5,7 @@
 #ifndef FT_CONTAINERS_VECTOR_H
 # define FT_CONTAINERS_VECTOR_H
 # include <iostream>
+# include <sstream>
 # include "../iterators/random_access_iterator.h"
 # include "../iterators/reverse_iterator.h"
 # include "../iterators/type_traits.h"

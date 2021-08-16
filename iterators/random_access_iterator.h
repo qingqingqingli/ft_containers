@@ -30,7 +30,7 @@ public:
 			_ptr = x._ptr;
 		return *this;
 	}
-	~random_access_iterator() = default;
+	~random_access_iterator(){}
 
 	// const convert
 	operator if_const() const { return if_const(_ptr); }
