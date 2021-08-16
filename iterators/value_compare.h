@@ -12,7 +12,7 @@ template <class Key, class T, class Compare, class Alloc>
 class map<Key,T,Compare,Alloc>::value_compare
 {
 	// in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-	friend class ft::map;
+	friend class map<Key, T, Compare, Alloc>;
 
 protected:
 	Compare comp;
