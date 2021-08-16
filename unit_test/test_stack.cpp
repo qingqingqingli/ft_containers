@@ -121,3 +121,35 @@ TEST_CASE("5. pop() - stack", "[stack]")
 	REQUIRE(mystack_std.size() == mystack_ft.size());
 }
 
+TEST_CASE("6. relational operators - stack", "[stack]")
+{
+
+	ft::stack<int, ft::vector<int>> mystack_ft;
+	for (int i=1;i<=10;i++) mystack_ft.push(i);
+
+	ft::stack<int, ft::vector<int>> mystack_ft_2;
+	for (int i=1;i<=10;i++) mystack_ft_2.push(i);
+	SECTION("a == b")
+	{
+		REQUIRE((mystack_ft == mystack_ft_2) == true);
+	}
+	SECTION("a != b")
+	{
+		mystack_ft_2.pop();
+		REQUIRE((mystack_ft != mystack_ft_2) == true);
+	}
+	SECTION("a < b && a <= b")
+	{
+		mystack_ft_2.push(11);
+		REQUIRE((mystack_ft < mystack_ft_2) == true);
+		REQUIRE((mystack_ft <= mystack_ft_2) == true);
+	}
+	SECTION("a > b && a >= b")
+	{
+		mystack_ft_2.push(11);
+		REQUIRE((mystack_ft_2 > mystack_ft) == true);
+		REQUIRE((mystack_ft_2 >= mystack_ft) == true);
+	}
+}
+
+
