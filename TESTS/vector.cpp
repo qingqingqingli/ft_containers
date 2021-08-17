@@ -3,7 +3,7 @@
 //
 #include <iostream>
 
-#if 1 //CREATE A REAL STL EXAMPLE
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -12,6 +12,14 @@ namespace ft = std;
 #else
 	#include "../containers/vector.h"
 #endif
+
+void print_vector(ft::vector<int> vector)
+{
+	std::cout << "Vector content: ";
+	for (unsigned int i=0; i<vector.size(); i++)
+		std::cout << vector[i] << " ";
+	std::cout << std::endl;
+}
 
 void test_coplien_form() {
 
@@ -114,10 +122,7 @@ void test_element_access() {
 	ft::vector<int> vector;
 	for (int i=0; i<=10; i++) vector.push_back(i);
 
-	std::cout << "Vector content: ";
-	for (int i=0; i<=10; i++)
-		std::cout << vector[i] << " ";
-	std::cout << std::endl;
+	print_vector(vector);
 
 	std::cout << "Vector content: ";
 	for (int i=0; i<=10; i++)
@@ -129,14 +134,11 @@ void test_element_access() {
 
 }
 
-//std::cout << std::endl << "***VECTOR - CAPACITY***" << std::endl;
-//
-//ft::vector<int> vector;
-//for (int i=0; i<=10; i++) vector.push_back(i);
-
 void test_modifier() {
 
 	std::cout << std::endl << "***VECTOR - MODIFIER***" << std::endl;
+
+	//******** push_back() ********
 
 	ft::vector<int> vector;
 	for (int i=0; i<=9; i++) vector.push_back(i);
@@ -144,41 +146,62 @@ void test_modifier() {
 	ft::vector<int> new_vector;
 	new_vector.assign(vector.begin(), vector.end());
 
-	std::cout << "Vector content: ";
-	for (int i=0; i<=9; i++)
-		std::cout << vector[i] << " ";
-	std::cout << std::endl;
-
-	std::cout << "Vector content: ";
-	for (int i=0; i<=9; i++)
-		std::cout << new_vector[i] << " ";
-	std::cout << std::endl;
+	print_vector(vector);
+	print_vector(new_vector);
 
 	std::cout << "vector size: " << new_vector.size() << std::endl;
 	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
 
+	//******** assign() ********
 	ft::vector<int> new_vector_2;
 	new_vector_2.assign(10, 10);
 
-	std::cout << "Vector content: ";
-	for (unsigned int i=0; i<new_vector_2.size(); i++)
-		std::cout << new_vector_2[i] << " ";
-	std::cout << std::endl;
+	print_vector(new_vector_2);
 
 	std::cout << "vector size: " << new_vector_2.size() << std::endl;
 	std::cout << "vector capacity: " << new_vector_2.capacity() << std::endl;
 
+	//******** pop_back() ********
 	new_vector.pop_back();
 	new_vector.pop_back();
 
-	std::cout << "Vector content: ";
-	for (unsigned int i=0; i<new_vector.size(); i++)
-		std::cout << new_vector[i] << " ";
-	std::cout << std::endl;
+	print_vector(new_vector);
 
 	std::cout << "vector size: " << new_vector.size() << std::endl;
 	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
 
+	//******** insert() ********
+
+	ft::vector<int>::iterator begin = new_vector.begin();
+	new_vector.insert(begin + 3, -222);
+
+	print_vector(new_vector);
+
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+
+	ft::vector<int>::iterator begin_new = new_vector.begin();
+	new_vector.insert(begin_new + 3, 3, -222);
+
+	print_vector(new_vector);
+
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+
+	ft::vector<int>::iterator begin_new_2 = new_vector.begin();
+
+	ft::vector<int>::iterator begin_2 = new_vector_2.begin();
+	ft::vector<int>::iterator end_2 = new_vector_2.end();
+	new_vector.insert(begin_new_2, begin_2, end_2);
+
+	print_vector(new_vector);
+
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+
+	//******** erase() ********
+	//******** swap() ********
+	//******** clear() ********
 
 }
 
