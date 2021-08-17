@@ -52,8 +52,8 @@ TEST_CASE("1. empty() - stack", "[stack]")
 
 TEST_CASE("2. size() - stack", "[stack]")
 {
-	std::stack<int, std::vector<int>> mystack_std;
-	ft::stack<int, ft::vector<int>> mystack_ft;
+	std::stack<int, std::vector<int> > mystack_std;
+	ft::stack<int, ft::vector<int> > mystack_ft;
 
 	REQUIRE(mystack_std.size() == mystack_ft.size());
 
@@ -70,14 +70,14 @@ TEST_CASE("2. size() - stack", "[stack]")
 
 TEST_CASE("3. top() - stack", "[stack]")
 {
-	std::stack<int, std::vector<int>> mystack_std;
+	std::stack<int, std::vector<int> > mystack_std;
 
 	mystack_std.push(10);
 	mystack_std.push(20);
 	mystack_std.push(30);
 	mystack_std.top() -= 5;
 
-	ft::stack<int, ft::vector<int>> mystack_ft;
+	ft::stack<int, ft::vector<int> > mystack_ft;
 
 	mystack_ft.push(10);
 	mystack_ft.push(20);
@@ -89,10 +89,10 @@ TEST_CASE("3. top() - stack", "[stack]")
 
 TEST_CASE("4. push() - stack", "[stack]")
 {
-	std::stack<int, std::vector<int>> mystack_std;
+	std::stack<int, std::vector<int> > mystack_std;
 	for (int i=1;i<=10;i++) mystack_std.push(i);
 
-	ft::stack<int, ft::vector<int>> mystack_ft;
+	ft::stack<int, ft::vector<int> > mystack_ft;
 	for (int i=1;i<=10;i++) mystack_ft.push(i);
 
 	while (!mystack_ft.empty())
@@ -106,10 +106,10 @@ TEST_CASE("4. push() - stack", "[stack]")
 
 TEST_CASE("5. pop() - stack", "[stack]")
 {
-	std::stack<int, std::vector<int>> mystack_std;
+	std::stack<int, std::vector<int> > mystack_std;
 	for (int i=1;i<=10;i++) mystack_std.push(i);
 
-	ft::stack<int, ft::vector<int>> mystack_ft;
+	ft::stack<int, ft::vector<int> > mystack_ft;
 	for (int i=1;i<=10;i++) mystack_ft.push(i);
 
 	while (!mystack_ft.empty())
@@ -124,10 +124,10 @@ TEST_CASE("5. pop() - stack", "[stack]")
 TEST_CASE("6. relational operators - stack", "[stack]")
 {
 
-	ft::stack<int, ft::vector<int>> mystack_ft;
+	ft::stack<int, ft::vector<int> > mystack_ft;
 	for (int i=1;i<=10;i++) mystack_ft.push(i);
 
-	ft::stack<int, ft::vector<int>> mystack_ft_2;
+	ft::stack<int, ft::vector<int> > mystack_ft_2;
 	for (int i=1;i<=10;i++) mystack_ft_2.push(i);
 	SECTION("a == b")
 	{

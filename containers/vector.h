@@ -357,7 +357,7 @@ public:
 
 	void clear()
 	{
-		_alloc.destroy(&_array);
+		_alloc.destroy(_array);
 		_size = 0;
 	}
 

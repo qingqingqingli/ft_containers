@@ -3,12 +3,9 @@
 //
 #include <iostream>
 
-#if 0 //CREATE A REAL STL EXAMPLE
-	#include <map>
-	#include <stack>
+#if 1
 	#include <vector>
-
-namespace ft = std;
+	namespace ft = std;
 #else
 	#include "../containers/vector.h"
 #endif
@@ -195,14 +192,69 @@ void test_modifier() {
 	new_vector.insert(begin_new_2, begin_2, end_2);
 
 	print_vector(new_vector);
-
 	std::cout << "vector size: " << new_vector.size() << std::endl;
 	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
 
 	//******** erase() ********
+	ft::vector<int>::iterator begin_new_3 = new_vector.begin();
+
+	begin_new_3 = new_vector.erase(begin_new_3);
+	print_vector(new_vector);
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+
+	new_vector.erase(begin_new_3, begin_new_3 + 3);
+	print_vector(new_vector);
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+
 	//******** swap() ********
+
+	ft::vector<int> ft_foo (3,100);
+	ft::vector<int> ft_bar (5,200);
+
+	print_vector(ft_foo);
+	print_vector(ft_bar);
+	ft_foo.swap(ft_bar);
+	print_vector(ft_foo);
+	print_vector(ft_bar);
+
 	//******** clear() ********
 
+	new_vector.clear();
+	print_vector(new_vector);
+	std::cout << "vector size: " << new_vector.size() << std::endl;
+	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
+}
+
+void test_relational_operators() {
+	ft::vector<int> foo (2,200);
+	ft::vector<int> foo_same (2,200);
+	ft::vector<int> foo_bigger (3,200);
+
+	if (foo == foo_same)
+		std::cout << "foo == foo_same" << std::endl;
+	if (foo != foo_bigger)
+		std::cout << "foo != foo_bigger" << std::endl;
+	if (foo < foo_bigger)
+		std::cout << "foo < foo_bigger" << std::endl;
+	if (foo <= foo_bigger)
+		std::cout << "foo <= foo_bigger" << std::endl;
+	if (foo_bigger > foo)
+		std::cout << "foo_bigger > foo" << std::endl;
+	if (foo_bigger >= foo)
+		std::cout << "foo_bigger >= foo" << std::endl;
+}
+
+void test_non_member_swap() {
+
+	ft::vector<int> foo (3,-100);
+	ft::vector<int> bar (5,200);
+	print_vector(foo);
+	print_vector(bar);
+	foo.swap(bar);
+	print_vector(foo);
+	print_vector(bar);
 }
 
 int main(void)
@@ -212,9 +264,8 @@ int main(void)
 	test_capacity();
 	test_element_access();
 	test_modifier();
-//	test_allocator();
-//	test_relational_operators();
-//	test_non_member_swap();
+	test_relational_operators();
+	test_non_member_swap();
 
 	return (0);
 }
