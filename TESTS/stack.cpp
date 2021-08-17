@@ -3,7 +3,7 @@
 //
 #include <iostream>
 
-#if 1
+#if STD_OPTION
 	#include <stack>
 	#include <vector>
 	namespace ft = std;
