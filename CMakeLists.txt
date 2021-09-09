@@ -20,7 +20,7 @@ set(SOURCES
 #        iterators/value_compare.h
         utils/pair.h
         utils/make_pair.h
-        unit_test/test_map.cpp)
+        unit_test/test_map.cpp utils/BSTNode.h)
 
 set(CMAKE_CXX_COMPILER clang++)
 

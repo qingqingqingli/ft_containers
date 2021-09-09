@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_MAP_H
 #include <memory>
 #include "../utils/pair.h"
+#include "../utils/BSTNode.h"
 
 namespace ft {
 
@@ -34,7 +35,9 @@ public:
 
 //************************ Private attributes ************************
 
+private:
 // actual tree structure
+	BSTNode<Key, T> *root;
 
 //************************ value_compare ************************
 
@@ -92,9 +95,18 @@ map& operator= (const map& x);
 
 //************************ Capacity ************************
 
-bool empty() const;
+bool empty() const
+{
+	return root == NULL;
+}
 
-size_type size() const;
+size_type size() const
+{
+	if (root)
+		return 1 + size(root->left) + size(root->right);
+	else
+		return 0;
+}
 
 size_type max_size() const;
 
