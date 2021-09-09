@@ -63,9 +63,9 @@ public:
 //************************ Coplien form ************************
 
 // empty
+// not sure if an allocation is needed in constructor
 explicit map (const key_compare& comp = key_compare(),
-			  const allocator_type& alloc = allocator_type()) : _root(new BSTNode<Key, T>), _compare(comp), _alloc(alloc) {
-}
+			  const allocator_type& alloc = allocator_type()) : _root(NULL), _compare(comp), _alloc(alloc) {}
 
 //range
 //template <class InputIterator>
@@ -111,25 +111,13 @@ map& operator= (const map& x) {
 
 //************************ Capacity ************************
 
-bool empty() const
-{
+bool empty() const {
 	return _root == NULL;
 }
 
-static size_type tree_size(BSTNode<Key, T> *tree)
-{
-	if (tree)
-		return 1 + tree_size(tree->left) + tree_size(tree->right);
-	else
-		return 0;
-}
+size_type size() const { return tree_size(_root); }
 
-size_type size() const
-{
-	return tree_size(_root);
-}
-
-size_type max_size() const;
+size_type max_size() const { return _alloc.max_size(); }
 
 //************************ Element access ************************
 
@@ -178,7 +166,18 @@ size_type count (const key_type& k) const;
 
 
 //************************ get_allocator ************************
-allocator_type get_allocator() const;
+allocator_type get_allocator() const { return _alloc; }
+
+//************************ private helpers ************************
+
+size_type tree_size(BSTNode<Key, T> *tree) const
+{
+	if (tree)
+		return 1 + tree_size(tree->left) + tree_size(tree->right);
+	else
+		return 0;
+}
+
 };
 
 //*************** Non-member function overloads ***************
