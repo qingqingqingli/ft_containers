@@ -10,16 +10,17 @@ set(SOURCES
         iterators/random_access_iterator.h
         iterators/iterator_traits.h
         iterators/reverse_iterator.h
-        iterators/utils.h
+        utils/utils.h
         unit_test/test_vector_iterator.cpp
         unit_test/test_reverse_vector_iterator.cpp
-        iterators/type_traits.h
+        utils/type_traits.h
         containers/stack.h
         unit_test/test_stack.cpp
         containers/map.h
-        iterators/value_compare.h
-        iterators/pair.h
-        iterators/make_pair.h)
+#        iterators/value_compare.h
+        utils/pair.h
+        utils/make_pair.h
+        unit_test/test_map.cpp)
 
 set(CMAKE_CXX_COMPILER clang++)
 

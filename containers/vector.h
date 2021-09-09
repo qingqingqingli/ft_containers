@@ -8,8 +8,8 @@
 # include <sstream>
 # include "../iterators/random_access_iterator.h"
 # include "../iterators/reverse_iterator.h"
-# include "../iterators/type_traits.h"
-# include "../iterators/utils.h"
+# include "../utils/type_traits.h"
+# include "../utils/utils.h"
 
 namespace ft {
 

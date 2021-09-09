@@ -5,34 +5,54 @@
 #ifndef FT_CONTAINERS_MAP_H
 #define FT_CONTAINERS_MAP_H
 #include <memory>
-#include "../iterators/value_compare.h"
-#include "../iterators/pair.h"
+#include "../utils/pair.h"
 
 namespace ft {
 
-template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
+template < 	class Key,
+			class T,
+			class Compare = std::less<Key>,
+			class Alloc = std::allocator<pair<const Key,T> > >
 class map {
 
 public:
-	typedef Key										key_type;
-	typedef T										mapped_type;
-	typedef pair<const key_type, mapped_type>		value_type;
-	typedef Compare									key_compare;
-	// Nested function class to compare elements
-	typedef value_compare<Key,T,Compare,Alloc>	value_compare;
-	typedef Alloc									allocator_type;
-	typedef allocator_type::reference				reference;
-	typedef allocator_type::const_reference			const_reference;
-	typedef allocator_type::pointer					pointer;
-	typedef allocator_type::const_pointer			const_pointer;
-	typedef directional_iterator<value_type>		iterator;
-	typedef directional_iterator<const value_type>	const_iterator;
-	typedef reverse_iterator<iterator>				reverse_iterator;
-	typedef reverse_iterator<const_iterator>		const_reverse_iterator;
+	typedef Key											key_type;
+	typedef T											mapped_type;
+	typedef ft::pair<const key_type, mapped_type>		value_type;
+	typedef Compare										key_compare;
+	typedef Alloc										allocator_type;
+	typedef typename allocator_type::reference			reference;
+	typedef typename allocator_type::const_reference	const_reference;
+	typedef typename allocator_type::pointer			pointer;
+	typedef typename allocator_type::const_pointer		const_pointer;
+//	typedef directional_iterator<value_type>		iterator;
+//	typedef directional_iterator<const value_type>	const_iterator;
+//	typedef reverse_iterator<iterator>				reverse_iterator;
+//	typedef reverse_iterator<const_iterator>		const_reverse_iterator;
 	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
 
 //************************ Private attributes ************************
+
+// actual tree structure
+
+//************************ value_compare ************************
+
+public:
+	class value_compare
+	{
+		friend class map;
+
+	protected:
+		Compare comp;
+		value_compare (Compare c) : comp(c) {}
+
+	public:
+		bool operator() (const value_type& x, const value_type& y) const
+		{
+			return comp(x.first, y.first);
+		}
+	};
 
 public:
 //************************ Coplien form ************************
@@ -58,17 +78,17 @@ map& operator= (const map& x);
 
 //************************ Iterators ************************
 
-iterator begin();
-const_iterator begin() const;
-
-iterator end();
-const_iterator end() const;
-
-reverse_iterator rbegin();
-const_reverse_iterator rbegin() const;
-
-everse_iterator rend();
-const_reverse_iterator rend() const;
+//iterator begin();
+//const_iterator begin() const;
+//
+//iterator end();
+//const_iterator end() const;
+//
+//reverse_iterator rbegin();
+//const_reverse_iterator rbegin() const;
+//
+//everse_iterator rend();
+//const_reverse_iterator rend() const;
 
 //************************ Capacity ************************
 
@@ -85,19 +105,19 @@ mapped_type& operator[] (const key_type& k);
 //************************ Modifier ************************
 
 // single element
-pair<iterator,bool> insert (const value_type& val);
+//pair<iterator,bool> insert (const value_type& val);
 
 // with hint
-iterator insert (iterator position, const value_type& val);
+//iterator insert (iterator position, const value_type& val);
 
 // range
-template <class InputIterator>
-void insert (InputIterator first, InputIterator last);
+//template <class InputIterator>
+//void insert (InputIterator first, InputIterator last);
 
 // erase
-void erase (iterator position);
+//void erase (iterator position);
 size_type erase (const key_type& k);
-void erase (iterator first, iterator last);
+//void erase (iterator first, iterator last);
 
 void swap (map& x);
 
@@ -106,22 +126,22 @@ void clear();
 //************************ Observers ************************
 key_compare key_comp() const;
 
-value_compare value_comp() const;
+//value_compare value_comp() const;
 
 //************************ Operations ************************
-iterator find (const key_type& k);
-const_iterator find (const key_type& k) const;
+//iterator find (const key_type& k);
+//const_iterator find (const key_type& k) const;
 
 size_type count (const key_type& k) const;
 
-iterator lower_bound (const key_type& k);
-const_iterator lower_bound (const key_type& k) const;
-
-iterator upper_bound (const key_type& k);
-const_iterator upper_bound (const key_type& k) const;
-
-pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-pair<iterator,iterator>             equal_range (const key_type& k);
+//iterator lower_bound (const key_type& k);
+//const_iterator lower_bound (const key_type& k) const;
+//
+//iterator upper_bound (const key_type& k);
+//const_iterator upper_bound (const key_type& k) const;
+//
+//pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+//pair<iterator,iterator>             equal_range (const key_type& k);
 
 
 //************************ get_allocator ************************
@@ -156,8 +176,6 @@ bool operator>= ( const map<Key,T,Compare,Alloc>& lhs,
 
 template <class Key, class T, class Compare, class Alloc>
 void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y);
-
 }
-
 
 #endif //FT_CONTAINERS_MAP_H

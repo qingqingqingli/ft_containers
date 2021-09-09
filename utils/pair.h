@@ -33,8 +33,9 @@ struct pair {
 		second = pr.second;
 		return *this;
 	}
-
 };
+
+// add make_pair
 
 template <class T1, class T2>
 bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
@@ -42,12 +43,12 @@ bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 
 template <class T1, class T2>
 bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return !(lhs == rhs)}
+{ return !(lhs == rhs); }
 
 template <class T1, class T2>
 bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 { return lhs.first < rhs.first ||
-(!(rhs.second < lhs.first) && lhs.second < rhs.second)}
+(!(rhs.second < lhs.first) && lhs.second < rhs.second); }
 
 template <class T1, class T2>
 bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
