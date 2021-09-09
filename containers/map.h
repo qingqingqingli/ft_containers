@@ -37,7 +37,9 @@ public:
 
 private:
 // actual tree structure
-	BSTNode<Key, T> *root;
+	BSTNode<Key, T> 	*_root;
+	key_compare			_compare;
+	allocator_type		_alloc;
 
 //************************ value_compare ************************
 
@@ -48,7 +50,7 @@ public:
 
 	protected:
 		Compare comp;
-		value_compare (Compare c) : comp(c) {}
+		value_compare(Compare c) : comp(c) {}
 
 	public:
 		bool operator() (const value_type& x, const value_type& y) const
@@ -62,22 +64,36 @@ public:
 
 // empty
 explicit map (const key_compare& comp = key_compare(),
-			  const allocator_type& alloc = allocator_type());
+			  const allocator_type& alloc = allocator_type()) : _root(new BSTNode<Key, T>), _compare(comp), _alloc(alloc) {
+}
 
 //range
-template <class InputIterator>
-map (InputIterator first, InputIterator last,
-	const key_compare& comp = key_compare(),
-	const allocator_type& alloc = allocator_type());
+//template <class InputIterator>
+//map (InputIterator first, InputIterator last,
+//	const key_compare& comp = key_compare(),
+//	const allocator_type& alloc = allocator_type());
 
 // copy
-map (const map& x);
+map (const map& x) { *this = x; }
 
 // destructor
-~map();
+~map()
+{
+	// potentially need to remove all nodes in the tree
+	delete _root;
+}
 
 // assignation operator
-map& operator= (const map& x);
+map& operator= (const map& x) {
+	if (this != &x)
+	{
+		// potentially need to change to deep copy
+		_root = x._root;
+		_compare = x._compare;
+		_alloc = x._alloc;
+	}
+	return *this;
+}
 
 //************************ Iterators ************************
 
@@ -97,15 +113,20 @@ map& operator= (const map& x);
 
 bool empty() const
 {
-	return root == NULL;
+	return _root == NULL;
+}
+
+static size_type tree_size(BSTNode<Key, T> *tree)
+{
+	if (tree)
+		return 1 + tree_size(tree->left) + tree_size(tree->right);
+	else
+		return 0;
 }
 
 size_type size() const
 {
-	if (root)
-		return 1 + size(root->left) + size(root->right);
-	else
-		return 0;
+	return tree_size(_root);
 }
 
 size_type max_size() const;
