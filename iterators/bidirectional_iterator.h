@@ -19,6 +19,7 @@ public:
 	typedef std::ptrdiff_t									difference_type;
 	typedef bidirectional_iterator<value_type>				iterator;
 	typedef bidirectional_iterator<const value_type> 		if_const;
+	// iterator is on the map node itself, thus we need to define the type of the node
 	typedef BSTNode<value_type> 							Node;
 	typedef Node*											iterator_type;
 
