@@ -34,8 +34,8 @@ public:
 //	typedef reverse_iterator<iterator>					reverse_iterator;
 	typedef std::ptrdiff_t								difference_type;
 	typedef size_t										size_type;
-	typedef BSTNode<T>									map_node;
-	typedef BSTNode<T>*									map_node_pointer;
+	typedef BSTNode<value_type>							map_node;
+	typedef BSTNode<value_type>*						map_node_pointer;
 
 //************************ Private attributes ************************
 
@@ -44,13 +44,12 @@ private:
 	map_node_pointer 		_root;
 	map_node_pointer 		_first;
 	map_node_pointer 		_last;
-	size_type		_size;
-	key_compare		_compare;
-	allocator_type	_alloc;
+	size_type				_size;
+	key_compare				_compare;
+	allocator_type			_alloc;
 
 //************************ value_compare ************************
 
-// update this prototype against the official documentation
 public:
 	class value_compare
 	{
@@ -61,6 +60,9 @@ public:
 		value_compare(Compare c) : comp(c) {}
 
 	public:
+		typedef bool result_type;
+		typedef value_type first_argument_type;
+		typedef value_type second_argument_type;
 		bool operator() (const value_type& x, const value_type& y) const
 		{
 			return comp(x.first, y.first);
@@ -70,47 +72,46 @@ public:
 public:
 //************************ Coplien form ************************
 
-// empty
+// empty -> Constructs an empty container, with no elements.
 explicit map (const key_compare& comp = key_compare(),
 			  const allocator_type& alloc = allocator_type()) : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {}
 
-//range
+//range -> Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range.
 //template <class InputIterator>
 //map (InputIterator first, InputIterator last,
 //	const key_compare& comp = key_compare(),
 //	const allocator_type& alloc = allocator_type());
 
-// copy
+// copy -> Constructs a container with a copy of each of the elements in x.
 map (const map& x) { *this = x; }
 
-// destructor
+// destructor -> Destroys the container object.
 ~map() {}
 
-// assignation operator
+// assignation operator -> Assigns new contents to the container, replacing its current content.
 //map& operator= (const map& x) {
 //
-//	// official implementation
-////	this->clear();
-////	this->swap(__x);
-////	return *this;
+//	this->clear();
+//	this->swap(__x);
+//	return *this;
 //}
 
 //************************ Iterators ************************
 
-//-> return iterator to beginning
+//-> Returns an iterator referring to the first element in the map container.
 //iterator begin();
 //const_iterator begin() const;
 
-//-> return iterator to end
+//-> Returns an iterator referring to the past-the-end element in the map container.
 //iterator end();
 //const_iterator end() const;
 
-//-> return reverse iterator to reverse beginning
+//-> Returns a reverse iterator pointing to the last element in the container (its reverse beginning).
 //reverse_iterator rbegin();
 //const_reverse_iterator rbegin() const;
 
-//-> return reverse iterator to reverse end
-//everse_iterator rend();
+//-> Returns a reverse iterator pointing to the theoretical element right before the first element in the map container (its reverse beginning).
+//reverse_iterator rend();
 //const_reverse_iterator rend() const;
 
 //************************ Capacity ************************
@@ -118,7 +119,7 @@ map (const map& x) { *this = x; }
 //-> test whether container is empty
 bool empty() const {}
 
-//-> return container size
+//-> Returns the number of elements in the map container.
 size_type size() const {}
 
 //-> return maximum size
@@ -126,8 +127,11 @@ size_type max_size() const { return _alloc.max_size(); }
 
 //************************ Element access ************************
 
-//-> access element
-mapped_type& operator[] (const key_type& k);
+//-> If k matches the key of an element in the container, the function returns a reference to its mapped value.
+mapped_type& operator[] (const key_type& k) {
+// from official documentation
+//	(*((this->insert(make_pair(k,mapped_type()))).first)).second;
+}
 
 //************************ Modifier ************************
 
