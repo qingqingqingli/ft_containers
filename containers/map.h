@@ -7,6 +7,8 @@
 #include <memory>
 #include "../utils/pair.h"
 #include "../utils/BSTNode.h"
+#include "../iterators/bidirectional_iterator.h"
+#include "../iterators/reverse_iterator.h"
 
 namespace ft {
 
@@ -26,14 +28,14 @@ public:
 	typedef typename allocator_type::const_reference	const_reference;
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
-//	typedef directional_iterator<value_type>		iterator;
-//	typedef directional_iterator<const value_type>	const_iterator;
-//	typedef reverse_iterator<iterator>				reverse_iterator;
-//	typedef reverse_iterator<const_iterator>		const_reverse_iterator;
-	typedef std::ptrdiff_t							difference_type;
-	typedef size_t									size_type;
-	typedef BSTNode<T>								map_node;
-	typedef BSTNode<T>*								map_node_pointer;
+	typedef bidirectional_iterator<value_type>			iterator;
+//	typedef bidirectional_iterator<const value_type>	const_iterator;
+//	typedef reverse_iterator<const_iterator>			const_reverse_iterator;
+//	typedef reverse_iterator<iterator>					reverse_iterator;
+	typedef std::ptrdiff_t								difference_type;
+	typedef size_t										size_type;
+	typedef BSTNode<T>									map_node;
+	typedef BSTNode<T>*									map_node_pointer;
 
 //************************ Private attributes ************************
 
@@ -85,13 +87,13 @@ map (const map& x) { *this = x; }
 ~map() {}
 
 // assignation operator
-map& operator= (const map& x) {
-
-	// official implementation
-//	this->clear();
-//	this->swap(__x);
-//	return *this;
-}
+//map& operator= (const map& x) {
+//
+//	// official implementation
+////	this->clear();
+////	this->swap(__x);
+////	return *this;
+//}
 
 //************************ Iterators ************************
 

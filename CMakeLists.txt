@@ -17,10 +17,12 @@ set(SOURCES
         containers/stack.h
         unit_test/test_stack.cpp
         containers/map.h
-#        iterators/value_compare.h
         utils/pair.h
         utils/make_pair.h
-        unit_test/test_map.cpp utils/BSTNode.h iterators/directional_iterator.h)
+        unit_test/test_map.cpp
+        utils/BSTNode.h
+        iterators/bidirectional_iterator.h
+        )
 
 set(CMAKE_CXX_COMPILER clang++)
 
