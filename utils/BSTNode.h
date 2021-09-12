@@ -8,167 +8,195 @@
 #include <iostream>
 
 namespace ft {
-// BSTNode is any node in the tree
-template<typename Key, typename T>
+
+template<class T>
 struct BSTNode {
 
-	typedef Key		key_type;
-	typedef T		mapped_type;
+	BSTNode* 	parent;
+	BSTNode* 	left;
+	BSTNode* 	right;
+	T			value;
 
-	key_type			key;
-	mapped_type			value;
-	BSTNode<key_type, mapped_type> *left;
-	BSTNode<key_type, mapped_type> *right;
+	BSTNode() : parent(NULL), left(NULL), right(NULL), value(){};
 
-	BSTNode(){};
-
-	BSTNode(const key_type &k, mapped_type v): key(k), value(v), left(NULL), right(NULL) {}
+	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data) {}
 
 	~BSTNode(){};
 
-};
+	BSTNode(const BSTNode &x) { *this = x;	}
 
-// these functions will be transformed to functions in map.h
-//bool isEmpty(BSTNode<Key, T> *tree)
-//{
-//	return tree == NULL;
-//}
-//
-//bool isLeaf(BSTNode<Key, T> *tree)
-//{
-//	return tree->left == NULL && tree->right == NULL;
-//}
-//
-//int size(BSTNode<Key, T> *tree)
-//{
-//	if (!isEmpty(tree))
-//		return 1 + size(tree->left) + size(tree->right);
-//	else
-//		return 0;
-//}
-//
-//// need to only insert unique value
-//void insert(BSTNode<Key, T> *&tree, T data)
-//{
-//	if (isEmpty(tree))
-//		tree = new BSTNode<Key, T>(data);
-//	else
+	BSTNode& operator=(const BSTNode& x) {
+		if (this != &x)
+		{
+			parent = x.parent;
+			left = x.left;
+			right = x.right;
+			value = x.value;
+		}
+		return *this;
+	}
+
+	BSTNode *next() {}
+
+	BSTNode *prev() {}
+
+//private:
+//	// clear the whole tree
+//	void clear(node* tree)
 //	{
-//		if (data < tree->data)
-//			insert(tree->left, data);
-//		else if (data > tree->data)
-//			insert(tree->right, data);
-//		// If data happens to equal tree->data, then we are not in business.
-//		// So uniqueness is guaranteed here.
+//		if (!isEmpty(tree))
+//		{
+//			clearTree(tree->left);
+//			clearTree(tree->right);
+//			delete tree;
+//			tree = NULL;
+//		}
 //	}
-//}
 //
-//bool find(BSTNode<Key, T> *tree, T data)
-//{
-//	if (isEmpty(tree))
-//		return false;
-//	else
+//	// need to only insert unique value
+//	void insert(node *&tree, T data)
 //	{
-//		if (data == tree->data)
-//			return true;
-//		else if (data < tree->data)
-//			return find(tree->left, data);
+//		if (isEmpty(tree))
+//			tree = new node(data);
 //		else
-//			return find(tree->right, data);
+//		{
+//			if (data < tree->data)
+//				insert(tree->left, data);
+//			else if (data > tree->data)
+//				insert(tree->right, data);
+//			// If data happens to equal tree->data, then we are not in business.
+//			// So uniqueness is guaranteed here.
+//		}
 //	}
-//}
+//
+//	bool isEmpty(node *tree)
+//	{
+//		return tree == NULL;
+//	}
+//
+//	bool isLeaf(node *tree)
+//	{
+//		return tree->left == NULL && tree->right == NULL;
+//	}
+//
+//	int size(node *tree)
+//	{
+//		if (!isEmpty(tree))
+//			return 1 + size(tree->left) + size(tree->right);
+//		else
+//			return 0;
+//	}
+//
+//	bool find(node *tree, T data)
+//	{
+//		if (isEmpty(tree))
+//			return false;
+//		else
+//		{
+//			if (data == tree->data)
+//				return true;
+//			else if (data < tree->data)
+//				return find(tree->left, data);
+//			else
+//				return find(tree->right, data);
+//		}
+//	}
 //
 //// in-order traversal
-//void inorder(BSTNode<Key, T> *tree)
-//{
-//	if (tree)
+//	void inorder(node *tree)
 //	{
-//		inorder(tree->left);
-//		std::cout << "[" << tree->data << "]";
-//		inorder(tree->right);
+//		if (tree)
+//		{
+//			inorder(tree->left);
+//			std::cout << "[" << tree->data << "]";
+//			inorder(tree->right);
+//		}
 //	}
-//}
 //
 //// pre-order traversal
-//void preorder(BSTNode<Key, T> *tree)
-//{
-//	if (tree)
+//	void preorder(node *tree)
 //	{
-//		std::cout << "[" << tree->data << "]";
-//		preorder(tree->left);
-//		preorder(tree->right);
+//		if (tree)
+//		{
+//			std::cout << "[" << tree->data << "]";
+//			preorder(tree->left);
+//			preorder(tree->right);
+//		}
 //	}
-//}
 //
 //// pre-order traversal
-//void postorder(BSTNode<Key, T> *tree)
-//{
-//	if (tree)
+//	void postorder(node *tree)
 //	{
-//		postorder(tree->left);
-//		std::cout << "[" << tree->data << "]";
-//		postorder(tree->right);
+//		if (tree)
+//		{
+//			postorder(tree->left);
+//			std::cout << "[" << tree->data << "]";
+//			postorder(tree->right);
+//		}
 //	}
-//}
 //
 //// clear the whole tree
-//void clear(BSTNode<Key, T> *&tree)
-//{
-//	if (!isEmpty(tree))
+//	void clearTree(node *&tree)
 //	{
-//		clear(tree->left);
-//		clear(tree->right);
-//		delete tree;
-//		tree = NULL;
+//		if (!isEmpty(tree))
+//		{
+//			clearTree(tree->left);
+//			clearTree(tree->right);
+//			delete tree;
+//			tree = NULL;
+//		}
 //	}
-//}
 //
 //// remove a node
 //
-//BSTNode<Key, T> *findMinNode(BSTNode<Key, T> *node)
-//{
-//	BSTNode<Key, T> *current = node;
-//
-//	// find the leftmost leaf
-//	while (current && current->left)
-//		current = current->left;
-//	return current;
-//}
-//
-//void remove(BSTNode<Key, T> *&tree, T data)
-//{
-//	if (isEmpty(tree))
-//		return ;
-//	if (data == tree->data)
+//	node *findMinNode(node *node)
 //	{
-//		// if the node has 2 children
-//		if (!isEmpty(tree->left) && (!isEmpty(tree->right)))
-//		{
-//			// need to implement findMinNode
-//			BSTNode<Key, T> *minRight = findMinNode(tree->right);
-//			tree->data = minRight->data;
-//			remove(tree->right, minRight->data);
-//		}
-//		else
-//		{
-//			BSTNode<Key, T> *toDelete = tree;
-//			// if the node has 0 children
-//			if (isLeaf(tree))
-//				tree = NULL;
-//				// if the node has 1 child
-//			else if (!isEmpty(tree->left))
-//				tree = tree->left;
-//			else
-//				tree = tree->right;
+//		BSTNode::node *current = node;
 //
-//			delete toDelete;
-//		}
+//		// find the leftmost leaf
+//		while (current && current->left)
+//			current = current->left;
+//		return current;
 //	}
-//	else if (data < tree->data)
-//		remove(tree->left, data);
-//	else
-//		remove(tree->right, data);
-//}
+//
+//	void remove(node *&tree, T data)
+//	{
+//		if (isEmpty(tree))
+//			return ;
+//		if (data == tree->data)
+//		{
+//			// if the node has 2 children
+//			if (!isEmpty(tree->left) && (!isEmpty(tree->right)))
+//			{
+//				// need to implement findMinNode
+//				node *minRight = findMinNode(tree->right);
+//				tree->data = minRight->data;
+//				remove(tree->right, minRight->data);
+//			}
+//			else
+//			{
+//				node *toDelete = tree;
+//				// if the node has 0 children
+//				if (isLeaf(tree))
+//					tree = NULL;
+//					// if the node has 1 child
+//				else if (!isEmpty(tree->left))
+//					tree = tree->left;
+//				else
+//					tree = tree->right;
+//
+//				delete toDelete;
+//			}
+//		}
+//		else if (data < tree->data)
+//			remove(tree->left, data);
+//		else
+//			remove(tree->right, data);
+//	}
+};
+
+// these functions will be transformed to functions in map.h
+
 
 }
 

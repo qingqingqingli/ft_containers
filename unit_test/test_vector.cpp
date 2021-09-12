@@ -770,7 +770,7 @@ TEST_CASE("4. swap()", "[vector][modifier]")
 		REQUIRE(bar[i] == ft_bar[i]);
 }
 
-TEST_CASE("4. clear()", "[vector][modifier]")
+TEST_CASE("4. clearTree()", "[vector][modifier]")
 {
 	std::vector<int> myvector;
 	myvector.push_back (100);

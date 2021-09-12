@@ -13,7 +13,7 @@ namespace ft {
 template < 	class Key,
 			class T,
 			class Compare = std::less<Key>,
-			class Alloc = std::allocator<pair<const Key,T> > >
+			class Alloc = std::allocator<ft::pair<const Key,T> > >
 class map {
 
 public:
@@ -32,17 +32,23 @@ public:
 //	typedef reverse_iterator<const_iterator>		const_reverse_iterator;
 	typedef std::ptrdiff_t							difference_type;
 	typedef size_t									size_type;
+	typedef BSTNode<T>								map_node;
+	typedef BSTNode<T>*								map_node_pointer;
 
 //************************ Private attributes ************************
 
 private:
 // actual tree structure
-	BSTNode<Key, T> 	*_root;
-	key_compare			_compare;
-	allocator_type		_alloc;
+	map_node_pointer 		_root;
+	map_node_pointer 		_first;
+	map_node_pointer 		_last;
+	size_type		_size;
+	key_compare		_compare;
+	allocator_type	_alloc;
 
 //************************ value_compare ************************
 
+// update this prototype against the official documentation
 public:
 	class value_compare
 	{
@@ -63,9 +69,8 @@ public:
 //************************ Coplien form ************************
 
 // empty
-// not sure if an allocation is needed in constructor
 explicit map (const key_compare& comp = key_compare(),
-			  const allocator_type& alloc = allocator_type()) : _root(NULL), _compare(comp), _alloc(alloc) {}
+			  const allocator_type& alloc = allocator_type()) : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {}
 
 //range
 //template <class InputIterator>
@@ -77,53 +82,54 @@ explicit map (const key_compare& comp = key_compare(),
 map (const map& x) { *this = x; }
 
 // destructor
-~map()
-{
-	// potentially need to remove all nodes in the tree
-	delete _root;
-}
+~map() {}
 
 // assignation operator
 map& operator= (const map& x) {
-	if (this != &x)
-	{
-		// potentially need to change to deep copy
-		_root = x._root;
-		_compare = x._compare;
-		_alloc = x._alloc;
-	}
-	return *this;
+
+	// official implementation
+//	this->clear();
+//	this->swap(__x);
+//	return *this;
 }
 
 //************************ Iterators ************************
 
+//-> return iterator to beginning
 //iterator begin();
 //const_iterator begin() const;
-//
+
+//-> return iterator to end
 //iterator end();
 //const_iterator end() const;
-//
+
+//-> return reverse iterator to reverse beginning
 //reverse_iterator rbegin();
 //const_reverse_iterator rbegin() const;
-//
+
+//-> return reverse iterator to reverse end
 //everse_iterator rend();
 //const_reverse_iterator rend() const;
 
 //************************ Capacity ************************
 
-bool empty() const {
-	return _root == NULL;
-}
+//-> test whether container is empty
+bool empty() const {}
 
-size_type size() const { return tree_size(_root); }
+//-> return container size
+size_type size() const {}
 
+//-> return maximum size
 size_type max_size() const { return _alloc.max_size(); }
 
 //************************ Element access ************************
 
+//-> access element
 mapped_type& operator[] (const key_type& k);
 
 //************************ Modifier ************************
+
+//-> insert elements
 
 // single element
 //pair<iterator,bool> insert (const value_type& val);
@@ -135,48 +141,59 @@ mapped_type& operator[] (const key_type& k);
 //template <class InputIterator>
 //void insert (InputIterator first, InputIterator last);
 
-// erase
+//-> erase element
 //void erase (iterator position);
-size_type erase (const key_type& k);
+//size_type erase (const key_type& k);
 //void erase (iterator first, iterator last);
 
+//-> swap content
 void swap (map& x);
 
+//-> clear content
 void clear();
 
 //************************ Observers ************************
+//-> return key comparison object
 key_compare key_comp() const;
 
+//-> return value compare object
 //value_compare value_comp() const;
 
 //************************ Operations ************************
+
+//-> get iterator to element
 //iterator find (const key_type& k);
 //const_iterator find (const key_type& k) const;
 
+//-> count elements with a specific key
 size_type count (const key_type& k) const;
 
+//-> return iterator to lower bound
 //iterator lower_bound (const key_type& k);
 //const_iterator lower_bound (const key_type& k) const;
-//
+
+//-> return iterator to upper bound
 //iterator upper_bound (const key_type& k);
 //const_iterator upper_bound (const key_type& k) const;
-//
+
+//-> get range of equal elements
 //pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 //pair<iterator,iterator>             equal_range (const key_type& k);
 
 
 //************************ get_allocator ************************
+//-> get allocator
 allocator_type get_allocator() const { return _alloc; }
 
 //************************ private helpers ************************
 
-size_type tree_size(BSTNode<Key, T> *tree) const
-{
-	if (tree)
-		return 1 + tree_size(tree->left) + tree_size(tree->right);
-	else
-		return 0;
-}
+//size_type tree_size(BSTNode<mapped_type> *tree) const
+//{
+//	if (tree->root)
+//		return 1 + tree_size(tree->left) + tree_size(tree->right);
+//	else
+//		return 0;
+//}
 
 };
 
