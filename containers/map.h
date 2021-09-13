@@ -16,7 +16,7 @@ template < 	class Key,
 			class T,
 			class Compare = std::less<Key>,
 			class Alloc = std::allocator<ft::pair<const Key,T> > >
-class map {
+class map  {
 
 public:
 	typedef Key											key_type;
@@ -29,9 +29,9 @@ public:
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef bidirectional_iterator<value_type>			iterator;
-//	typedef bidirectional_iterator<const value_type>	const_iterator;
-//	typedef reverse_iterator<const_iterator>			const_reverse_iterator;
-//	typedef reverse_iterator<iterator>					reverse_iterator;
+	typedef bidirectional_iterator<const value_type>	const_iterator;
+	typedef reverse_iterator<const_iterator>			const_reverse_iterator;
+	typedef reverse_iterator<iterator>					reverse_iterator;
 	typedef std::ptrdiff_t								difference_type;
 	typedef size_t										size_type;
 	typedef BSTNode<value_type>							map_node;
@@ -76,7 +76,8 @@ public:
 explicit map (const key_compare& comp = key_compare(),
 			  const allocator_type& alloc = allocator_type()) : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {}
 
-//range -> Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range.
+// range -> Constructs a container with as many elements as the range [first,last)
+// *** insert(first, second)
 //template <class InputIterator>
 //map (InputIterator first, InputIterator last,
 //	const key_compare& comp = key_compare(),
@@ -86,9 +87,13 @@ explicit map (const key_compare& comp = key_compare(),
 map (const map& x) { *this = x; }
 
 // destructor -> Destroys the container object.
+// *** clear()
 ~map() {}
 
 // assignation operator -> Assigns new contents to the container, replacing its current content.
+// *** clear()
+// *** swap()
+
 //map& operator= (const map& x) {
 //
 //	this->clear();
@@ -99,28 +104,28 @@ map (const map& x) { *this = x; }
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-//iterator begin();
-//const_iterator begin() const;
+iterator begin() { return iterator(*_first); }
+const_iterator begin() const { return const_iterator(*_first); }
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
-//iterator end();
-//const_iterator end() const;
+iterator end() { return iterator(*_last); }
+const_iterator end() const { return const_iterator(*_last); }
 
 //-> Returns a reverse iterator pointing to the last element in the container (its reverse beginning).
-//reverse_iterator rbegin();
-//const_reverse_iterator rbegin() const;
+reverse_iterator rbegin() { return reverse_iterator(end()); }
+const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
 //-> Returns a reverse iterator pointing to the theoretical element right before the first element in the map container (its reverse beginning).
-//reverse_iterator rend();
-//const_reverse_iterator rend() const;
+reverse_iterator rend() { return reverse_iterator(begin()); }
+const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 //************************ Capacity ************************
 
 //-> test whether container is empty
-bool empty() const {}
+bool empty() const { return _size == 0; }
 
 //-> Returns the number of elements in the map container.
-size_type size() const {}
+size_type size() const { return _size; }
 
 //-> return maximum size
 size_type max_size() const { return _alloc.max_size(); }
@@ -128,9 +133,10 @@ size_type max_size() const { return _alloc.max_size(); }
 //************************ Element access ************************
 
 //-> If k matches the key of an element in the container, the function returns a reference to its mapped value.
+// insert
 mapped_type& operator[] (const key_type& k) {
-// from official documentation
-//	(*((this->insert(make_pair(k,mapped_type()))).first)).second;
+
+	(*((insert(make_pair(k , mapped_type()))).first)).second;
 }
 
 //************************ Modifier ************************
@@ -138,12 +144,31 @@ mapped_type& operator[] (const key_type& k) {
 //-> insert elements
 
 // single element
-//pair<iterator,bool> insert (const value_type& val);
+// -> increase size
+// -> checks whether inserted elements has a key that already exists
+// -> The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The pair::second element in the pair is set to true if a new element was inserted or false if an equivalent key already existed.
+
+pair<iterator,bool> insert (const value_type& val)
+{
+	ft::pair<iterator, bool> ret_pair;
+	ret_pair.second = false;
+	if (!_root)
+	{
+		_root = new BSTNode<value_type>(val);
+		ret_pair.first = _root;
+		ret_pair.second = true;
+		return ret_pair;
+	}
+}
 
 // with hint
+// -> it is only a hint and does not force the new element to be inserted at that position
+// -> return an iterator pointing to either the newly inserted element or to the element that already had an equivalent key in the map.
+
 //iterator insert (iterator position, const value_type& val);
 
 // range
+// -> Copies of the elements in the range [first,last) are inserted in the container (include first but not last).
 //template <class InputIterator>
 //void insert (InputIterator first, InputIterator last);
 
@@ -171,18 +196,18 @@ key_compare key_comp() const;
 //iterator find (const key_type& k);
 //const_iterator find (const key_type& k) const;
 
-//-> count elements with a specific key
+//-> count elements with a specific key (only 1 or 0)
 size_type count (const key_type& k) const;
 
 //-> return iterator to lower bound
-//iterator lower_bound (const key_type& k);
+iterator lower_bound (const key_type& k);
 //const_iterator lower_bound (const key_type& k) const;
 
 //-> return iterator to upper bound
 //iterator upper_bound (const key_type& k);
 //const_iterator upper_bound (const key_type& k) const;
 
-//-> get range of equal elements
+//-> get range of equal elements (returns a single element at most)
 //pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 //pair<iterator,iterator>             equal_range (const key_type& k);
 
@@ -200,6 +225,15 @@ allocator_type get_allocator() const { return _alloc; }
 //	else
 //		return 0;
 //}
+
+map_node* search(map_node* root, value_type val)
+{
+	if (!root || root->value == val)
+		return root;
+	if (root->value < val)
+		return search(root->right, val);
+	return search(root->left, val);
+}
 
 };
 
