@@ -4,33 +4,8 @@
 
 #include "catch2/catch.hpp"
 #include "../containers/map.h"
-#include <map>
-#include <iostream>
 
-TEST_CASE("test")
-{
-	std::map<std::string, int> Map;
-	Map["C"] = 7;
-	Map["B"] = 8;
-
-	Map.insert(std::make_pair("A", 777));
-	Map.insert(std::make_pair("a", 777));
-	Map.insert(std::make_pair("1", 777));
-	Map.insert(std::make_pair("1", -777));
-
-	std::map<std::string, int>::iterator itr = Map.begin();
-
-	while(itr != Map.end())
-	{
-		std::cout << itr->first << ": " << itr->second << std::endl;
-		++itr;
-	}
-
-	std::cout << Map["a"] << std::endl;
-	std::cout << Map["b"] << std::endl;
-}
-
-TEST_CASE("default constructor")
+TEST_CASE("size()", "[map][capacity]")
 {
 	std::map<std::string, int> std_map;
 	ft::map<std::string, int> ft_map;
@@ -38,33 +13,45 @@ TEST_CASE("default constructor")
 	REQUIRE(std_map.size() == ft_map.size());
 }
 
-TEST_CASE("insert")
+TEST_CASE("insert()", "[map][modifiers]")
 {
 	std::map<char,int> mymap_std;
+	std::pair<std::map<char,int>::iterator,bool> ret_std_1 = mymap_std.insert ( std::pair<char,int>('a',100) );
+//	mymap_std.insert ( std::pair<char,int>('z',200) );
+
 	ft::map<char,int> mymap_ft;
+	ft::pair<ft::map<char,int>::iterator,bool> ret_ft_1 = mymap_ft.insert ( ft::pair<char,int>('a',100) );
+//	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 
-	mymap_std.insert ( std::pair<char,int>('a',100) );
-	mymap_std.insert ( std::pair<char,int>('z',200) );
+	REQUIRE(ret_std_1.first->first == ret_ft_1.first->first);
+	REQUIRE(ret_std_1.first->second == ret_ft_1.first->second);
+	REQUIRE(ret_std_1.second == ret_ft_1.second);
 
-	mymap_ft.insert ( ft::pair<char,int>('a',100) );
-	mymap_ft.insert ( ft::pair<char,int>('z',200) );
+	SECTION("insert unique element")
+	{
+		std::pair<std::map<char,int>::iterator,bool> ret_std;
+		ret_std = mymap_std.insert ( std::pair<char,int>('y', -999) );
 
-	std::pair<std::map<char,int>::iterator,bool> ret_std;
+		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('y', -999) );
 
-
-	ret_std = mymap_std.insert ( std::pair<char,int>('z',500) );
-	if (ret_std.second==false) {
-		std::cout << "element 'z' already existed";
-		std::cout << " with a value of " << ret_std.first->second << '\n';
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
 	}
 
-	ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
+	SECTION("insert duplicate element")
+	{
+		std::pair<std::map<char,int>::iterator,bool> ret_std;
+		ret_std = mymap_std.insert ( std::pair<char,int>('z',500) );
 
+		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
 
-	ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
-	if (ret_ft.second==false) {
-		std::cout << "element 'z' already existed";
-		std::cout << " with a value of " << ret_ft.first->second << '\n';
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
 	}
 
 }
+

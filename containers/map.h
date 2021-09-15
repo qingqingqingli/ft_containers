@@ -158,30 +158,35 @@ size_type max_size() const { return _alloc.max_size(); }
 // -> checks whether inserted elements has a key that already exists
 // -> The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The pair::second element in the pair is set to true if a new element was inserted or false if an equivalent key already existed.
 
-
-ft::pair<iterator,bool> insert_value(map_node *&node, const value_type &val)
+void insert_node(map_node *&node, const value_type &val, iterator* itr, bool *b)
 {
-	if (!node)
-	{
+	if (!node) {
 		node = new map_node(val);
+		*itr = iterator(node);
+		*b = true;
 		_size++;
-		return ft::make_pair(iterator(node), true);
+		return ;
 	}
-	else
-	{
+	else {
 		if (val < node->value)
-			insert_value(node->left, val);
+			insert_node(node->left, val, itr, b);
 		else if (val > node->value)
-			insert_value(node->right, val);
-		else if (val == node->value)
-			return ft::make_pair(iterator(node), false);
+			insert_node(node->right, val, itr, b);
+		else if (val == node->value) {
+			*itr = iterator(node);
+			*b = false;
+			return;
+		}
 	}
-	return ft::make_pair(iterator(node), false);
 }
 
 ft::pair<iterator,bool> insert (const value_type& val)
 {
-	return insert_value(_root, val);
+	iterator	itr;
+	bool		b;
+	insert_node(_root, val, &itr, &b);
+
+	return ft::make_pair(itr, b);
 }
 
 // with hint
