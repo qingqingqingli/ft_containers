@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_MAP_H
 #include <memory>
 #include "../utils/pair.h"
+#include "../utils/make_pair.h"
 #include "../utils/BSTNode.h"
 #include "../iterators/bidirectional_iterator.h"
 #include "../iterators/reverse_iterator.h"
@@ -74,7 +75,17 @@ public:
 
 // empty -> Constructs an empty container, with no elements.
 explicit map (const key_compare& comp = key_compare(),
-			  const allocator_type& alloc = allocator_type()) : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {}
+			  const allocator_type& alloc = allocator_type())
+			  : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+
+	// setting up the initial connection between the three nodes
+	_first->parent = _root;
+	_last->parent = _root;
+
+	_root->left = _first;
+	_root->right = _last;
+
+}
 
 // range -> Constructs a container with as many elements as the range [first,last)
 // *** insert(first, second)
@@ -134,10 +145,10 @@ size_type max_size() const { return _alloc.max_size(); }
 
 //-> If k matches the key of an element in the container, the function returns a reference to its mapped value.
 // insert
-mapped_type& operator[] (const key_type& k) {
+//mapped_type& operator[] (const key_type& k) {
 
-	(*((insert(make_pair(k , mapped_type()))).first)).second;
-}
+//	(*((insert(make_pair(k , mapped_type()))).first)).second;
+//}
 
 //************************ Modifier ************************
 
@@ -148,17 +159,28 @@ mapped_type& operator[] (const key_type& k) {
 // -> checks whether inserted elements has a key that already exists
 // -> The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The pair::second element in the pair is set to true if a new element was inserted or false if an equivalent key already existed.
 
-pair<iterator,bool> insert (const value_type& val)
+
+ft::pair<iterator,bool> insert_value(map_node *&node, const value_type &val)
 {
-	ft::pair<iterator, bool> ret_pair;
-	ret_pair.second = false;
-	if (!_root)
+	if (!node)
 	{
-		_root = new BSTNode<value_type>(val);
-		ret_pair.first = _root;
-		ret_pair.second = true;
-		return ret_pair;
+		node = new map_node(val);
+		_size++;
+		return ft::make_pair(iterator(node), true);
 	}
+	else
+	{
+		if (val < node->value)
+			insert_value(node->left, val);
+		else if (val > node->value)
+			insert_value(node->right, val);
+	}
+	return ft::make_pair(iterator(node), false);
+}
+
+ft::pair<iterator,bool> insert (const value_type& val)
+{
+	return insert_value(_root, val);
 }
 
 // with hint

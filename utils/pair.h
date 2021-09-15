@@ -20,17 +20,22 @@ struct pair {
 	pair(): first(), second() {}
 
 	// copy
-	template<class U, class V> pair (const pair<U,V>& pr): first(pr.first), second(pr.second) {}
+	template<class U, class V>
+	pair (const pair<U,V>& pr): first(pr.first), second(pr.second) {}
 
 	// initialization
 	pair (const first_type& a, const second_type& b): first(a), second(b) {}
 
-	// copy
+	// assignation
 	pair& operator= (const pair& pr) {
-		first = pr.first;
-		second = pr.second;
+		if (this != &pr)
+		{
+			this->first = pr.first;
+			this->second = pr.second;
+		}
 		return *this;
 	}
+
 };
 
 template <class T1, class T2>

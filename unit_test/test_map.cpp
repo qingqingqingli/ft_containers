@@ -41,32 +41,21 @@ TEST_CASE("default constructor")
 TEST_CASE("insert")
 {
 	std::map<char,int> mymap_std;
+	ft::map<char,int> mymap_ft;
 
 	mymap_std.insert ( std::pair<char,int>('a',100) );
 	mymap_std.insert ( std::pair<char,int>('z',200) );
 
+	mymap_ft.insert ( ft::pair<char,int>('a',100) );
+	mymap_ft.insert ( ft::pair<char,int>('z',200) );
+
 	std::pair<std::map<char,int>::iterator,bool> ret;
+
+
 	ret = mymap_std.insert ( std::pair<char,int>('z',500) );
 	if (ret.second==false) {
 		std::cout << "element 'z' already existed";
 		std::cout << " with a value of " << ret.first->second << '\n';
 	}
 
-	// second insert function version (with hint position):
-	std::map<char,int>::iterator it = mymap_std.begin();
-	mymap_std.insert (it, std::pair<char,int>('b',300));  // max efficiency inserting
-	mymap_std.insert (it, std::pair<char,int>('c',400));  // no max efficiency inserting
-
-	// third insert function version (range insertion):
-	std::map<char,int> anothermap_std;
-	anothermap_std.insert(mymap_std.begin(),mymap_std.find('c'));
-
-	// showing contents:
-	std::cout << "mymap_std contains:\n";
-	for (it=mymap_std.begin(); it!=mymap_std.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
-
-	std::cout << "anothermap_std contains:\n";
-	for (it=anothermap_std.begin(); it!=anothermap_std.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
 }
