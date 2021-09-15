@@ -7,25 +7,34 @@
 
 TEST_CASE("size()", "[map][capacity]")
 {
-	std::map<std::string, int> std_map;
-	ft::map<std::string, int> ft_map;
+	std::map<int, int> std_map;
+	ft::map<int, int> ft_map;
 
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
 	REQUIRE(std_map.size() == ft_map.size());
 }
 
 TEST_CASE("insert()", "[map][modifiers]")
 {
 	std::map<char,int> mymap_std;
-	std::pair<std::map<char,int>::iterator,bool> ret_std_1 = mymap_std.insert ( std::pair<char,int>('a',100) );
-//	mymap_std.insert ( std::pair<char,int>('z',200) );
+	mymap_std.insert ( std::pair<char,int>('a',100) );
+	mymap_std.insert ( std::pair<char,int>('z',200) );
 
 	ft::map<char,int> mymap_ft;
-	ft::pair<ft::map<char,int>::iterator,bool> ret_ft_1 = mymap_ft.insert ( ft::pair<char,int>('a',100) );
-//	mymap_ft.insert ( ft::pair<char,int>('z',200) );
-
-	REQUIRE(ret_std_1.first->first == ret_ft_1.first->first);
-	REQUIRE(ret_std_1.first->second == ret_ft_1.first->second);
-	REQUIRE(ret_std_1.second == ret_ft_1.second);
+	mymap_ft.insert ( ft::pair<char,int>('a',100) );
+	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 
 	SECTION("insert unique element")
 	{
@@ -45,6 +54,7 @@ TEST_CASE("insert()", "[map][modifiers]")
 		std::pair<std::map<char,int>::iterator,bool> ret_std;
 		ret_std = mymap_std.insert ( std::pair<char,int>('z',500) );
 
+		std::cout << "--------------" << std::endl;
 		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
 		ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
 

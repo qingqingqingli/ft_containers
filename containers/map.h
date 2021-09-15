@@ -35,15 +35,14 @@ public:
 	typedef std::ptrdiff_t								difference_type;
 	typedef size_t										size_type;
 	typedef BSTNode<value_type>							map_node;
-	typedef BSTNode<value_type>*						map_node_pointer;
 
 //************************ Private attributes ************************
 
 private:
 // actual tree structure
-	map_node_pointer 		_root;
-	map_node_pointer 		_first;
-	map_node_pointer 		_last;
+	map_node* 				_root;
+	map_node* 				_first;
+	map_node* 				_last;
 	size_type				_size;
 	key_compare				_compare;
 	allocator_type			_alloc;
@@ -69,6 +68,67 @@ public:
 		}
 	};
 
+//************************ Private helpers ************************
+public:
+
+void setup_newnode_connection()
+{
+	// setting up the initial connection between the three nodes
+	_first->parent = _root;
+	_last->parent = _root;
+
+	_root->left = _first;
+	_root->right = _last;
+}
+
+void inorder(map_node* node)
+{
+	if (node)
+	{
+		inorder(node->left);
+		std::cout << node->value.first << "->" << node->value.second << std::endl;
+		inorder(node->right);
+	}
+}
+
+void postorder(map_node* node)
+{
+	if (node)
+	{
+		postorder(node->left);
+		std::cout << node->value.first << "->" << node->value.second << std::endl;
+		postorder(node->right);
+	}
+}
+
+// clear the whole tree
+void clearTree()
+{
+	if (_root)
+	{
+		clearTree(_root->left);
+		clearTree(_root->right);
+		delete _root;
+		_root = NULL;
+	}
+}
+
+// find the min node
+map_node* findMinNode(map_node *&tree)
+{
+	map_node *current = tree;
+
+	//find the leftmost leaf
+	while (current && current->left)
+		current = current->left;
+	return current;
+}
+
+map_node* getRoot() {
+	map_node *copy = _root;
+
+	return copy;}
+
 public:
 //************************ Coplien form ************************
 
@@ -76,14 +136,7 @@ public:
 explicit map (const key_compare& comp = key_compare(),
 			  const allocator_type& alloc = allocator_type())
 			  : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-
-	// setting up the initial connection between the three nodes
-	_first->parent = _root;
-	_last->parent = _root;
-
-	_root->left = _first;
-	_root->right = _last;
-
+//	setup_newnode_connection();
 }
 
 // range -> Constructs a container with as many elements as the range [first,last)
@@ -114,7 +167,7 @@ map (const map& x) { *this = x; }
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-iterator begin() { return iterator(*_first); }
+iterator begin() { return iterator(_first); }
 const_iterator begin() const { return const_iterator(*_first); }
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
@@ -158,35 +211,44 @@ size_type max_size() const { return _alloc.max_size(); }
 // -> checks whether inserted elements has a key that already exists
 // -> The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The pair::second element in the pair is set to true if a new element was inserted or false if an equivalent key already existed.
 
-void insert_node(map_node *&node, const value_type &val, iterator* itr, bool *b)
-{
-	if (!node) {
-		node = new map_node(val);
-		*itr = iterator(node);
-		*b = true;
-		_size++;
-		return ;
-	}
-	else {
-		if (val < node->value)
-			insert_node(node->left, val, itr, b);
-		else if (val > node->value)
-			insert_node(node->right, val, itr, b);
-		else if (val == node->value) {
-			*itr = iterator(node);
-			*b = false;
-			return;
-		}
-	}
-}
-
 ft::pair<iterator,bool> insert (const value_type& val)
 {
-	iterator	itr;
-	bool		b;
-	insert_node(_root, val, &itr, &b);
+	if (!_root)
+	{
+		_root = new map_node(val);
+		_size++;
+		return ft::make_pair(iterator(_root), true);
+	}
+	else
+	{
+		map_node* current = _root;
+		map_node* parent = NULL;
+		map_node* newNode = new map_node(val);
 
-	return ft::make_pair(itr, b);
+		while (true) {
+			parent = current;
+			if (val.first == parent->value.first) {
+				return ft::make_pair(iterator(parent), false);
+			}
+			else if (val < parent->value) {
+				current = current->left;
+				if (!current)
+				{
+					parent->left = newNode;
+					_size++;
+					return ft::make_pair(iterator(parent->left), true);
+				}
+			}
+			else if (val > parent->value) {
+				current = current->right;
+				if (!current){
+					parent->right = newNode;
+					_size++;
+					return ft::make_pair(iterator(parent->right), true);
+				}
+			}
+		}
+	}
 }
 
 // with hint
