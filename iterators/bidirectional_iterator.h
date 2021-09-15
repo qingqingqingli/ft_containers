@@ -47,7 +47,10 @@ public:
 	pointer operator-> () { return &(_ptr->value); }
 
 	//++a; a++; *a++;
-	iterator& operator++ () { _ptr = _ptr->next(); return *this; }
+	iterator& operator++ () {
+		_ptr = _ptr->next();
+		return *this;
+	}
 
 	iterator operator++ (int) {
 		iterator tmp = *this;
@@ -56,7 +59,10 @@ public:
 	}
 
 	//--a; a--; *a--;
-	iterator& operator-- () { _ptr = _ptr->prev(); return *this; }
+	iterator& operator-- () {
+		_ptr = _ptr->prev();
+		return *this;
+	}
 
 	iterator operator-- (int) {
 		iterator tmp = *this;

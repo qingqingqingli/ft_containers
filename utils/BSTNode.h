@@ -37,7 +37,24 @@ struct BSTNode {
 	}
 
 	// next node in inorder traversal (Left, Root, Right)
-	BSTNode *next() {}
+	BSTNode *next() {
+		BSTNode* current = this;
+
+		// if there is a right subtree, find the min value
+		if (right) {
+			while (current->left)
+				current = current->left;
+			return current;
+		}
+		// if right subtree is NULL, next one is one of the ancestors
+		BSTNode* tmp_parent;
+		tmp_parent = this->parent;
+		while (tmp_parent && current == tmp_parent->right) {
+			current = tmp_parent;
+			tmp_parent = tmp_parent->parent;
+		}
+		return tmp_parent;
+	}
 
 	// prev node in inorder traversal (Left, Root, Right)
 	BSTNode *prev() {}

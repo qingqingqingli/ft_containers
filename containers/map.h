@@ -71,16 +71,6 @@ public:
 //************************ Private helpers ************************
 public:
 
-void setup_newnode_connection()
-{
-	// setting up the initial connection between the three nodes
-	_first->parent = _root;
-	_last->parent = _root;
-
-	_root->left = _first;
-	_root->right = _last;
-}
-
 void inorder(map_node* node)
 {
 	if (node)
@@ -127,7 +117,8 @@ map_node* findMinNode(map_node *&tree)
 map_node* getRoot() {
 	map_node *copy = _root;
 
-	return copy;}
+	return copy;
+}
 
 public:
 //************************ Coplien form ************************
@@ -136,7 +127,6 @@ public:
 explicit map (const key_compare& comp = key_compare(),
 			  const allocator_type& alloc = allocator_type())
 			  : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-//	setup_newnode_connection();
 }
 
 // range -> Constructs a container with as many elements as the range [first,last)
@@ -168,11 +158,11 @@ map (const map& x) { *this = x; }
 
 //-> Returns an iterator referring to the first element in the map container.
 iterator begin() { return iterator(_first); }
-const_iterator begin() const { return const_iterator(*_first); }
+const_iterator begin() const { return const_iterator(_first); }
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
-iterator end() { return iterator(*_last); }
-const_iterator end() const { return const_iterator(*_last); }
+iterator end() { return iterator(_last); }
+const_iterator end() const { return const_iterator(_last); }
 
 //-> Returns a reverse iterator pointing to the last element in the container (its reverse beginning).
 reverse_iterator rbegin() { return reverse_iterator(end()); }
@@ -210,9 +200,11 @@ size_type max_size() const { return _alloc.max_size(); }
 // !!! need to update the first and last attribute of the tree
 ft::pair<iterator,bool> insert (const value_type& val)
 {
+	map_node* newNode = new map_node(val);
+
 	if (!_root)
 	{
-		_root = new map_node(val);
+		_root = newNode;
 		_size++;
 		return ft::make_pair(iterator(_root), true);
 	}
@@ -220,7 +212,6 @@ ft::pair<iterator,bool> insert (const value_type& val)
 	{
 		map_node* current = _root;
 		map_node* parent = NULL;
-		map_node* newNode = new map_node(val);
 
 		while (true) {
 			parent = current;
@@ -255,12 +246,22 @@ ft::pair<iterator,bool> insert (const value_type& val)
 // -> it is only a hint and does not force the new element to be inserted at that position
 // -> return an iterator pointing to either the newly inserted element or to the element that already had an equivalent key in the map.
 
-//iterator insert (iterator position, const value_type& val);
+//iterator insert (iterator position, const value_type& val)
+//{
+//	return insert(val).first;
+//}
 
 // range
 // -> Copies of the elements in the range [first,last) are inserted in the container (include first but not last).
-//template <class InputIterator>
-//void insert (InputIterator first, InputIterator last);
+template <class InputIterator>
+void insert (InputIterator first, InputIterator last, typename iterator_traits<InputIterator>::type* = 0)
+{
+	while (first != last)
+	{
+		insert(*first);
+		first++;
+	}
+}
 
 //-> erase element
 //void erase (iterator position);
@@ -290,7 +291,7 @@ value_compare value_comp() const { return value_compare(_compare); }
 size_type count (const key_type& k) const;
 
 //-> return iterator to lower bound
-iterator lower_bound (const key_type& k);
+//iterator lower_bound (const key_type& k);
 //const_iterator lower_bound (const key_type& k) const;
 
 //-> return iterator to upper bound
@@ -316,14 +317,7 @@ allocator_type get_allocator() const { return _alloc; }
 //		return 0;
 //}
 
-map_node* search(map_node* root, value_type val)
-{
-	if (!root || root->value == val)
-		return root;
-	if (root->value < val)
-		return search(root->right, val);
-	return search(root->left, val);
-}
+// implement searchNode function
 
 };
 

@@ -36,6 +36,7 @@ TEST_CASE("insert()", "[map][modifiers]")
 	mymap_ft.insert ( ft::pair<char,int>('a',100) );
 	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 
+
 	SECTION("insert unique element")
 	{
 		std::pair<std::map<char,int>::iterator,bool> ret_std;
@@ -62,6 +63,24 @@ TEST_CASE("insert()", "[map][modifiers]")
 		REQUIRE(ret_std.second == ret_ft.second);
 		REQUIRE(mymap_ft.size() == mymap_std.size());
 
+		mymap_ft.inorder(mymap_ft.getRoot());
+
+		std::map<char, int>::iterator begin_std = mymap_std.begin();
+		std::map<char, int>::iterator end_std = mymap_std.end();
+
+		ft::map<char, int>::iterator begin_ft = mymap_ft.begin();
+		ft::map<char, int>::iterator end_ft = mymap_ft.end();
+
+		while (begin_std != end_std)
+		{
+			std::cout << begin_std->first << "->" << begin_std->second << std::endl;
+			begin_std++;
+		}
+//		while (begin_ft != end_ft)
+//		{
+			std::cout << begin_ft->first << "->" << begin_ft->second << std::endl;
+//			begin_ft++;
+//		}
 	}
 
 	SECTION("insert duplicate element")
