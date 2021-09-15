@@ -206,11 +206,8 @@ size_type max_size() const { return _alloc.max_size(); }
 
 //-> insert elements
 
-// single element
-// -> increase size
-// -> checks whether inserted elements has a key that already exists
-// -> The single element versions (1) return a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map. The pair::second element in the pair is set to true if a new element was inserted or false if an equivalent key already existed.
-
+// single
+// !!! need to update the first and last attribute of the tree
 ft::pair<iterator,bool> insert (const value_type& val)
 {
 	if (!_root)
@@ -228,9 +225,11 @@ ft::pair<iterator,bool> insert (const value_type& val)
 		while (true) {
 			parent = current;
 			if (val.first == parent->value.first) {
+				delete newNode;
 				return ft::make_pair(iterator(parent), false);
 			}
-			else if (val < parent->value) {
+			// val < parent->value
+			else if (value_comp()(val, parent->value)) {
 				current = current->left;
 				if (!current)
 				{
@@ -239,7 +238,8 @@ ft::pair<iterator,bool> insert (const value_type& val)
 					return ft::make_pair(iterator(parent->left), true);
 				}
 			}
-			else if (val > parent->value) {
+			// val > parent->value
+			else if (value_comp()(parent->value, val)) {
 				current = current->right;
 				if (!current){
 					parent->right = newNode;
@@ -275,10 +275,10 @@ void clear();
 
 //************************ Observers ************************
 //-> return key comparison object
-key_compare key_comp() const;
+key_compare key_comp() const { return _compare; }
 
 //-> return value compare object
-//value_compare value_comp() const;
+value_compare value_comp() const { return value_compare(_compare); }
 
 //************************ Operations ************************
 

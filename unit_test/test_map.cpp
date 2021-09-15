@@ -47,6 +47,21 @@ TEST_CASE("insert()", "[map][modifiers]")
 		REQUIRE(ret_std.first->first == ret_ft.first->first);
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
+
+		ret_std = mymap_std.insert ( std::pair<char,int>('t', 999) );
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('t', 999) );
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+
+		ret_std = mymap_std.insert ( std::pair<char,int>('r', 123) );
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('r', 123) );
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+
 	}
 
 	SECTION("insert duplicate element")
@@ -61,6 +76,7 @@ TEST_CASE("insert()", "[map][modifiers]")
 		REQUIRE(ret_std.first->first == ret_ft.first->first);
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
+		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
 
 }
