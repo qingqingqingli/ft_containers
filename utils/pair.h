@@ -26,17 +26,11 @@ struct pair {
 	// initialization
 	pair (const first_type& a, const second_type& b): first(a), second(b) {}
 
-	// assignation
-	pair& operator= (const pair& pr) {
-		if (this != &pr)
-		{
-			this->first = pr.first;
-			this->second = pr.second;
-		}
-		return *this;
-	}
-
+	// assignation - implicitly declared
 };
+
+template <class T1, class T2>
+pair<T1,T2> make_pair(T1 x, T2 y) { return pair<T1,T2>(x,y); };
 
 template <class T1, class T2>
 bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
@@ -49,7 +43,7 @@ bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 template <class T1, class T2>
 bool operator< (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 { return lhs.first < rhs.first ||
-(!(rhs.second < lhs.first) && lhs.second < rhs.second); }
+(!(rhs.first < lhs.first) && lhs.second < rhs.second); }
 
 template <class T1, class T2>
 bool operator> (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)

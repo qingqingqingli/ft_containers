@@ -18,11 +18,10 @@ set(SOURCES
         unit_test/test_stack.cpp
         containers/map.h
         utils/pair.h
-        utils/make_pair.h
         unit_test/test_map.cpp
         utils/BSTNode.h
         iterators/bidirectional_iterator.h
-        )
+        unit_test/test_pair.cpp)
 
 set(CMAKE_CXX_COMPILER clang++)
 

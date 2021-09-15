@@ -49,13 +49,22 @@ TEST_CASE("insert")
 	mymap_ft.insert ( ft::pair<char,int>('a',100) );
 	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 
-	std::pair<std::map<char,int>::iterator,bool> ret;
+	std::pair<std::map<char,int>::iterator,bool> ret_std;
 
 
-	ret = mymap_std.insert ( std::pair<char,int>('z',500) );
-	if (ret.second==false) {
+	ret_std = mymap_std.insert ( std::pair<char,int>('z',500) );
+	if (ret_std.second==false) {
 		std::cout << "element 'z' already existed";
-		std::cout << " with a value of " << ret.first->second << '\n';
+		std::cout << " with a value of " << ret_std.first->second << '\n';
+	}
+
+	ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
+
+
+	ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
+	if (ret_ft.second==false) {
+		std::cout << "element 'z' already existed";
+		std::cout << " with a value of " << ret_ft.first->second << '\n';
 	}
 
 }

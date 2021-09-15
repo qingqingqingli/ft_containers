@@ -6,7 +6,6 @@
 #define FT_CONTAINERS_MAP_H
 #include <memory>
 #include "../utils/pair.h"
-#include "../utils/make_pair.h"
 #include "../utils/BSTNode.h"
 #include "../iterators/bidirectional_iterator.h"
 #include "../iterators/reverse_iterator.h"
@@ -16,7 +15,7 @@ namespace ft {
 template < 	class Key,
 			class T,
 			class Compare = std::less<Key>,
-			class Alloc = std::allocator<ft::pair<const Key,T> > >
+			class Alloc = std::allocator<pair<const Key,T> > >
 class map  {
 
 public:
@@ -174,6 +173,8 @@ ft::pair<iterator,bool> insert_value(map_node *&node, const value_type &val)
 			insert_value(node->left, val);
 		else if (val > node->value)
 			insert_value(node->right, val);
+		else if (val == node->value)
+			return ft::make_pair(iterator(node), false);
 	}
 	return ft::make_pair(iterator(node), false);
 }
