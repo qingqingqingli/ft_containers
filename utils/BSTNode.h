@@ -16,10 +16,12 @@ struct BSTNode {
 	BSTNode* 	left;
 	BSTNode* 	right;
 	T			value;
+	// whether a node is first and end boundary signal of a tree
+	bool 		boundary;
 
-	BSTNode() : parent(NULL), left(NULL), right(NULL), value(){};
+	BSTNode() : parent(NULL), left(NULL), right(NULL), value(), boundary(true) {};
 
-	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data) {}
+	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data), boundary(false) {}
 
 	~BSTNode(){};
 
@@ -32,28 +34,33 @@ struct BSTNode {
 			left = x.left;
 			right = x.right;
 			value = x.value;
+			boundary = x.boundary;
 		}
 		return *this;
 	}
 
 	// next node in inorder traversal (Left, Root, Right)
 	BSTNode *next() {
-		BSTNode* current = this;
-
+		BSTNode* tmp = this;
+		if (!tmp)
+		{
+			while (tmp->left)
+				tmp = tmp->left;
+			return tmp;
+		}
 		// if there is a right subtree, find the min value
-		if (right) {
-			while (current->left)
-				current = current->left;
-			return current;
+		if (tmp->right) {
+			while (tmp->left)
+				tmp = tmp->left;
+			return tmp;
 		}
 		// if right subtree is NULL, next one is one of the ancestors
-		BSTNode* tmp_parent;
-		tmp_parent = this->parent;
-		while (tmp_parent && current == tmp_parent->right) {
-			current = tmp_parent;
-			tmp_parent = tmp_parent->parent;
+		BSTNode* p = tmp->parent;
+		while (p && tmp == p->right) {
+			tmp = p;
+			p = p->parent;
 		}
-		return tmp_parent;
+		return p;
 	}
 
 	// prev node in inorder traversal (Left, Root, Right)

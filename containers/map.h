@@ -74,7 +74,7 @@ public:
 
 void inorder(map_node* node)
 {
-	if (node)
+	if (node && node != _begin && node != _end)
 	{
 		inorder(node->left);
 		std::cout << node->value.first << "->" << node->value.second << std::endl;
@@ -84,7 +84,7 @@ void inorder(map_node* node)
 
 void postorder(map_node* node)
 {
-	if (node)
+	if (node && node != _begin && node != _end)
 	{
 		postorder(node->left);
 		std::cout << node->value.first << "->" << node->value.second << std::endl;
@@ -232,51 +232,47 @@ mapped_type& operator[] (const key_type& k) {
 ft::pair<iterator,bool> insert (const value_type& val)
 {
 	map_node* newNode = new map_node(val);
+	map_node* tmp = _root;
+	map_node* p = NULL;
 
-	if (!_size)
+	// empty root
+	if (empty())
 	{
 		_root = newNode;
 		_size++;
 		setupTreeBeginEnd();
 		return ft::make_pair(iterator(_root), true);
 	}
-	else
+	// start traversing from root downward the path to search where the new node to be inserted
+	while(tmp && tmp != _begin && tmp != _end)
 	{
-		map_node* root_tmp = _root;
-		map_node* parent_tmp;
-
-		while (true) {
-			parent_tmp = root_tmp;
-			// val == parent node's value
-			if (val.first == parent_tmp->value.first) {
-				delete newNode;
-				return ft::make_pair(iterator(parent_tmp), false);
-			}
-			// val < parent->value
-			else if (value_comp()(val, parent_tmp->value)) {
-				root_tmp = root_tmp->left;
-				// reaching the end
-				if (!root_tmp) {
-					parent_tmp->left = newNode;
-					newNode->parent = parent_tmp;
-					_size++;
-					setupTreeBeginEnd();
-					return ft::make_pair(iterator(parent_tmp->left), true);
-				}
-			}
-			// val > parent->value
-			else if (value_comp()(parent_tmp->value, val)) {
-				root_tmp = root_tmp->right;
-				if (!root_tmp){
-					parent_tmp->right = newNode;
-					newNode->parent = parent_tmp;
-					_size++;
-//					setupTreeBeginEnd();
-					return ft::make_pair(iterator(parent_tmp->right), true);
-				}
-			}
+		p = tmp;
+		// if the value is found, return false
+		if (val.first == p->value.first) {
+			delete newNode;
+			return ft::make_pair(iterator(p), false);
 		}
+		else if (value_comp()(val, p->value))
+			tmp = tmp->left;
+		else if (value_comp()(p->value, val))
+			tmp = tmp->right;
 	}
+	// insert left if the key value is smaller than the parent
+	if (value_comp()(val, p->value)) {
+		p->left = newNode;
+		newNode->parent = p;
+		_size++;
+		setupTreeBeginEnd();
+	}
+	// insert right if the key value is bigger than the parent
+	else if (value_comp()(p->value, val)) {
+		p->right = newNode;
+		newNode->parent = p;
+		_size++;
+		setupTreeBeginEnd();
+	}
+	return ft::make_pair(iterator(newNode), true);
+
 }
 
 // with hint

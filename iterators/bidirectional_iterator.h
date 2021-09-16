@@ -48,6 +48,7 @@ public:
 
 	//++a; a++; *a++;
 	iterator& operator++ () {
+		std::cout << "here\n";
 		_ptr = _ptr->next();
 		return *this;
 	}
