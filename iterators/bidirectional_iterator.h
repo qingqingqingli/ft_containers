@@ -70,6 +70,7 @@ public:
 		return tmp;
 	}
 
+private:
 	iterator_type _ptr;
 };
 }

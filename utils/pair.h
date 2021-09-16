@@ -42,8 +42,7 @@ bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 
 template <class T1, class T2>
 bool operator< (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return lhs.first < rhs.first ||
-(!(rhs.first < lhs.first) && lhs.second < rhs.second); }
+{ return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second); }
 
 template <class T1, class T2>
 bool operator> (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)

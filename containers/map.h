@@ -41,8 +41,8 @@ public:
 private:
 // actual tree structure
 	map_node* 				_root;
-	map_node* 				_first;
-	map_node* 				_last;
+	map_node* 				_begin;
+	map_node* 				_end;
 	size_type				_size;
 	key_compare				_compare;
 	allocator_type			_alloc;
@@ -50,6 +50,7 @@ private:
 //************************ value_compare ************************
 
 public:
+	// follow the definitions from official documentation
 	class value_compare
 	{
 		friend class map;
@@ -126,15 +127,30 @@ public:
 // empty -> Constructs an empty container, with no elements.
 explicit map (const key_compare& comp = key_compare(),
 			  const allocator_type& alloc = allocator_type())
-			  : _root(new map_node), _first(new map_node), _last(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+			  : _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+
+	// begin & end are empty nodes that signals the boundaries of the tree
+	_begin->parent = _root;
+	_end->parent = _root;
+
+	_root->left = _begin;
+	_root->right = _end;
 }
 
 // range -> Constructs a container with as many elements as the range [first,last)
 // *** insert(first, second)
-//template <class InputIterator>
-//map (InputIterator first, InputIterator last,
-//	const key_compare& comp = key_compare(),
-//	const allocator_type& alloc = allocator_type());
+template <class InputIterator>
+map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+	: _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+
+	// begin & end are empty nodes that signals the boundaries of the tree
+	_begin->parent = _root;
+	_end->parent = _root;
+
+	_root->left = _begin;
+	_root->right = _end;
+	insert(first, last);
+}
 
 // copy -> Constructs a container with a copy of each of the elements in x.
 map (const map& x) { *this = x; }
@@ -143,7 +159,7 @@ map (const map& x) { *this = x; }
 // *** clear()
 ~map() {}
 
-// assignation operator -> Assigns new contents to the container, replacing its current content.
+// assigment operator -> Assigns new contents to the container, replacing its current content.
 // *** clear()
 // *** swap()
 
@@ -157,12 +173,12 @@ map (const map& x) { *this = x; }
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-iterator begin() { return iterator(_first); }
-const_iterator begin() const { return const_iterator(_first); }
+iterator begin() { return iterator(_begin->parent); }
+const_iterator begin() const { return const_iterator(_begin->parent); }
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
-iterator end() { return iterator(_last); }
-const_iterator end() const { return const_iterator(_last); }
+iterator end() { return iterator(_end); }
+const_iterator end() const { return const_iterator(_end); }
 
 //-> Returns a reverse iterator pointing to the last element in the container (its reverse beginning).
 reverse_iterator rbegin() { return reverse_iterator(end()); }
@@ -186,13 +202,40 @@ size_type max_size() const { return _alloc.max_size(); }
 //************************ Element access ************************
 
 //-> If k matches the key of an element in the container, the function returns a reference to its mapped value.
-// insert
-//mapped_type& operator[] (const key_type& k) {
 
-//	(*((insert(make_pair(k , mapped_type()))).first)).second;
-//}
+mapped_type& operator[] (const key_type& k) {
+	return (*((insert(make_pair(k , mapped_type()))).first)).second;
+}
 
 //************************ Modifier ************************
+
+map_node* findLeftestNode(map_node *node)
+{
+	map_node *current = node;
+	while(current && current->left)
+		current = current->left;
+	return current;
+}
+
+map_node* findRightestNode(map_node *node)
+{
+	map_node *current = node;
+	while(current && current->left)
+		current = current->left;
+	return current;
+}
+
+void setup_tree_begin_end() {
+	map_node *leftest = findLeftestNode(_root);
+	map_node *rightest = findRightestNode(_root);
+
+	_begin->parent = leftest;
+	leftest->left = _begin;
+
+	_end->parent = rightest;
+	rightest->right = _end;
+}
+
 
 //-> insert elements
 
@@ -202,10 +245,11 @@ ft::pair<iterator,bool> insert (const value_type& val)
 {
 	map_node* newNode = new map_node(val);
 
-	if (!_root)
+	if (!_size)
 	{
 		_root = newNode;
 		_size++;
+		setup_tree_begin_end();
 		return ft::make_pair(iterator(_root), true);
 	}
 	else
@@ -246,10 +290,11 @@ ft::pair<iterator,bool> insert (const value_type& val)
 // -> it is only a hint and does not force the new element to be inserted at that position
 // -> return an iterator pointing to either the newly inserted element or to the element that already had an equivalent key in the map.
 
-//iterator insert (iterator position, const value_type& val)
-//{
-//	return insert(val).first;
-//}
+iterator insert (iterator position, const value_type& val)
+{
+	(void)position;
+	return insert(val).first;
+}
 
 // range
 // -> Copies of the elements in the range [first,last) are inserted in the container (include first but not last).
