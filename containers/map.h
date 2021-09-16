@@ -92,7 +92,6 @@ void postorder(map_node* node)
 	}
 }
 
-// clear the whole tree
 void clearTree()
 {
 	if (_root)
@@ -104,22 +103,39 @@ void clearTree()
 	}
 }
 
-// find the min node
-map_node* findMinNode(map_node *&tree)
-{
-	map_node *current = tree;
-
-	//find the leftmost leaf
-	while (current && current->left)
-		current = current->left;
-	return current;
-}
-
 map_node* getRoot() {
 	map_node *copy = _root;
 
 	return copy;
 }
+
+map_node* findLeftestNode(map_node *node)
+{
+	map_node *current = node;
+	while(current && current->left && current->left != _begin)
+		current = current->left;
+	return current;
+}
+
+map_node* findRightestNode(map_node *node)
+{
+	map_node *current = node;
+	while(current && current->right && current->right != _end)
+		current = current->right;
+	return current;
+}
+
+void setupTreeBeginEnd() {
+	map_node *leftest = findLeftestNode(_root);
+	map_node *rightest = findRightestNode(_root);
+
+	_begin->parent = leftest;
+	leftest->left = _begin;
+
+	_end->parent = rightest;
+	rightest->right = _end;
+}
+
 
 public:
 //************************ Coplien form ************************
@@ -209,34 +225,6 @@ mapped_type& operator[] (const key_type& k) {
 
 //************************ Modifier ************************
 
-map_node* findLeftestNode(map_node *node)
-{
-	map_node *current = node;
-	while(current && current->left)
-		current = current->left;
-	return current;
-}
-
-map_node* findRightestNode(map_node *node)
-{
-	map_node *current = node;
-	while(current && current->left)
-		current = current->left;
-	return current;
-}
-
-void setup_tree_begin_end() {
-	map_node *leftest = findLeftestNode(_root);
-	map_node *rightest = findRightestNode(_root);
-
-	_begin->parent = leftest;
-	leftest->left = _begin;
-
-	_end->parent = rightest;
-	rightest->right = _end;
-}
-
-
 //-> insert elements
 
 // single
@@ -249,37 +237,42 @@ ft::pair<iterator,bool> insert (const value_type& val)
 	{
 		_root = newNode;
 		_size++;
-		setup_tree_begin_end();
+		setupTreeBeginEnd();
 		return ft::make_pair(iterator(_root), true);
 	}
 	else
 	{
-		map_node* current = _root;
-		map_node* parent = NULL;
+		map_node* root_tmp = _root;
+		map_node* parent_tmp;
 
 		while (true) {
-			parent = current;
-			if (val.first == parent->value.first) {
+			parent_tmp = root_tmp;
+			// val == parent node's value
+			if (val.first == parent_tmp->value.first) {
 				delete newNode;
-				return ft::make_pair(iterator(parent), false);
+				return ft::make_pair(iterator(parent_tmp), false);
 			}
 			// val < parent->value
-			else if (value_comp()(val, parent->value)) {
-				current = current->left;
-				if (!current)
-				{
-					parent->left = newNode;
+			else if (value_comp()(val, parent_tmp->value)) {
+				root_tmp = root_tmp->left;
+				// reaching the end
+				if (!root_tmp) {
+					parent_tmp->left = newNode;
+					newNode->parent = parent_tmp;
 					_size++;
-					return ft::make_pair(iterator(parent->left), true);
+					setupTreeBeginEnd();
+					return ft::make_pair(iterator(parent_tmp->left), true);
 				}
 			}
 			// val > parent->value
-			else if (value_comp()(parent->value, val)) {
-				current = current->right;
-				if (!current){
-					parent->right = newNode;
+			else if (value_comp()(parent_tmp->value, val)) {
+				root_tmp = root_tmp->right;
+				if (!root_tmp){
+					parent_tmp->right = newNode;
+					newNode->parent = parent_tmp;
 					_size++;
-					return ft::make_pair(iterator(parent->right), true);
+//					setupTreeBeginEnd();
+					return ft::make_pair(iterator(parent_tmp->right), true);
 				}
 			}
 		}
