@@ -82,16 +82,6 @@ void inorder(map_node* node)
 	}
 }
 
-void postorder(map_node* node)
-{
-	if (node && node != _begin && node != _end)
-	{
-		postorder(node->left);
-		std::cout << node->value.first << "->" << node->value.second << std::endl;
-		postorder(node->right);
-	}
-}
-
 void clearTree()
 {
 	if (_root)
@@ -228,7 +218,6 @@ mapped_type& operator[] (const key_type& k) {
 //-> insert elements
 
 // single
-// !!! need to update the first and last attribute of the tree
 ft::pair<iterator,bool> insert (const value_type& val)
 {
 	map_node* newNode = new map_node(val);

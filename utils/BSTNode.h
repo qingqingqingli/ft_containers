@@ -39,32 +39,69 @@ struct BSTNode {
 		return *this;
 	}
 
-	// next node in inorder traversal (Left, Root, Right)
+	BSTNode* findMin(BSTNode* node)
+	{
+		if (!node)
+			return NULL;
+		while (node->left)
+			node = node->left;
+		return node;
+	}
+
+	BSTNode* findMax(BSTNode* node)
+	{
+		if (!node)
+			return NULL;
+		while (node->right)
+			node = node->right;
+		return node;
+	}
+
+	// next node in inorder traversal
 	BSTNode *next() {
 		BSTNode* tmp = this;
-		if (!tmp)
-		{
-			while (tmp->left)
-				tmp = tmp->left;
-			return tmp;
-		}
-		// if there is a right subtree, find the min value
-		if (tmp->right) {
-			while (tmp->left)
-				tmp = tmp->left;
-			return tmp;
-		}
-		// if right subtree is NULL, next one is one of the ancestors
 		BSTNode* p = tmp->parent;
+
+		// case 1: Node has right subtree
+		if (tmp->right)
+			return findMin(tmp->right);
+
+		// case 2: no right subtree. Walk from the root to find the deepest ancestor for which the current node will be in its left subtree
 		while (p && tmp == p->right) {
 			tmp = p;
 			p = p->parent;
 		}
+		if (!p)
+		{
+			while (tmp->left)
+				tmp = tmp->left;
+			p = tmp->left;
+		}
 		return p;
 	}
 
-	// prev node in inorder traversal (Left, Root, Right)
-	BSTNode *prev() {}
+	// prev node in inorder traversal
+	BSTNode *prev() {
+		BSTNode* tmp = this;
+		BSTNode* p = tmp->parent;
+
+		// case 1: Node has left subtree
+		if (tmp->left)
+			return findMax(tmp->left);
+
+		// case 2: no left subtree
+		while (p && tmp == p->left) {
+			tmp = p;
+			p = p->parent;
+		}
+		if (!p)
+		{
+			while (tmp->right)
+				tmp = tmp->right;
+			p = tmp->right;
+		}
+		return p;
+	}
 
 };
 
