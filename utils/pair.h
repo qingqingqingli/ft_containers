@@ -19,14 +19,21 @@ struct pair {
 	// default
 	pair(): first(), second() {}
 
+	// initialization
+	pair(const first_type& a, const second_type& b): first(a), second(b) {}
+
 	// copy
 	template<class U, class V>
-	pair (const pair<U,V>& pr): first(pr.first), second(pr.second) {}
-
-	// initialization
-	pair (const first_type& a, const second_type& b): first(a), second(b) {}
+	pair(const pair<U,V>& pr): first(pr.first), second(pr.second) {}
 
 	// assignation - implicitly declared
+//	pair& operator=(const pair& pr) {
+//		if (this != &pr) {
+//			first = pr.first;
+//			second = pr.second;
+//		}
+//		return *this;
+//	}
 };
 
 template <class T1, class T2>

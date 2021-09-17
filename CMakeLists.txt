@@ -21,7 +21,8 @@ set(SOURCES
         unit_test/test_map.cpp
         utils/BSTNode.h
         iterators/bidirectional_iterator.h
-        unit_test/test_pair.cpp)
+        unit_test/test_pair.cpp
+        unit_test/test_map_iterator.cpp)
 
 set(CMAKE_CXX_COMPILER clang++)
 
