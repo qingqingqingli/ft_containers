@@ -150,15 +150,20 @@ public:
 
 // destructor -> Destroys the container object.
 // *** clear()
-	~map() {}
+	~map() {
+		clear();
+		delete _begin;
+		delete _end;
+		delete _root;
+	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
-//map& operator= (const map& x) {
-//
-//	this->clear();
-//	this->swap(x);
-//	return *this;
-//}
+	map& operator= (const map& x) {
+
+		clear();
+		swap(x);
+		return *this;
+	}
 
 //************************ Iterators ************************
 
@@ -334,6 +339,11 @@ public:
 			}
 			else if (nodeWithTwoLeaves(root)) {
 				std::cout << "root with two leaves" << std::endl;
+//				map_node *minRightSubTree = findLeftestNode(root->right);
+//				map_node *tmp = root;
+//
+//				delete root;
+//				_size--;
 
 			}
 		}
@@ -373,6 +383,8 @@ public:
 
 	void removeNodeWithTwoChildren(map_node *node) {
 		std::cout << "removeNodeWithTwoChildren" << std::endl;
+
+//		map_node *tmp = findLeftestNode(node->right);
 		(void)node;
 		return ;
 	}
@@ -391,7 +403,9 @@ public:
 	}
 
 //-> erase element
-//	void erase(iterator position) {}
+	void erase(iterator position) {
+		erase(position->first);
+	}
 
 // return how many elements are removed
 	size_type erase (const key_type& k) {
@@ -403,14 +417,27 @@ public:
 		return 1;
 	}
 
-
-//void erase (iterator first, iterator last);
+	void erase (iterator first, iterator last) {
+		while (first != last)
+		{
+			iterator tmp(first);
+			++first;
+			erase(tmp->first);
+		}
+	}
 
 //-> swap content
-	void swap(map &x);
+	void swap(map &x) {
+		map tmp(*this);
+
+		*this = x;
+		x = tmp;
+	}
 
 //-> clear content
-	void clear();
+	void clear() {
+		erase(begin(), end());
+	}
 
 //************************ Observers ************************
 //-> return key comparison object
