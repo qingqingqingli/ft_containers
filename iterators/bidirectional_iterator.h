@@ -8,20 +8,20 @@
 
 namespace ft {
 
-template < typename T >
+template < typename T, typename Pointer, typename Reference>
 class bidirectional_iterator {
 
 public:
-	typedef std::bidirectional_iterator_tag					iterator_category;
-	typedef T												value_type;
-	typedef T*												pointer;
-	typedef T&												reference;
-	typedef std::ptrdiff_t									difference_type;
-	typedef bidirectional_iterator<value_type>				iterator;
-	typedef bidirectional_iterator<const value_type> 		if_const;
+	typedef std::bidirectional_iterator_tag							iterator_category;
+	typedef T														value_type;
+	typedef std::ptrdiff_t											difference_type;
+	typedef Reference												reference;
+	typedef Pointer													pointer;
+	typedef bidirectional_iterator<value_type, pointer, reference>	iterator;
+	typedef bidirectional_iterator<value_type, pointer, reference> 	if_const;
 	// iterator is on the map node itself, thus we need to define the type of the node
-	typedef BSTNode<value_type> 							Node;
-	typedef Node*											iterator_type;
+	typedef BSTNode<value_type> 									Node;
+	typedef Node*													iterator_type;
 
 public:
 	// X a; X b(a); b = a; ~X()

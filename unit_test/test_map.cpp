@@ -155,7 +155,8 @@ TEST_CASE("count()", "[map][operations]")
 	ft_map.insert ( ft::pair<int,int>(6, -999) );
 
 	REQUIRE(std_map.count(4) == ft_map.count(4));
-	REQUIRE(std_map.count(4) == ft_map.count(4));
+	REQUIRE(std_map.count(2) == ft_map.count(2));
+	REQUIRE(std_map.count(555) == ft_map.count(555));
 }
 
 
