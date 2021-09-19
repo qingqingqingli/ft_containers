@@ -54,8 +54,7 @@ TEST_CASE("insert()", "[map][modifiers]")
 			++begin_std;
 			++begin_ft;
 		}
-		//	std::cout << "----------inorder traverse------------" << std::endl;
-		//	mymap_ft.inorder(mymap_ft.getRoot());
+
 	}
 
 	SECTION("insert unique element")
@@ -157,6 +156,75 @@ TEST_CASE("count()", "[map][operations]")
 	REQUIRE(std_map.count(4) == ft_map.count(4));
 	REQUIRE(std_map.count(2) == ft_map.count(2));
 	REQUIRE(std_map.count(555) == ft_map.count(555));
+}
+
+TEST_CASE("bounds", "[map][operations]")
+{
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator itlow, itup;
+
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
+
+	itlow = mymap.lower_bound('b');
+	itup = mymap.upper_bound('d');
+
+	ft::map<char,int> mymap_ft;
+	ft::map<char,int>::iterator itlow_ft, itup_ft;
+
+	mymap_ft['a']=20;
+	mymap_ft['b']=40;
+	mymap_ft['c']=60;
+	mymap_ft['d']=80;
+	mymap_ft['e']=100;
+
+	itlow_ft = mymap_ft.lower_bound('b');
+	itup_ft = mymap_ft.upper_bound('d');
+
+	SECTION ("lower_bound()") {
+		REQUIRE(itlow->first == itlow_ft->first);
+		REQUIRE(itlow->second == itlow_ft->second);
+	}
+
+	SECTION("upper_bound()"){
+		REQUIRE(itup->first == itup_ft->first);
+		REQUIRE(itup->second == itup_ft->second);
+	}
+
+	SECTION("equal_range()") {
+		std::pair<std::map<char,int>::iterator, std::map<char,int>::iterator> equal = mymap.equal_range('c');
+		ft::pair<ft::map<char,int>::iterator, ft::map<char,int>::iterator> equal_ft = mymap_ft.equal_range('c');
+		REQUIRE(equal.first->first == equal_ft.first->first);
+		REQUIRE(equal.first->second == equal_ft.first->second);
+		REQUIRE(equal.second->first == equal_ft.second->first);
+		REQUIRE(equal.second->second == equal_ft.second->second);
+	}
+}
+
+TEST_CASE("erase()")
+{
+	ft::map<char,int> mymap_ft;
+//	ft::map<char,int>::iterator itlow_ft, itup_ft;
+
+	mymap_ft['a']=20;
+	mymap_ft['d']=80;
+	mymap_ft['b']=40;
+	mymap_ft['c']=60;
+	mymap_ft['e']=100;
+
+	std::cout << "----------before------------" << std::endl;
+	mymap_ft.inorder(mymap_ft.getRoot());
+	std::cout << "----------------------" << std::endl;
+
+	mymap_ft.erase('c');
+
+	std::cout << "----------after------------" << std::endl;
+	mymap_ft.inorder(mymap_ft.getRoot());
+
+
 }
 
 

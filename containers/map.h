@@ -141,7 +141,6 @@ public:
 // *** insert(first, second)
 	template<class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-
 		setupTreeBeginEnd();
 		insert(first, last);
 	}
@@ -269,6 +268,23 @@ public:
 		}
 	}
 
+	map_node *searchKey(const key_type &key) {
+		map_node *tmp = _root;
+		while (tmp && tmp != _begin && tmp != _end) {
+			if (key == tmp->value.first)
+			{
+				std::cout << "searched & found: " << tmp->value.first << "->" << tmp->value.second << std::endl;
+				return tmp;
+			}
+			else if (_compare(key, tmp->value.first))
+				tmp = tmp->left;
+			else if (_compare(tmp->value.first, key))
+				tmp = tmp->right;
+		}
+		std::cout << "does not find node" << std::endl;
+		return NULL;
+	}
+
 	bool nodeIsLeaf(map_node *node) {
 		if ((node->left == NULL || node->left == _begin) && (node->right == NULL || node->right == _end))
 			return true;
@@ -276,24 +292,118 @@ public:
 			return false;
 	}
 
-//	map_node *searchKey(const key_type &key) {
-//
-//	}
+	bool nodeWithOneLeftLeaf(map_node *node) {
+		if (node->left && (node->right == NULL || node->right == _end))
+			return true;
+		return false;
+	}
+
+	bool nodeWithOneRightLeaf(map_node *node) {
+		if (node->right && (node->left == NULL || node->left == _begin))
+			return true;
+		return false;
+	}
+
+	bool nodeWithTwoLeaves(map_node *node) {
+		if (node->left && node->left != _begin && node->right && node->right != _end)
+			return true;
+		else
+			return false;
+	}
+
+	void removeRoot(map_node *root)	{
+		std::cout << "removeRoot" << std::endl;
+		if (size() == 1) {
+			delete _root;
+			_size--;
+		}
+		else {
+			if (nodeWithOneRightLeaf(root)) {
+				map_node *tmp = _root;
+				_root = _root->right;
+				_root->parent = NULL;
+				delete tmp;
+				_size--;
+			}
+			else if (nodeWithOneLeftLeaf(root)) {
+				map_node *tmp = _root;
+				_root = _root->left;
+				_root->parent = NULL;
+				delete tmp;
+				_size--;
+			}
+			else if (nodeWithTwoLeaves(root)) {
+				std::cout << "root with two leaves" << std::endl;
+
+			}
+		}
+	}
+
+	void removeLeaf(map_node *node) {
+		std::cout << "removeLeaf" << std::endl;
+		if (node->parent->left == node)
+			node->parent->left = NULL;
+		else if (node->parent->right == node)
+			node->parent->right = NULL;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithOneLeftChild(map_node *node) {
+		std::cout << "removeNodeWithOneLeftChild" << std::endl;
+		if (node->parent->left == node)
+			node->parent->left = node->left;
+		else if (node->parent->right == node)
+			node->parent->right = node->left;
+		node->left->parent = node->parent;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithOneRightChild(map_node *node) {
+		std::cout << "removeNodeWithOneRightChild" << std::endl;
+		if (node->parent->right == node)
+			node->parent->right = node->right;
+		else if (node->parent->left == node)
+			node->parent->left = node->right;
+		node->right->parent = node->parent;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithTwoChildren(map_node *node) {
+		std::cout << "removeNodeWithTwoChildren" << std::endl;
+		(void)node;
+		return ;
+	}
+
+	void erase_node(map_node *node)	{
+		if (node == _root)
+			removeRoot(node);
+		else if (nodeIsLeaf(node))
+			removeLeaf(node);
+		else if (nodeWithOneLeftLeaf(node))
+			removeNodeWithOneLeftChild(node);
+		else if (nodeWithOneRightLeaf(node))
+			removeNodeWithOneRightChild(node);
+		else if (nodeWithTwoLeaves(node))
+			removeNodeWithTwoChildren(node);
+	}
 
 //-> erase element
-//	void erase(iterator position) {
-//		// find the node that the iterator is pointing too
-//
-//		map_node *node = searchKey(position->first);
-//
-//		// case 1: node to be deleted is the leaf -> remove the node
-//		// case 2: node to be deleted has only one child -> copy the child to the node and delete the child
-//
-//		// case 3: node to be deleted has two children -> find inorder successor of the node. Copy contents of the inorder successor to the node and delete the inorder successor
-//
-//
-//	}
-//size_type erase (const key_type& k);
+//	void erase(iterator position) {}
+
+// return how many elements are removed
+	size_type erase (const key_type& k) {
+		map_node *node = searchKey(k);
+		if (!node)
+			return 0;
+		erase_node(node);
+		setupTreeBeginEnd();
+		return 1;
+	}
+
+
 //void erase (iterator first, iterator last);
 
 //-> swap content
@@ -336,32 +446,66 @@ public:
 			return 0;
 	}
 
-//-> return iterator to lower bound
-//iterator lower_bound (const key_type& k);
-//const_iterator lower_bound (const key_type& k) const;
+//-> lower_bound: returns an iterator pointing to the first element in the container whose key is not considered to go before k (i.e., either it is equivalent or goes after).
+	iterator lower_bound (const key_type& k) {
+		iterator begin_itr = begin();
+		while (begin_itr != end()) {
+			if (!_compare(begin_itr->first, k))
+				break;
+			++begin_itr;
+		}
+		return begin_itr;
+	}
 
-//-> return iterator to upper bound
-//iterator upper_bound (const key_type& k);
-//const_iterator upper_bound (const key_type& k) const;
+	const_iterator lower_bound (const key_type& k) const {
+		const_iterator begin_itr = begin();
+		while (begin_itr != end()) {
+			if (!_compare(begin_itr->first, k))
+				break;
+			++begin_itr;
+		}
+		return begin_itr;
+	}
 
-//-> get range of equal elements (returns a single element at most)
-//pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-//pair<iterator,iterator>             equal_range (const key_type& k);
+//-> upper_bound: returns an iterator pointing to the first element in the container whose key is considered to go after k.
+	iterator upper_bound (const key_type& k) {
+		iterator begin_itr = begin();
+		while (begin_itr != end()) {
+			if (_compare(k, begin_itr->first))
+				break;
+			++begin_itr;
+		}
+		return begin_itr;
+	}
+
+	const_iterator upper_bound (const key_type& k) const {
+		const_iterator begin_itr = begin();
+		while (begin_itr != end()) {
+			if (_compare(k, begin_itr->first))
+				break;
+			++begin_itr;
+		}
+		return begin_itr;
+	}
+
+//-> get range of equal elements (returns a single element at most): returns the bounds of a range that includes all the elements in the container which have a key equivalent to k.
+
+	pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+		const_iterator lower = lower_bound(k);
+		const_iterator upper = upper_bound(k);
+		return make_pair(lower, upper);
+	}
+
+	pair<iterator,iterator>             equal_range (const key_type& k) {
+		iterator lower = lower_bound(k);
+		iterator upper = upper_bound(k);
+		return make_pair(lower, upper);
+	}
 
 
 //************************ get_allocator ************************
 //-> get allocator
 allocator_type get_allocator() const { return _alloc; }
-
-//************************ private helpers ************************
-
-//size_type tree_size(BSTNode<mapped_type> *tree) const
-//{
-//	if (tree->root)
-//		return 1 + tree_size(tree->left) + tree_size(tree->right);
-//	else
-//		return 0;
-//}
 
 };
 
