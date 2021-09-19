@@ -80,11 +80,11 @@ public:
 		}
 	}
 
-	void clearTree() {
-		if (_root) {
-			clearTree(_root->left);
-			clearTree(_root->right);
-			delete _root;
+	void clearTree(map_node *root) {
+		if (root) {
+			clearTree(root->left);
+			clearTree(root->right);
+			delete root;
 			_root = NULL;
 		}
 	}
@@ -151,8 +151,7 @@ public:
 // destructor -> Destroys the container object.
 // *** clear()
 	~map() {
-		clear();
-		delete _begin;
+		clearTree(_root);
 		delete _end;
 		delete _root;
 	}
