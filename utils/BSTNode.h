@@ -16,12 +16,10 @@ struct BSTNode {
 	BSTNode* 	left;
 	BSTNode* 	right;
 	T			value;
-	// whether a node is first and end boundary signal of a tree
-	bool 		boundary;
 
-	BSTNode() : parent(NULL), left(NULL), right(NULL), value(), boundary(true) {};
+	BSTNode() : parent(NULL), left(NULL), right(NULL), value() {};
 
-	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data), boundary(false) {}
+	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data) {}
 
 	~BSTNode(){};
 
@@ -34,7 +32,6 @@ struct BSTNode {
 			left = x.left;
 			right = x.right;
 			value = x.value;
-			boundary = x.boundary;
 		}
 		return *this;
 	}

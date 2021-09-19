@@ -136,11 +136,14 @@ explicit map (const key_compare& comp = key_compare(),
 			  : _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
 
 	// begin & end are empty nodes that signals the boundaries of the tree
-	_begin->parent = _root;
-	_end->parent = _root;
+//	_begin->parent = _root;
+//	_end->parent = _root;
+//
+//	_root->left = _begin;
+//	_root->right = _end;
 
-	_root->left = _begin;
-	_root->right = _end;
+	setupTreeBeginEnd();
+
 }
 
 // range -> Constructs a container with as many elements as the range [first,last)
@@ -149,12 +152,7 @@ template <class InputIterator>
 map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 	: _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
 
-	// begin & end are empty nodes that signals the boundaries of the tree
-	_begin->parent = _root;
-	_end->parent = _root;
-
-	_root->left = _begin;
-	_root->right = _end;
+	setupTreeBeginEnd();
 	insert(first, last);
 }
 
@@ -218,6 +216,7 @@ mapped_type& operator[] (const key_type& k) {
 //-> insert elements
 
 // single
+// !!! need to add balancing option
 ft::pair<iterator,bool> insert (const value_type& val)
 {
 	map_node* newNode = new map_node(val);
@@ -339,8 +338,6 @@ allocator_type get_allocator() const { return _alloc; }
 //	else
 //		return 0;
 //}
-
-// implement searchNode function
 
 };
 
