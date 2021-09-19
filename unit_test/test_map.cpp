@@ -98,6 +98,40 @@ TEST_CASE("insert()", "[map][modifiers]")
 		REQUIRE(ret_std.second == ret_ft.second);
 		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
+}
 
+TEST_CASE("find()", "[map][operations]")
+{
+	std::map<int, int> std_map;
+	ft::map<int, int> ft_map;
+
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
+
+	std::map<int, int>::iterator std_itr = std_map.find(1);
+	ft::map<int, int>::iterator ft_itr = ft_map.find(1);
+
+	REQUIRE(std_itr->first == ft_itr->first);
+	REQUIRE(std_itr->second == ft_itr->second);
+
+	std_itr = std_map.find(5);
+	ft_itr = ft_map.find(5);
+
+	REQUIRE(std_itr->first == ft_itr->first);
+	REQUIRE(std_itr->second == ft_itr->second);
+
+	ft_itr = ft_map.find(88);
+	REQUIRE(ft_itr == ft_map.end());
 }
 
