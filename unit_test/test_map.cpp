@@ -135,3 +135,27 @@ TEST_CASE("find()", "[map][operations]")
 	REQUIRE(ft_itr == ft_map.end());
 }
 
+TEST_CASE("count()", "[map][operations]")
+{
+	std::map<int, int> std_map;
+	ft::map<int, int> ft_map;
+
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
+
+	REQUIRE(std_map.count(4) == ft_map.count(4));
+	REQUIRE(std_map.count(4) == ft_map.count(4));
+}
+
+

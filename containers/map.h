@@ -40,12 +40,12 @@ public:
 
 private:
 // actual tree structure
-	map_node *_root;
-	map_node *_begin;
-	map_node *_end;
-	size_type _size;
-	key_compare _compare;
-	allocator_type _alloc;
+	map_node 		*_root;
+	map_node 		*_begin;
+	map_node 		*_end;
+	size_type 		_size;
+	key_compare 	_compare;
+	allocator_type 	_alloc;
 
 //************************ value_compare ************************
 
@@ -120,14 +120,11 @@ public:
 		rightest->right = _end;
 	}
 
-
 public:
 //************************ Coplien form ************************
 
 // empty -> Constructs an empty container, with no elements.
-	explicit map(const key_compare &comp = key_compare(),
-				 const allocator_type &alloc = allocator_type())
-			: _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
 
 		// begin & end are empty nodes that signals the boundaries of the tree
 //	_begin->parent = _root;
@@ -143,9 +140,7 @@ public:
 // range -> Constructs a container with as many elements as the range [first,last)
 // *** insert(first, second)
 	template<class InputIterator>
-	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
-		const allocator_type &alloc = allocator_type())
-			: _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
+	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
 
 		setupTreeBeginEnd();
 		insert(first, last);
@@ -159,13 +154,10 @@ public:
 	~map() {}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
-// *** clear()
-// *** swap()
-
 //map& operator= (const map& x) {
 //
 //	this->clear();
-//	this->swap(__x);
+//	this->swap(x);
 //	return *this;
 //}
 
@@ -320,7 +312,7 @@ public:
 //************************ Operations ************************
 
 //-> searches the container for an element with a key equivalent to k and returns an iterator to it if found, otherwise it returns an iterator to map::end.
-iterator find(const key_type &k) {
+	iterator find(const key_type &k) {
 	for (iterator begin_itr = begin(); begin_itr != end(); ++begin_itr) {
 		if (begin_itr->first == k)
 			return begin_itr;
@@ -328,8 +320,8 @@ iterator find(const key_type &k) {
 	return end();
 }
 
-const_iterator find (const key_type& k) const {
-	for (iterator begin_itr = begin(); begin_itr != end(); ++begin_itr) {
+	const_iterator find (const key_type& k) const {
+	for (const_iterator begin_itr = begin(); begin_itr != end(); ++begin_itr) {
 		if (begin_itr->first == k)
 			return begin_itr;
 	}
@@ -337,7 +329,12 @@ const_iterator find (const key_type& k) const {
 }
 
 //-> count elements with a specific key (only 1 or 0)
-size_type count (const key_type& k) const;
+	size_type count (const key_type& k) const {
+		if (find(k) != end())
+			return 1;
+		else
+			return 0;
+	}
 
 //-> return iterator to lower bound
 //iterator lower_bound (const key_type& k);
