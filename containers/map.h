@@ -9,6 +9,7 @@
 #include "../utils/BSTNode.h"
 #include "../iterators/bidirectional_iterator.h"
 #include "../iterators/reverse_iterator.h"
+#include "../utils/type_traits.h"
 
 namespace ft {
 
@@ -125,16 +126,7 @@ public:
 
 // empty -> Constructs an empty container, with no elements.
 	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-
-		// begin & end are empty nodes that signals the boundaries of the tree
-//	_begin->parent = _root;
-//	_end->parent = _root;
-//
-//	_root->left = _begin;
-//	_root->right = _end;
-
 		setupTreeBeginEnd();
-
 	}
 
 // range -> Constructs a container with as many elements as the range [first,last)
@@ -151,14 +143,13 @@ public:
 // destructor -> Destroys the container object.
 // *** clear()
 	~map() {
-		clearTree(_root);
+		clear();
 		delete _end;
-		delete _root;
+		delete _begin;
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
 	map& operator= (const map& x) {
-
 		clear();
 		swap(x);
 		return *this;
@@ -265,7 +256,7 @@ public:
 // range
 // -> Copies of the elements in the range [first,last) are inserted in the container (include first but not last).
 	template<class InputIterator>
-	void insert(InputIterator first, InputIterator last, typename iterator_traits<InputIterator>::type * = 0) {
+	void insert(InputIterator first, InputIterator last) {
 		while (first != last) {
 			insert(*first);
 			first++;
