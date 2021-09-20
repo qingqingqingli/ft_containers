@@ -96,14 +96,53 @@ TEST_CASE("insert()", "[map][modifiers]")
 		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
 
-//	SECTION("insert iterators")
-//	{
-//		ft::map<char,int> empty;
-//		ft::map<char,int>::iterator begin_itr = mymap_ft.begin();
-//		ft::map<char,int>::iterator end_itr = mymap_ft.end();
-//		empty.insert(begin_itr, end_itr);
-//		REQUIRE(mymap_ft == empty);
-//	}
+	SECTION("insert iterators")
+	{
+		ft::map<char,int> empty;
+		ft::map<char,int>::iterator begin_itr = mymap_ft.begin();
+		ft::map<char,int>::iterator end_itr = mymap_ft.end();
+		empty.insert(begin_itr, end_itr);
+
+		ft::map<char,int>::iterator empty_begin = empty.begin();
+		ft::map<char,int>::iterator empty_end = empty.end();
+
+		std::cout << "----------original------------" << std::endl;
+		mymap_ft.inorder(mymap_ft.getRoot());
+		std::cout << "----------------------" << std::endl;
+
+		std::cout << "----------copy------------" << std::endl;
+		empty.inorder(empty.getRoot());
+		std::cout << "----------------------" << std::endl;
+
+		while (empty_begin != empty_end)
+		{
+			REQUIRE(empty_begin->first == begin_itr->first);
+			REQUIRE(empty_begin->second == begin_itr->second);
+			begin_itr++;
+			empty_begin++;
+		}
+		REQUIRE(empty.size() == mymap_ft.size());
+	}
+
+	SECTION("insert hint")
+	{
+		mymap_std.insert(mymap_std.begin(), std::pair<char,int>('d', -100));
+		mymap_ft.insert(mymap_ft.begin(), ft::pair<char,int>('d', -100));
+
+		std::map<char,int>::iterator begin_std = mymap_std.begin();
+		ft::map<char,int>::iterator begin_ft = mymap_ft.begin();
+		std::map<char,int>::iterator end_std = mymap_std.end();
+		ft::map<char,int>::iterator end_ft = mymap_ft.end();
+
+		while (begin_std != end_std && begin_ft != end_ft)
+		{
+			REQUIRE(begin_std->first == begin_ft->first);
+			REQUIRE(begin_std->second == begin_ft->second);
+			++begin_std;
+			++begin_ft;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
 }
 
 TEST_CASE("find()", "[map][operations]")
@@ -333,10 +372,6 @@ TEST_CASE("erase()", "[map][modifiers]")
 //	std::cout << "----------after------------" << std::endl;
 //	mymap_ft.inorder(mymap_ft.getRoot());
 //	std::cout << "----------------------" << std::endl;
-
-
-
-
 
 }
 

@@ -211,11 +211,9 @@ public:
 	void insert(InputIterator first, InputIterator last) {
 		while (first != last) {
 			insert(*first);
-			first++;
+			++first;
 		}
 	}
-
-
 
 //-> erase element
 	void erase(iterator position) {
@@ -571,32 +569,33 @@ public:
 
 //*************** Non-member function overloads ***************
 
-template <class Key, class T, class Compare, class Alloc>
-bool operator== ( const map<Key,T,Compare,Alloc>& lhs,
-				const map<Key,T,Compare,Alloc>& rhs );
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator== ( const map<Key,T,Compare,Alloc>& lhs,
+//				const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator!= ( const map<Key,T,Compare,Alloc>& lhs,
+//				const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator<  ( const map<Key,T,Compare,Alloc>& lhs,
+//				const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator<= ( const map<Key,T,Compare,Alloc>& lhs,
+//				const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator>  ( const map<Key,T,Compare,Alloc>& lhs,
+//						  const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//bool operator>= ( const map<Key,T,Compare,Alloc>& lhs,
+//				const map<Key,T,Compare,Alloc>& rhs );
+//
+//template <class Key, class T, class Compare, class Alloc>
+//void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y);
 
-template <class Key, class T, class Compare, class Alloc>
-bool operator!= ( const map<Key,T,Compare,Alloc>& lhs,
-				const map<Key,T,Compare,Alloc>& rhs );
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator<  ( const map<Key,T,Compare,Alloc>& lhs,
-				const map<Key,T,Compare,Alloc>& rhs );
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator<= ( const map<Key,T,Compare,Alloc>& lhs,
-				const map<Key,T,Compare,Alloc>& rhs );
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator>  ( const map<Key,T,Compare,Alloc>& lhs,
-						  const map<Key,T,Compare,Alloc>& rhs );
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator>= ( const map<Key,T,Compare,Alloc>& lhs,
-				const map<Key,T,Compare,Alloc>& rhs );
-
-template <class Key, class T, class Compare, class Alloc>
-void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y);
 }
 
 #endif //FT_CONTAINERS_MAP_H
