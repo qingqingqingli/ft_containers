@@ -211,25 +211,131 @@ TEST_CASE("bounds", "[map][operations]")
 	}
 }
 
-TEST_CASE("erase()")
+TEST_CASE("erase()", "[map][modifiers]")
 {
-	ft::map<char,int> mymap_ft;
-//	ft::map<char,int>::iterator itlow_ft, itup_ft;
+	std::map<int,int> mymap_std;
 
-	mymap_ft['a']=20;
-	mymap_ft['d']=80;
-	mymap_ft['b']=40;
-	mymap_ft['c']=60;
-	mymap_ft['e']=100;
+	mymap_std[1]=20;
+	mymap_std[4]=80;
+	mymap_std[3]=40;
+	mymap_std[2]=23;
+	mymap_std[6]=23;
+	mymap_std[5]=60;
+	mymap_std[7]=100;
+	mymap_std[8]=80;
 
-	std::cout << "----------before------------" << std::endl;
-	mymap_ft.inorder(mymap_ft.getRoot());
-	std::cout << "----------------------" << std::endl;
+	ft::map<int,int> mymap_ft;
 
-	mymap_ft.erase('c');
+	mymap_ft[1]=20;
+	mymap_ft[4]=80;
+	mymap_ft[3]=40;
+	mymap_ft[2]=23;
+	mymap_ft[6]=23;
+	mymap_ft[5]=60;
+	mymap_ft[7]=100;
+	mymap_ft[8]=80;
 
-	std::cout << "----------after------------" << std::endl;
-	mymap_ft.inorder(mymap_ft.getRoot());
+	SECTION("remove root")
+	{
+		mymap_ft.erase(1);
+		mymap_std.erase(1);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("remove leaf node")
+	{
+		mymap_ft.erase(5);
+		mymap_std.erase(5);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("remove node with one left child")
+	{
+		mymap_ft.erase(3);
+		mymap_std.erase(3);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("remove node with one right child")
+	{
+		mymap_ft.erase(7);
+		mymap_std.erase(7);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("remove node with two children")
+	{
+		mymap_ft.erase(2);
+		mymap_std.erase(2);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("remove node with two children")
+	{
+		mymap_ft.erase(4);
+		mymap_std.erase(4);
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+//			std::cout << "----------------------" << std::endl;
+//			std::cout << it_std->first << "->" << it_std->second << std::endl;
+//			std::cout << it->first << "->" << it->second << std::endl;
+//			std::cout << "----------------------" << std::endl;
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+
+
+	}
+
+//	std::cout << "----------after------------" << std::endl;
+//	mymap_ft.inorder(mymap_ft.getRoot());
+//	std::cout << "----------------------" << std::endl;
+
+
+
 
 
 }
@@ -314,5 +420,35 @@ TEST_CASE("erase()")
 //	for (; ft_itr_begin_2 != ft_itr_end_2; ++ft_itr_begin_2)
 //		std::cout << ft_itr_begin_2->first << "->" << ft_itr_begin_2->second << std::endl;
 //}
+
+TEST_CASE("equal iterator")
+{
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator begin_1;
+
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
+
+	begin_1 = mymap.begin();
+
+	std::map<char,int> mymap_std_2;
+	std::map<char,int>::iterator begin_2;
+
+	mymap_std_2['a']=20;
+	mymap_std_2['b']=40;
+	mymap_std_2['c']=60;
+	mymap_std_2['d']=80;
+	mymap_std_2['e']=100;
+
+	begin_2 = mymap_std_2.begin();
+
+	REQUIRE(begin_1 != begin_2);
+	REQUIRE(begin_1 == begin_1);
+	REQUIRE(begin_1->first == begin_2->first);
+	REQUIRE(begin_1->second == begin_2->second);
+}
 
 

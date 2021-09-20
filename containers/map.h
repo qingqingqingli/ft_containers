@@ -70,56 +70,7 @@ public:
 		}
 	};
 
-//************************ Private helpers ************************
-public:
 
-	void inorder(map_node *node) {
-		if (node && node != _begin && node != _end) {
-			inorder(node->left);
-			std::cout << node->value.first << "->" << node->value.second << std::endl;
-			inorder(node->right);
-		}
-	}
-
-	void clearTree(map_node *root) {
-		if (root) {
-			clearTree(root->left);
-			clearTree(root->right);
-			delete root;
-			_root = NULL;
-		}
-	}
-
-	map_node *getRoot() {
-		map_node *copy = _root;
-
-		return copy;
-	}
-
-	map_node *findLeftestNode(map_node *node) {
-		map_node *current = node;
-		while (current && current->left && current->left != _begin)
-			current = current->left;
-		return current;
-	}
-
-	map_node *findRightestNode(map_node *node) {
-		map_node *current = node;
-		while (current && current->right && current->right != _end)
-			current = current->right;
-		return current;
-	}
-
-	void setupTreeBeginEnd() {
-		map_node *leftest = findLeftestNode(_root);
-		map_node *rightest = findRightestNode(_root);
-
-		_begin->parent = leftest;
-		leftest->left = _begin;
-
-		_end->parent = rightest;
-		rightest->right = _end;
-	}
 
 public:
 //************************ Coplien form ************************
@@ -143,6 +94,7 @@ public:
 // destructor -> Destroys the container object.
 // *** clear()
 	~map() {
+		std::cout << "**** destructor ***" << std::endl;
 		clear();
 		delete _end;
 		delete _begin;
@@ -263,134 +215,7 @@ public:
 		}
 	}
 
-	map_node *searchKey(const key_type &key) {
-		map_node *tmp = _root;
-		while (tmp && tmp != _begin && tmp != _end) {
-			if (key == tmp->value.first)
-			{
-				std::cout << "searched & found: " << tmp->value.first << "->" << tmp->value.second << std::endl;
-				return tmp;
-			}
-			else if (_compare(key, tmp->value.first))
-				tmp = tmp->left;
-			else if (_compare(tmp->value.first, key))
-				tmp = tmp->right;
-		}
-		std::cout << "does not find node" << std::endl;
-		return NULL;
-	}
 
-	bool nodeIsLeaf(map_node *node) {
-		if ((node->left == NULL || node->left == _begin) && (node->right == NULL || node->right == _end))
-			return true;
-		else
-			return false;
-	}
-
-	bool nodeWithOneLeftLeaf(map_node *node) {
-		if (node->left && (node->right == NULL || node->right == _end))
-			return true;
-		return false;
-	}
-
-	bool nodeWithOneRightLeaf(map_node *node) {
-		if (node->right && (node->left == NULL || node->left == _begin))
-			return true;
-		return false;
-	}
-
-	bool nodeWithTwoLeaves(map_node *node) {
-		if (node->left && node->left != _begin && node->right && node->right != _end)
-			return true;
-		else
-			return false;
-	}
-
-	void removeRoot(map_node *root)	{
-		std::cout << "removeRoot" << std::endl;
-		if (size() == 1) {
-			delete _root;
-			_size--;
-		}
-		else {
-			if (nodeWithOneRightLeaf(root)) {
-				map_node *tmp = _root;
-				_root = _root->right;
-				_root->parent = NULL;
-				delete tmp;
-				_size--;
-			}
-			else if (nodeWithOneLeftLeaf(root)) {
-				map_node *tmp = _root;
-				_root = _root->left;
-				_root->parent = NULL;
-				delete tmp;
-				_size--;
-			}
-			else if (nodeWithTwoLeaves(root)) {
-				std::cout << "root with two leaves" << std::endl;
-//				map_node *minRightSubTree = findLeftestNode(root->right);
-//				map_node *tmp = root;
-//
-//				delete root;
-//				_size--;
-
-			}
-		}
-	}
-
-	void removeLeaf(map_node *node) {
-		std::cout << "removeLeaf" << std::endl;
-		if (node->parent->left == node)
-			node->parent->left = NULL;
-		else if (node->parent->right == node)
-			node->parent->right = NULL;
-		delete node;
-		_size--;
-	}
-
-	void removeNodeWithOneLeftChild(map_node *node) {
-		std::cout << "removeNodeWithOneLeftChild" << std::endl;
-		if (node->parent->left == node)
-			node->parent->left = node->left;
-		else if (node->parent->right == node)
-			node->parent->right = node->left;
-		node->left->parent = node->parent;
-		delete node;
-		_size--;
-	}
-
-	void removeNodeWithOneRightChild(map_node *node) {
-		std::cout << "removeNodeWithOneRightChild" << std::endl;
-		if (node->parent->right == node)
-			node->parent->right = node->right;
-		else if (node->parent->left == node)
-			node->parent->left = node->right;
-		node->right->parent = node->parent;
-		delete node;
-		_size--;
-	}
-
-	void removeNodeWithTwoChildren(map_node *node) {
-		std::cout << "removeNodeWithTwoChildren" << std::endl;
-
-//		map_node *tmp = findLeftestNode(node->right);
-		(void)node;
-		return ;
-	}
-
-	void erase_node(map_node *node)	{
-		if (node == _root)
-			removeRoot(node);
-		else if (nodeIsLeaf(node))
-			removeLeaf(node);
-		else if (nodeWithOneLeftLeaf(node))
-			removeNodeWithOneLeftChild(node);
-		else if (nodeWithOneRightLeaf(node))
-			removeNodeWithOneRightChild(node);
-		else if (nodeWithTwoLeaves(node))
-			removeNodeWithTwoChildren(node);
-	}
 
 //-> erase element
 	void erase(iterator position) {
@@ -523,6 +348,224 @@ public:
 //************************ get_allocator ************************
 //-> get allocator
 allocator_type get_allocator() const { return _alloc; }
+
+//************************ Private helpers ************************
+public:
+
+	void inorder(map_node *node) {
+		if (node && node != _begin && node != _end) {
+			inorder(node->left);
+			std::cout << node->value.first << "->" << node->value.second << std::endl;
+			inorder(node->right);
+		}
+	}
+
+	void clearTree(map_node *root) {
+		if (root) {
+			clearTree(root->left);
+			clearTree(root->right);
+			delete root;
+			_root = NULL;
+		}
+	}
+
+	map_node *getRoot() {
+		map_node *copy = _root;
+
+		return copy;
+	}
+
+	map_node *findLeftestNode(map_node *node) {
+		map_node *current = node;
+		while (current && current->left && current->left != _begin)
+			current = current->left;
+		return current;
+	}
+
+	map_node *findRightestNode(map_node *node) {
+		map_node *current = node;
+		while (current && current->right && current->right != _end)
+			current = current->right;
+		return current;
+	}
+
+	void setupTreeBeginEnd() {
+		map_node *leftest = findLeftestNode(_root);
+		map_node *rightest = findRightestNode(_root);
+
+		_begin->parent = leftest;
+		leftest->left = _begin;
+
+		_end->parent = rightest;
+		rightest->right = _end;
+	}
+
+	map_node *searchKey(const key_type &key) {
+		map_node *tmp = _root;
+		while (tmp && tmp != _begin && tmp != _end) {
+			if (key == tmp->value.first)
+				return tmp;
+			else if (_compare(key, tmp->value.first))
+				tmp = tmp->left;
+			else if (_compare(tmp->value.first, key))
+				tmp = tmp->right;
+		}
+		std::cout << "does not find node" << std::endl;
+		return NULL;
+	}
+
+	bool nodeIsLeaf(map_node *node) {
+		if ((node->left == NULL || node->left == _begin) && (node->right == NULL || node->right == _end))
+			return true;
+		else
+			return false;
+	}
+
+	bool nodeWithOneLeftChild(map_node *node) {
+		if (node->left && (node->right == NULL || node->right == _end))
+			return true;
+		return false;
+	}
+
+	bool nodeWithOneRightChild(map_node *node) {
+		if (node->right && (node->left == NULL || node->left == _begin))
+			return true;
+		return false;
+	}
+
+	bool nodeWithTwoChildren(map_node *node) {
+		if (node->left && node->left != _begin && node->right && node->right != _end)
+			return true;
+		else
+			return false;
+	}
+
+	void removeRoot(map_node *root)	{
+		std::cout << "removeRoot" << std::endl;
+		if (size() == 1) {
+			delete _root;
+			_size--;
+		}
+		else {
+			if (nodeWithOneRightChild(root)) {
+				map_node *tmp = _root;
+				_root = _root->right;
+				_root->parent = NULL;
+				delete tmp;
+				_size--;
+			}
+			else if (nodeWithOneLeftChild(root)) {
+				map_node *tmp = _root;
+				_root = _root->left;
+				_root->parent = NULL;
+				delete tmp;
+				_size--;
+			}
+			else if (nodeWithTwoChildren(root)) {
+				std::cout << "root with two leaves" << std::endl;
+				// find min of right subtree
+				map_node *rightMin = findLeftestNode(root->right);
+
+				// copy the value in targeted node
+				map_node *toAdd = new map_node(rightMin->value);
+
+				// copy connection of node to new node
+				toAdd->right = root->right;
+				toAdd->left= root->left;
+
+				// connect node's children to new node
+				root->left->parent = toAdd;
+				root->right->parent = toAdd;
+
+				// delete original node & duplicate node from right_subtree
+				delete root;
+				_root = toAdd;
+				erase_node(rightMin);
+			}
+		}
+	}
+
+	void removeLeaf(map_node *node) {
+		std::cout << "removeLeaf" << std::endl;
+		if (node->parent->left == node)
+			node->parent->left = NULL;
+		else if (node->parent->right == node)
+			node->parent->right = NULL;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithOneLeftChild(map_node *node) {
+		std::cout << "removeNodeWithOneLeftChild" << std::endl;
+		// finding out whether the deleted node is on the right or left of the parent
+		if (node->parent->left == node)
+			node->parent->left = node->left;
+		else if (node->parent->right == node)
+			node->parent->right = node->left;
+		node->left->parent = node->parent;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithOneRightChild(map_node *node) {
+		std::cout << "removeNodeWithOneRightChild" << std::endl;
+		// finding out whether the deleted node is on the right or left of the parent
+		if (node->parent->right == node)
+			node->parent->right = node->right;
+		else if (node->parent->left == node)
+			node->parent->left = node->right;
+		node->right->parent = node->parent;
+		delete node;
+		_size--;
+	}
+
+	void removeNodeWithTwoChildren(map_node *node) {
+		std::cout << "removeNodeWithTwoChildren" << std::endl;
+//		std::cout << "delete: " << node->value.first << std::endl;
+//		std::cout << "parent of delete: " << node->parent->value.first << std::endl;
+//		std::cout << "left of delete: " << node->left->value.first << std::endl;
+//		std::cout << "left of left delete: " << node->left->left->value.first << std::endl;
+//		std::cout << "right of delete: " << node->right->value.first << std::endl;
+
+		// find minimal in right subtree
+		map_node *rightMin = findLeftestNode(node->right);
+
+		// copy the value in targeted node
+		map_node *toAdd = new map_node(rightMin->value);
+
+		// copy connection of node to new node
+		toAdd->parent = node->parent;
+		toAdd->right = node->right;
+		toAdd->left= node->left;
+
+		// connect node's parent to new node
+		if (node->parent->left == node)
+			node->parent->left = toAdd;
+		else
+			node->parent->right = toAdd;
+
+		// connect node's children to new node
+		node->left->parent = toAdd;
+		node->right->parent = toAdd;
+
+		// delete original node & duplicate node from right_subtree
+		delete node;
+		erase_node(rightMin);
+	}
+
+	void erase_node(map_node *node)	{
+		if (node == _root)
+			removeRoot(node);
+		else if (nodeIsLeaf(node))
+			removeLeaf(node);
+		else if (nodeWithOneLeftChild(node))
+			removeNodeWithOneLeftChild(node);
+		else if (nodeWithOneRightChild(node))
+			removeNodeWithOneRightChild(node);
+		else if (nodeWithTwoChildren(node))
+			removeNodeWithTwoChildren(node);
+	}
+
 
 };
 
