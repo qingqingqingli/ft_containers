@@ -385,7 +385,8 @@ TEST_CASE("swap()", "[map][modifiers]")
 	ft_map_1.insert (ft::pair<int,int>(66, 100) );
 	ft_map_1.insert (ft::pair<int,int>(77, 200) );
 	ft_map_1.insert (ft::pair<int,int>(88, 300) );
-	ft::map<int,int> map_copy_1 = ft_map_1;
+	ft::map<int,int> map_copy_1;
+	map_copy_1 = ft_map_1;
 
 	ft::map<int, int> ft_map_2;
 	ft_map_2.insert (ft::pair<int,int>(1, -999) );
@@ -394,7 +395,8 @@ TEST_CASE("swap()", "[map][modifiers]")
 	ft_map_2.insert (ft::pair<int,int>(4, -999) );
 	ft_map_2.insert (ft::pair<int,int>(5, -999) );
 	ft_map_2.insert (ft::pair<int,int>(6, -999) );
-	ft::map<int,int> map_copy_2 = ft_map_2;
+	ft::map<int,int> map_copy_2;
+	map_copy_2 = ft_map_2;
 
 	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
 	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
@@ -406,7 +408,8 @@ TEST_CASE("swap()", "[map][modifiers]")
 	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
 
 
-	ft::map<int,int>::iterator itr_copy_2 = map_copy_2.begin();
+	ft::map<int,int>::iterator itr_copy_2;
+	itr_copy_2 = map_copy_2.begin();
 	for (ft::map<int,int>::iterator itr_1 = ft_map_1.begin(); itr_1 != ft_map_1.end(); itr_1++)
 	{
 		REQUIRE(itr_1->first == itr_copy_2->first);

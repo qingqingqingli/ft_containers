@@ -20,22 +20,22 @@ template < 	class Key,
 class map {
 
 public:
-	typedef Key 										key_type;
-	typedef T 											mapped_type;
-	typedef ft::pair<const key_type, mapped_type> 		value_type;
-	typedef Compare 									key_compare;
-	typedef Alloc 										allocator_type;
-	typedef typename allocator_type::reference 			reference;
-	typedef typename allocator_type::const_reference 	const_reference;
-	typedef typename allocator_type::pointer 			pointer;
-	typedef typename allocator_type::const_pointer 		const_pointer;
-	typedef bidirectional_iterator<value_type, pointer, reference> iterator;
-	typedef bidirectional_iterator<value_type, const_pointer, const_reference> const_iterator;
-	typedef reverse_iterator<const_iterator> 			const_reverse_iterator;
-	typedef reverse_iterator<iterator> 					reverse_iterator;
-	typedef std::ptrdiff_t 								difference_type;
-	typedef size_t 										size_type;
-	typedef BSTNode<value_type> 						map_node;
+	typedef Key 																key_type;
+	typedef T 																	mapped_type;
+	typedef ft::pair<const key_type, mapped_type> 								value_type;
+	typedef Compare 															key_compare;
+	typedef Alloc 																allocator_type;
+	typedef typename allocator_type::reference 									reference;
+	typedef typename allocator_type::const_reference 							const_reference;
+	typedef typename allocator_type::pointer 									pointer;
+	typedef typename allocator_type::const_pointer 								const_pointer;
+	typedef bidirectional_iterator<value_type, pointer, reference> 				iterator;
+	typedef bidirectional_iterator<value_type, const_pointer, const_reference> 	const_iterator;
+	typedef reverse_iterator<const_iterator> 									const_reverse_iterator;
+	typedef reverse_iterator<iterator> 											reverse_iterator;
+	typedef std::ptrdiff_t 														difference_type;
+	typedef size_t 																size_type;
+	typedef BSTNode<value_type> 												map_node;
 
 //************************ Private attributes ************************
 
@@ -70,8 +70,6 @@ public:
 		}
 	};
 
-
-
 public:
 //************************ Coplien form ************************
 
@@ -84,7 +82,6 @@ public:
 	}
 
 // range -> Constructs a container with as many elements as the range [first,last)
-// *** insert(first, second)
 	template<class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
 		_root->left = _begin;
@@ -98,10 +95,12 @@ public:
 	map(const map &x) { *this = x; }
 
 // destructor -> Destroys the container object.
-// *** clear()
+// [NOT WORKING YET]
 	~map() {
-		std::cout << "**** destructor ***" << std::endl;
+//		std::cout << "**** destructor ***" << std::endl;
 		clear();
+		delete _begin;
+		delete _end;
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
@@ -112,8 +111,8 @@ public:
 			_size = 0;
 			_compare = x._compare;
 			_alloc = x._alloc;
+			insert(x.begin(), x.end());
 		}
-		insert(x.begin(), x.end());
 		return *this;
 	}
 
