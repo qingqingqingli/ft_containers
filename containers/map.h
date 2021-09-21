@@ -38,6 +38,7 @@ public:
 	typedef std::ptrdiff_t 														difference_type;
 	typedef size_t 																size_type;
 	typedef BSTNode<value_type> 												map_node;
+	typedef typename Alloc::template rebind<map_node>::other					alloc_node;
 
 //************************ Private attributes ************************
 
@@ -48,7 +49,7 @@ private:
 	map_node 		*_end;
 	size_type 		_size;
 	key_compare 	_compare;
-	allocator_type 	_alloc;
+	alloc_node 		_alloc;
 
 //************************ value_compare ************************
 
