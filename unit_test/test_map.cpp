@@ -733,3 +733,59 @@ TEST_CASE("balancing") {
 	map.print_tree_utils(map.getRoot(), 0);
 }
 
+
+TEST_CASE("non-member", "[map][non-member]") {
+
+	std::map<int, int> std_left;
+	ft::map<int, int> ft_left;
+
+	std_left.insert ( std::pair<int,int>(1, -123) );
+	std_left.insert ( std::pair<int,int>(6, -999799) );
+	std_left.insert ( std::pair<int,int>(2, -234) );
+	std_left.insert ( std::pair<int,int>(4, -4599) );
+	std_left.insert ( std::pair<int,int>(5, -9669) );
+	std_left.insert ( std::pair<int,int>(3, -93) );
+
+	ft_left.insert ( ft::pair<int,int>(1, -123) );
+	ft_left.insert ( ft::pair<int,int>(6, -999799) );
+	ft_left.insert ( ft::pair<int,int>(2, -234) );
+	ft_left.insert ( ft::pair<int,int>(4, -4599) );
+	ft_left.insert ( ft::pair<int,int>(5, -9669) );
+	ft_left.insert ( ft::pair<int,int>(3, -93) );
+
+
+	std::map<int, int> std_right;
+	ft::map<int, int> ft_right;
+
+	std_right.insert ( std::pair<int,int>(10, -123) );
+	std_right.insert ( std::pair<int,int>(60, -999799) );
+	std_right.insert ( std::pair<int,int>(20, -234) );
+	std_right.insert ( std::pair<int,int>(40, -4599) );
+	std_right.insert ( std::pair<int,int>(50, -9669) );
+	std_right.insert ( std::pair<int,int>(30, -93) );
+
+	ft_right.insert ( ft::pair<int,int>(10, -123) );
+	ft_right.insert ( ft::pair<int,int>(60, -999799) );
+	ft_right.insert ( ft::pair<int,int>(20, -234) );
+	ft_right.insert ( ft::pair<int,int>(40, -4599) );
+	ft_right.insert ( ft::pair<int,int>(50, -9669) );
+	ft_right.insert ( ft::pair<int,int>(30, -93) );
+
+	REQUIRE(std_left != std_right);
+	REQUIRE(std_left == std_left);
+	REQUIRE(std_right == std_right);
+	REQUIRE(std_left < std_right);
+	REQUIRE(std_left <= std_right);
+	REQUIRE(std_right > std_left);
+	REQUIRE(std_right >= std_left);
+
+	REQUIRE(ft_left != ft_right);
+	REQUIRE(ft_left == ft_left);
+	REQUIRE(ft_right == ft_right);
+	REQUIRE(ft_left < ft_right);
+	REQUIRE(ft_left <= ft_right);
+	REQUIRE(ft_right > ft_left);
+	REQUIRE(ft_right >= ft_left);
+
+}
+
