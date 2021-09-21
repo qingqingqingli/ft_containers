@@ -5,29 +5,195 @@
 #include "catch2/catch.hpp"
 #include "../containers/map.h"
 
-TEST_CASE("size()", "[map][capacity]")
-{
-	std::map<int, int> std_map;
-	ft::map<int, int> ft_map;
+TEST_CASE("coplien form - map", "[map]") {
+	SECTION("constructor - empty") {
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
 
-	std_map.insert ( std::pair<int,int>(1, -999) );
-	std_map.insert ( std::pair<int,int>(2, -999) );
-	std_map.insert ( std::pair<int,int>(3, -999) );
-	std_map.insert ( std::pair<int,int>(4, -999) );
-	std_map.insert ( std::pair<int,int>(5, -999) );
-	std_map.insert ( std::pair<int,int>(6, -999) );
+		REQUIRE(std_map.size() == ft_map.size());
 
-	ft_map.insert ( ft::pair<int,int>(1, -999) );
-	ft_map.insert ( ft::pair<int,int>(2, -999) );
-	ft_map.insert ( ft::pair<int,int>(3, -999) );
-	ft_map.insert ( ft::pair<int,int>(4, -999) );
-	ft_map.insert ( ft::pair<int,int>(5, -999) );
-	ft_map.insert ( ft::pair<int,int>(6, -999) );
-	REQUIRE(std_map.size() == ft_map.size());
+		std_map.insert ( std::pair<int,int>(2, -999) );
+		std_map.insert ( std::pair<int,int>(4, -999) );
+		std_map.insert ( std::pair<int,int>(5, -999) );
+		std_map.insert ( std::pair<int,int>(1, -999) );
+		std_map.insert ( std::pair<int,int>(6, -999) );
+		std_map.insert ( std::pair<int,int>(3, -999) );
+
+		ft_map.insert ( ft::pair<int,int>(2, -999) );
+		ft_map.insert ( ft::pair<int,int>(4, -999) );
+		ft_map.insert ( ft::pair<int,int>(5, -999) );
+		ft_map.insert ( ft::pair<int,int>(1, -999) );
+		ft_map.insert ( ft::pair<int,int>(6, -999) );
+		ft_map.insert ( ft::pair<int,int>(3, -999) );
+
+		std::map<int,int>::iterator std = std_map.begin();
+		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+			REQUIRE(it->first == std->first);
+			REQUIRE(it->second == std->second);
+			std++;
+		}
+	}
+
+	SECTION("constructor - range") {
+		ft::map<int, int> ft_map_1;
+
+		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(4, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(5, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(1, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
+
+		ft::map<int, int> ft_map(ft_map_1.begin(), ft_map_1.end());
+		REQUIRE(ft_map_1.size() == ft_map.size());
+
+		ft::map<int,int>::iterator ft = ft_map_1.begin();
+		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+			REQUIRE(it->first == ft->first);
+			REQUIRE(it->second == ft->second);
+			ft++;
+		}
+	}
+
+//	SECTION("constructor - copy") {
+//		ft::map<int, int> ft_map_1;
+//
+//		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(4, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(5, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(1, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
+//
+//		ft::map<int, int> ft_map(ft_map_1);
+//		REQUIRE(ft_map_1.size() == ft_map.size());
+//
+//		ft::map<int,int>::iterator ft = ft_map_1.begin();
+//		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+//			REQUIRE(it->first == ft->first);
+//			REQUIRE(it->second == ft->second);
+//			ft++;
+//		}
+//	}
+
+//	SECTION("map::operator=") {
+//		ft::map<int, int> ft_map_1;
+//
+//		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(4, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(5, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(1, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
+//		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
+//
+//		ft::map<int, int> ft_map = ft_map_1;
+//		REQUIRE(ft_map_1.size() == ft_map.size());
+//
+//		ft::map<int,int>::iterator ft = ft_map_1.begin();
+//		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+//			REQUIRE(it->first == ft->first);
+//			REQUIRE(it->second == ft->second);
+//			ft++;
+//		}
+//	}
+
 }
 
-TEST_CASE("insert()", "[map][modifiers]")
-{
+TEST_CASE("iterators - map", "[map][iterators]") {
+	std::map<int, int> std_map;
+
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+
+	ft::map<int, int> ft_map;
+
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+
+	SECTION("begin() & end()") {
+		std::map<int, int>::iterator std_begin = std_map.begin();
+		std::map<int, int>::iterator std_end = std_map.end();
+		ft::map<int, int>::iterator ft_begin = ft_map.begin();
+		ft::map<int, int>::iterator ft_end = ft_map.end();
+
+		while(std_begin != std_end) {
+			REQUIRE(std_begin->first == ft_begin->first);
+			REQUIRE(std_begin->second == ft_begin->second);
+			++ft_begin;
+			++std_begin;
+		}
+	}
+
+	SECTION("rbegin() && rend()") {
+		std::map<int, int>::reverse_iterator std_begin = std_map.rbegin();
+		std::map<int, int>::reverse_iterator std_end = std_map.rend();
+		ft::map<int, int>::reverse_iterator ft_begin = ft_map.rbegin();
+		ft::map<int, int>::reverse_iterator ft_end = ft_map.rend();
+
+		while(std_begin != std_end) {
+			REQUIRE(std_begin->first == ft_begin->first);
+			REQUIRE(std_begin->second == ft_begin->second);
+			++ft_begin;
+			++std_begin;
+		}
+	}
+}
+
+TEST_CASE("capacity", "[map][capacity]"){
+
+	SECTION("empty()") {
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
+		REQUIRE(std_map.empty() == ft_map.empty());
+
+		std_map.insert ( std::pair<int,int>(1, -999) );
+		ft_map.insert ( ft::pair<int,int>(1, -999) );
+		REQUIRE(std_map.empty() == ft_map.empty());
+	}
+
+	SECTION("size()") {
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
+		REQUIRE(std_map.size() == ft_map.size());
+
+		std_map.insert ( std::pair<int,int>(1, -999) );
+		std_map.insert ( std::pair<int,int>(2, -999) );
+		std_map.insert ( std::pair<int,int>(3, -999) );
+		std_map.insert ( std::pair<int,int>(4, -999) );
+		std_map.insert ( std::pair<int,int>(5, -999) );
+		std_map.insert ( std::pair<int,int>(6, -999) );
+
+		ft_map.insert ( ft::pair<int,int>(1, -999) );
+		ft_map.insert ( ft::pair<int,int>(2, -999) );
+		ft_map.insert ( ft::pair<int,int>(3, -999) );
+		ft_map.insert ( ft::pair<int,int>(4, -999) );
+		ft_map.insert ( ft::pair<int,int>(5, -999) );
+		ft_map.insert ( ft::pair<int,int>(6, -999) );
+		REQUIRE(std_map.size() == ft_map.size());
+	}
+
+	SECTION("max_size()") {
+		std::map<int, int> std_map;
+		ft::map<int, int> ft_map;
+		REQUIRE(std_map.max_size() == ft_map.max_size());
+
+		std_map.insert ( std::pair<int,int>(1, -999) );
+		ft_map.insert ( ft::pair<int,int>(1, -999) );
+		REQUIRE(std_map.max_size() == ft_map.max_size());
+	}
+}
+
+// operator[]
+
+TEST_CASE("insert()", "[map][modifiers]") {
 	std::map<char,int> mymap_std;
 	mymap_std.insert ( std::pair<char,int>('a',100) );
 	mymap_std.insert ( std::pair<char,int>('z',200) );
@@ -54,7 +220,6 @@ TEST_CASE("insert()", "[map][modifiers]")
 			++begin_std;
 			++begin_ft;
 		}
-
 	}
 
 	SECTION("insert unique element") {
@@ -108,13 +273,13 @@ TEST_CASE("insert()", "[map][modifiers]")
 		ft::map<char,int>::iterator empty_begin = empty.begin();
 		ft::map<char,int>::iterator empty_end = empty.end();
 
-		std::cout << "----------original------------" << std::endl;
-		mymap_ft.inorder(mymap_ft.getRoot());
-		std::cout << "----------------------" << std::endl;
-
-		std::cout << "----------copy------------" << std::endl;
-		empty.inorder(empty.getRoot());
-		std::cout << "----------------------" << std::endl;
+//		std::cout << "----------original------------" << std::endl;
+//		mymap_ft.inorder(mymap_ft.getRoot());
+//		std::cout << "----------------------" << std::endl;
+//
+//		std::cout << "----------copy------------" << std::endl;
+//		empty.inorder(empty.getRoot());
+//		std::cout << "----------------------" << std::endl;
 
 		while (empty_begin != empty_end)
 		{
@@ -147,113 +312,7 @@ TEST_CASE("insert()", "[map][modifiers]")
 	}
 }
 
-TEST_CASE("find()", "[map][operations]")
-{
-	std::map<int, int> std_map;
-	ft::map<int, int> ft_map;
-
-	std_map.insert ( std::pair<int,int>(1, -999) );
-	std_map.insert ( std::pair<int,int>(2, -999) );
-	std_map.insert ( std::pair<int,int>(3, -999) );
-	std_map.insert ( std::pair<int,int>(4, -999) );
-	std_map.insert ( std::pair<int,int>(5, -999) );
-	std_map.insert ( std::pair<int,int>(6, -999) );
-
-	ft_map.insert ( ft::pair<int,int>(1, -999) );
-	ft_map.insert ( ft::pair<int,int>(2, -999) );
-	ft_map.insert ( ft::pair<int,int>(3, -999) );
-	ft_map.insert ( ft::pair<int,int>(4, -999) );
-	ft_map.insert ( ft::pair<int,int>(5, -999) );
-	ft_map.insert ( ft::pair<int,int>(6, -999) );
-
-	std::map<int, int>::iterator std_itr = std_map.find(1);
-	ft::map<int, int>::iterator ft_itr = ft_map.find(1);
-
-	REQUIRE(std_itr->first == ft_itr->first);
-	REQUIRE(std_itr->second == ft_itr->second);
-
-	std_itr = std_map.find(5);
-	ft_itr = ft_map.find(5);
-
-	REQUIRE(std_itr->first == ft_itr->first);
-	REQUIRE(std_itr->second == ft_itr->second);
-
-	ft_itr = ft_map.find(88);
-	REQUIRE(ft_itr == ft_map.end());
-}
-
-TEST_CASE("count()", "[map][operations]")
-{
-	std::map<int, int> std_map;
-	ft::map<int, int> ft_map;
-
-	std_map.insert ( std::pair<int,int>(1, -999) );
-	std_map.insert ( std::pair<int,int>(2, -999) );
-	std_map.insert ( std::pair<int,int>(3, -999) );
-	std_map.insert ( std::pair<int,int>(4, -999) );
-	std_map.insert ( std::pair<int,int>(5, -999) );
-	std_map.insert ( std::pair<int,int>(6, -999) );
-
-	ft_map.insert ( ft::pair<int,int>(1, -999) );
-	ft_map.insert ( ft::pair<int,int>(2, -999) );
-	ft_map.insert ( ft::pair<int,int>(3, -999) );
-	ft_map.insert ( ft::pair<int,int>(4, -999) );
-	ft_map.insert ( ft::pair<int,int>(5, -999) );
-	ft_map.insert ( ft::pair<int,int>(6, -999) );
-
-	REQUIRE(std_map.count(4) == ft_map.count(4));
-	REQUIRE(std_map.count(2) == ft_map.count(2));
-	REQUIRE(std_map.count(555) == ft_map.count(555));
-}
-
-TEST_CASE("bounds", "[map][operations]")
-{
-	std::map<char,int> mymap;
-	std::map<char,int>::iterator itlow, itup;
-
-	mymap['a']=20;
-	mymap['b']=40;
-	mymap['c']=60;
-	mymap['d']=80;
-	mymap['e']=100;
-
-	itlow = mymap.lower_bound('b');
-	itup = mymap.upper_bound('d');
-
-	ft::map<char,int> mymap_ft;
-	ft::map<char,int>::iterator itlow_ft, itup_ft;
-
-	mymap_ft['a']=20;
-	mymap_ft['b']=40;
-	mymap_ft['c']=60;
-	mymap_ft['d']=80;
-	mymap_ft['e']=100;
-
-	itlow_ft = mymap_ft.lower_bound('b');
-	itup_ft = mymap_ft.upper_bound('d');
-
-	SECTION ("lower_bound()") {
-		REQUIRE(itlow->first == itlow_ft->first);
-		REQUIRE(itlow->second == itlow_ft->second);
-	}
-
-	SECTION("upper_bound()"){
-		REQUIRE(itup->first == itup_ft->first);
-		REQUIRE(itup->second == itup_ft->second);
-	}
-
-	SECTION("equal_range()") {
-		std::pair<std::map<char,int>::iterator, std::map<char,int>::iterator> equal = mymap.equal_range('c');
-		ft::pair<ft::map<char,int>::iterator, ft::map<char,int>::iterator> equal_ft = mymap_ft.equal_range('c');
-		REQUIRE(equal.first->first == equal_ft.first->first);
-		REQUIRE(equal.first->second == equal_ft.first->second);
-		REQUIRE(equal.second->first == equal_ft.second->first);
-		REQUIRE(equal.second->second == equal_ft.second->second);
-	}
-}
-
-TEST_CASE("erase()", "[map][modifiers]")
-{
+TEST_CASE("erase()", "[map][modifiers]") {
 	std::map<int,int> mymap_std;
 
 	mymap_std[1]=20;
@@ -377,8 +436,7 @@ TEST_CASE("erase()", "[map][modifiers]")
 
 }
 
-TEST_CASE("swap()", "[map][modifiers]")
-{
+TEST_CASE("swap()", "[map][modifiers]") {
 	std::cout << "--------" << std::endl;
 
 	ft::map<int,int> ft_map_1;
@@ -417,3 +475,112 @@ TEST_CASE("swap()", "[map][modifiers]")
 
 	//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
 }
+
+// clear
+
+// observers
+
+TEST_CASE("find()", "[map][operations]") {
+	std::map<int, int> std_map;
+	ft::map<int, int> ft_map;
+
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
+
+	std::map<int, int>::iterator std_itr = std_map.find(1);
+	ft::map<int, int>::iterator ft_itr = ft_map.find(1);
+
+	REQUIRE(std_itr->first == ft_itr->first);
+	REQUIRE(std_itr->second == ft_itr->second);
+
+	std_itr = std_map.find(5);
+	ft_itr = ft_map.find(5);
+
+	REQUIRE(std_itr->first == ft_itr->first);
+	REQUIRE(std_itr->second == ft_itr->second);
+
+	ft_itr = ft_map.find(88);
+	REQUIRE(ft_itr == ft_map.end());
+}
+
+TEST_CASE("count()", "[map][operations]") {
+	std::map<int, int> std_map;
+	ft::map<int, int> ft_map;
+
+	std_map.insert ( std::pair<int,int>(1, -999) );
+	std_map.insert ( std::pair<int,int>(2, -999) );
+	std_map.insert ( std::pair<int,int>(3, -999) );
+	std_map.insert ( std::pair<int,int>(4, -999) );
+	std_map.insert ( std::pair<int,int>(5, -999) );
+	std_map.insert ( std::pair<int,int>(6, -999) );
+
+	ft_map.insert ( ft::pair<int,int>(1, -999) );
+	ft_map.insert ( ft::pair<int,int>(2, -999) );
+	ft_map.insert ( ft::pair<int,int>(3, -999) );
+	ft_map.insert ( ft::pair<int,int>(4, -999) );
+	ft_map.insert ( ft::pair<int,int>(5, -999) );
+	ft_map.insert ( ft::pair<int,int>(6, -999) );
+
+	REQUIRE(std_map.count(4) == ft_map.count(4));
+	REQUIRE(std_map.count(2) == ft_map.count(2));
+	REQUIRE(std_map.count(555) == ft_map.count(555));
+}
+
+TEST_CASE("bounds", "[map][operations]") {
+	std::map<char,int> mymap;
+	std::map<char,int>::iterator itlow, itup;
+
+	mymap['a']=20;
+	mymap['b']=40;
+	mymap['c']=60;
+	mymap['d']=80;
+	mymap['e']=100;
+
+	itlow = mymap.lower_bound('b');
+	itup = mymap.upper_bound('d');
+
+	ft::map<char,int> mymap_ft;
+	ft::map<char,int>::iterator itlow_ft, itup_ft;
+
+	mymap_ft['a']=20;
+	mymap_ft['b']=40;
+	mymap_ft['c']=60;
+	mymap_ft['d']=80;
+	mymap_ft['e']=100;
+
+	itlow_ft = mymap_ft.lower_bound('b');
+	itup_ft = mymap_ft.upper_bound('d');
+
+	SECTION ("lower_bound()") {
+		REQUIRE(itlow->first == itlow_ft->first);
+		REQUIRE(itlow->second == itlow_ft->second);
+	}
+
+	SECTION("upper_bound()"){
+		REQUIRE(itup->first == itup_ft->first);
+		REQUIRE(itup->second == itup_ft->second);
+	}
+
+	SECTION("equal_range()") {
+		std::pair<std::map<char,int>::iterator, std::map<char,int>::iterator> equal = mymap.equal_range('c');
+		ft::pair<ft::map<char,int>::iterator, ft::map<char,int>::iterator> equal_ft = mymap_ft.equal_range('c');
+		REQUIRE(equal.first->first == equal_ft.first->first);
+		REQUIRE(equal.first->second == equal_ft.first->second);
+		REQUIRE(equal.second->first == equal_ft.second->first);
+		REQUIRE(equal.second->second == equal_ft.second->second);
+	}
+}
+
+// non-member relational operators
+// non-member swap
