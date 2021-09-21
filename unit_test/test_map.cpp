@@ -6,56 +6,35 @@
 #include "../containers/map.h"
 
 TEST_CASE("coplien form - map", "[map]") {
-	SECTION("constructor - empty") {
-		std::map<int, int> std_map;
-		ft::map<int, int> ft_map;
-
-		REQUIRE(std_map.size() == ft_map.size());
-
-		std_map.insert ( std::pair<int,int>(2, -999) );
-		std_map.insert ( std::pair<int,int>(4, -999) );
-		std_map.insert ( std::pair<int,int>(5, -999) );
-		std_map.insert ( std::pair<int,int>(1, -999) );
-		std_map.insert ( std::pair<int,int>(6, -999) );
-		std_map.insert ( std::pair<int,int>(3, -999) );
-
-		ft_map.insert ( ft::pair<int,int>(2, -999) );
-		ft_map.insert ( ft::pair<int,int>(4, -999) );
-		ft_map.insert ( ft::pair<int,int>(5, -999) );
-		ft_map.insert ( ft::pair<int,int>(1, -999) );
-		ft_map.insert ( ft::pair<int,int>(6, -999) );
-		ft_map.insert ( ft::pair<int,int>(3, -999) );
-
-		std::map<int,int>::iterator std = std_map.begin();
-		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
-			REQUIRE(it->first == std->first);
-			REQUIRE(it->second == std->second);
-			std++;
-		}
-	}
-
-	SECTION("constructor - range") {
-		ft::map<int, int> ft_map_1;
-
-		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
-		ft_map_1.insert ( ft::pair<int,int>(4, -999) );
-		ft_map_1.insert ( ft::pair<int,int>(5, -999) );
-		ft_map_1.insert ( ft::pair<int,int>(1, -999) );
-		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
-		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
-
-		ft::map<int, int> ft_map(ft_map_1.begin(), ft_map_1.end());
-		REQUIRE(ft_map_1.size() == ft_map.size());
-
-		ft::map<int,int>::iterator ft = ft_map_1.begin();
-		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
-			REQUIRE(it->first == ft->first);
-			REQUIRE(it->second == ft->second);
-			ft++;
-		}
-	}
-
-//	SECTION("constructor - copy") {
+//	SECTION("constructor - empty") {
+//		std::map<int, int> std_map;
+//		ft::map<int, int> ft_map;
+//
+//		REQUIRE(std_map.size() == ft_map.size());
+//
+//		std_map.insert ( std::pair<int,int>(2, -999) );
+//		std_map.insert ( std::pair<int,int>(4, -999) );
+//		std_map.insert ( std::pair<int,int>(5, -999) );
+//		std_map.insert ( std::pair<int,int>(1, -999) );
+//		std_map.insert ( std::pair<int,int>(6, -999) );
+//		std_map.insert ( std::pair<int,int>(3, -999) );
+//
+//		ft_map.insert ( ft::pair<int,int>(2, -999) );
+//		ft_map.insert ( ft::pair<int,int>(4, -999) );
+//		ft_map.insert ( ft::pair<int,int>(5, -999) );
+//		ft_map.insert ( ft::pair<int,int>(1, -999) );
+//		ft_map.insert ( ft::pair<int,int>(6, -999) );
+//		ft_map.insert ( ft::pair<int,int>(3, -999) );
+//
+//		std::map<int,int>::iterator std = std_map.begin();
+//		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+//			REQUIRE(it->first == std->first);
+//			REQUIRE(it->second == std->second);
+//			std++;
+//		}
+//	}
+//
+//	SECTION("constructor - range") {
 //		ft::map<int, int> ft_map_1;
 //
 //		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
@@ -65,7 +44,7 @@ TEST_CASE("coplien form - map", "[map]") {
 //		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
 //		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
 //
-//		ft::map<int, int> ft_map(ft_map_1);
+//		ft::map<int, int> ft_map(ft_map_1.begin(), ft_map_1.end());
 //		REQUIRE(ft_map_1.size() == ft_map.size());
 //
 //		ft::map<int,int>::iterator ft = ft_map_1.begin();
@@ -75,6 +54,30 @@ TEST_CASE("coplien form - map", "[map]") {
 //			ft++;
 //		}
 //	}
+
+	SECTION("constructor - copy") {
+		ft::map<int, int> ft_map_1;
+
+		ft_map_1.insert ( ft::pair<int,int>(2, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(4, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(5, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(1, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
+		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
+
+		ft::map<int, int> ft_map(ft_map_1);
+
+		ft_map = ft_map_1;
+		REQUIRE(ft_map_1.size() == ft_map.size());
+
+		std::cout << "----------" << std::endl;
+		ft::map<int,int>::iterator ft = ft_map_1.begin();
+		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
+			REQUIRE(it->first == ft->first);
+			REQUIRE(it->second == ft->second);
+			ft++;
+		}
+	}
 
 //	SECTION("map::operator=") {
 //		ft::map<int, int> ft_map_1;

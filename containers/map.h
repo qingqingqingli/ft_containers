@@ -75,21 +75,19 @@ public:
 
 // empty -> Constructs an empty container, with no elements.
 	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-//		_root->left = _begin;
-//		_root->right = _end;
-//		_begin->parent = _root;
-//		_end->parent = _root;
-		setupTreeBeginEnd();
+		_root->left = _begin;
+		_root->right = _end;
+		_begin->parent = _root;
+		_end->parent = _root;
 	}
 
 // range -> Constructs a container with as many elements as the range [first,last)
 	template<class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-//		_root->left = _begin;
-//		_root->right = _end;
-//		_begin->parent = _root;
-//		_end->parent = _root;
-		setupTreeBeginEnd();
+		_root->left = _begin;
+		_root->right = _end;
+		_begin->parent = _root;
+		_end->parent = _root;
 		insert(first, last);
 	}
 
@@ -100,18 +98,23 @@ public:
 // [NOT WORKING YET]
 	~map() {
 		std::cout << "**** destructor ***" << std::endl;
-		clear();
-		delete _begin;
-		delete _end;
+		clearTree(_root);
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
+// POTENTIAL MEMORY LEAKS
 	map& operator= (const map& x) {
 		std::cout << "**** assignment ***" << std::endl;
 
 		if (this != &x)
 		{
-			clear();
+			_root = new map_node;
+			_begin = new map_node;
+			_end = new map_node;
+			_root->left = _begin;
+			_root->right = _end;
+			_begin->parent = _root;
+			_end->parent = _root;
 			_size = 0;
 			_compare = x._compare;
 			_alloc = x._alloc;
@@ -198,7 +201,7 @@ public:
 				return ft::make_pair(iterator(p), false);
 			} else if (_compare(val.first, p->value.first))
 				tmp = tmp->left;
-			else if (value_comp()(p->value, val))
+			else if (_compare(p->value.first, val.first))
 				tmp = tmp->right;
 		}
 		// insert left if the key value is smaller than the parent
@@ -206,14 +209,17 @@ public:
 			p->left = newNode;
 			newNode->parent = p;
 			_size++;
+			if (_compare(val.first, _begin->parent->value.first))
+				setupTreeBeginEnd();
 		}
 			// insert right if the key value is bigger than the parent
 		else if (_compare(p->value.first, val.first)) {
 			p->right = newNode;
 			newNode->parent = p;
 			_size++;
+			if (_compare(_end->parent->value.first, val.first))
+				setupTreeBeginEnd();
 		}
-		setupTreeBeginEnd();
 		return ft::make_pair(iterator(newNode), true);
 
 	}
@@ -380,21 +386,14 @@ public:
 		}
 	}
 
-	void clearTree(map_node *root) {
-		if (root) {
-			clearTree(root->left);
-			clearTree(root->right);
-			delete root;
-			_root = NULL;
-			_begin = NULL;
-			_end = NULL;
+	map_node *getRoot() { return _root; }
+
+	void clearTree(map_node *node) {
+		if (node) {
+			clearTree(node->left);
+			clearTree(node->right);
+			delete node;
 		}
-	}
-
-	map_node *getRoot() {
-		map_node *copy = _root;
-
-		return copy;
 	}
 
 	map_node *findLeftestNode(map_node *node) {
