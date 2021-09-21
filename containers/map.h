@@ -188,7 +188,6 @@ public:
 		if (empty()) {
 			_root = newNode;
 			_size++;
-			_root->height = 1;
 			setupTreeBeginEnd();
 			return ft::make_pair(iterator(_root), true);
 		}
@@ -220,11 +219,9 @@ public:
 			if (_compare(_end->parent->value.first, val.first))
 				setupTreeBeginEnd();
 		}
-		Updateheight(p);
-
+		balance_tree(newNode);
 		// STEP 2: UPDATE BALANCE FACTOR
 		// update the ancestors (parents) of the inserted node
-//		rebalance_tree(newNode);
 
 		return ft::make_pair(iterator(newNode), true);
 	}
@@ -591,7 +588,6 @@ public:
 			removeNodeWithTwoChildren(node);
 	}
 
-
 	void	print_tree_utils(map_node *root, int space) const {
 		int count = 5;
 		if (root == NULL)
@@ -609,67 +605,45 @@ public:
 
 	map_node* LLR(map_node* root)
 	{
-		// Create a reference to the left child
 		map_node* tmp = root->left;
-		// Update the left child of the root to the right child of the current left child of the root
 		root->left = tmp->right;
-		// Update parent pointer of the left child of the root node
 		if (tmp->right != NULL)
 			tmp->right->parent = root;
-		// Update the right child of tmp to root
 		tmp->right = root;
-		// Update parent pointer of the tmp
 		tmp->parent = root->parent;
-		// Update the parent pointer of the root
 		root->parent = tmp;
-		// Update tmp as the left or the right child of its parent pointer according to its key value
 		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
 			tmp->parent->left = tmp;
-		else {
-			if (tmp->parent != NULL)
-				tmp->parent->right = tmp;
-		}
-		// Make tmp as the new root
+		else if (tmp->parent != NULL)
+			tmp->parent->right = tmp;
 		root = tmp;
-		// Update the heights
+
 		Updateheight(root->left);
 		Updateheight(root->right);
 		Updateheight(root);
 		Updateheight(root->parent);
-		// Return the root node
 		return root;
 	}
 
 	map_node* RRR(map_node* root)
 	{
-		// Create a reference to the right child
 		map_node* tmp = root->right;
-		// Update the right child of the root as the left child of the current right child of the root
 		root->right = tmp->left;
-		// Update parent pointer of the right child of the root node
 		if (tmp->left != NULL)
 			tmp->left->parent = root;
-		// Update the left child of the tmp to root
 		tmp->left = root;
-		// Update parent pointer of the tmp
 		tmp->parent = root->parent;
-		// Update the parent pointer of the root
 		root->parent = tmp;
-		// Update tmp as the left or the right child of its parent pointer according to its key value
 		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
 			tmp->parent->left = tmp;
-		else {
-			if (tmp->parent != NULL)
-				tmp->parent->right = tmp;
-		}
-		// Make tmp as the new root
+		else if (tmp->parent != NULL)
+			tmp->parent->right = tmp;
 		root = tmp;
-		// Update the heights
+
 		Updateheight(root->left);
 		Updateheight(root->right);
 		Updateheight(root);
 		Updateheight(root->parent);
-		// Return the root node
 		return root;
 	}
 
@@ -681,23 +655,6 @@ public:
 	map_node* RLR( map_node* root) {
 		root->right = LLR(root->right);
 		return RRR(root);
-	}
-
-
-	int Updateheight(map_node* node) {
-		if (node != NULL) {
-			// Store the height of the current node
-			int val = 1;
-
-			// Store the height of the left and right subtree
-			if (node->left != NULL)
-				val = node->left->height + 1;
-			if (node->right != NULL)
-				val = std::max(val, node->right->height + 1);
-
-			// Update the height of the current node
-			node->height = val;
-		}
 	}
 
 };
