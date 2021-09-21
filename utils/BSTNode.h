@@ -17,7 +17,7 @@ struct BSTNode {
 	BSTNode* 	right;
 	T			value;
 
-	BSTNode() : parent(NULL), left(NULL), right(NULL), value() {};
+	explicit BSTNode() : parent(NULL), left(NULL), right(NULL), value() {};
 
 	explicit BSTNode(const T &data): parent(NULL), left(NULL), right(NULL), value(data) {}
 

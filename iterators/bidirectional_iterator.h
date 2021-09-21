@@ -26,7 +26,7 @@ public:
 public:
 	// X a; X b(a); b = a; ~X()
 	bidirectional_iterator(): _ptr(NULL) {}
-	explicit bidirectional_iterator(iterator_type ptr) : _ptr(ptr) {}
+	bidirectional_iterator(iterator_type ptr) : _ptr(ptr) {}
 	bidirectional_iterator(const bidirectional_iterator& x) { *this = x; }
 	bidirectional_iterator& operator= (const bidirectional_iterator& x) {
 		if (this != &x)

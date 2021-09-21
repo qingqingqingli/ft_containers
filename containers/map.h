@@ -77,14 +77,20 @@ public:
 
 // empty -> Constructs an empty container, with no elements.
 	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		setupTreeBeginEnd();
+		_root->left = _begin;
+		_root->right = _end;
+		_begin->parent = _root;
+		_end->parent = _root;
 	}
 
 // range -> Constructs a container with as many elements as the range [first,last)
 // *** insert(first, second)
 	template<class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		setupTreeBeginEnd();
+		_root->left = _begin;
+		_root->right = _end;
+		_begin->parent = _root;
+		_end->parent = _root;
 		insert(first, last);
 	}
 
@@ -96,23 +102,37 @@ public:
 	~map() {
 		std::cout << "**** destructor ***" << std::endl;
 		clear();
-		delete _end;
-		delete _begin;
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
 	map& operator= (const map& x) {
-		clear();
-		swap(x);
+		if (this != &x)
+		{
+			clear();
+			_size = 0;
+			_compare = x._compare;
+			_alloc = x._alloc;
+		}
+		insert(x.begin(), x.end());
 		return *this;
 	}
 
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-	iterator begin() { return iterator(_begin->parent); }
+	iterator begin() {
+		if (!_begin)
+			return end();
+		else
+			return iterator(_begin->parent);
+	}
 
-	const_iterator begin() const { return const_iterator(_begin->parent); }
+	const_iterator begin() const {
+		if (!_begin)
+			return end();
+		else
+			return const_iterator(_begin->parent);
+	}
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
 	iterator end() { return iterator(_end); }
@@ -173,25 +193,24 @@ public:
 			if (val.first == p->value.first) {
 				delete newNode;
 				return ft::make_pair(iterator(p), false);
-			} else if (value_comp()(val, p->value))
+			} else if (_compare(val.first, p->value.first))
 				tmp = tmp->left;
 			else if (value_comp()(p->value, val))
 				tmp = tmp->right;
 		}
 		// insert left if the key value is smaller than the parent
-		if (value_comp()(val, p->value)) {
+		if (_compare(val.first, p->value.first)) {
 			p->left = newNode;
 			newNode->parent = p;
 			_size++;
-			setupTreeBeginEnd();
 		}
 			// insert right if the key value is bigger than the parent
-		else if (value_comp()(p->value, val)) {
+		else if (_compare(p->value.first, val.first)) {
 			p->right = newNode;
 			newNode->parent = p;
 			_size++;
-			setupTreeBeginEnd();
 		}
+		setupTreeBeginEnd();
 		return ft::make_pair(iterator(newNode), true);
 
 	}
@@ -239,10 +258,10 @@ public:
 		}
 	}
 
-//-> swap content
+// -> swap content
 	void swap(map &x) {
-		map tmp(*this);
-
+		map tmp;
+		tmp = *this;
 		*this = x;
 		x = tmp;
 	}
@@ -364,6 +383,8 @@ public:
 			clearTree(root->right);
 			delete root;
 			_root = NULL;
+			_begin = NULL;
+			_end = NULL;
 		}
 	}
 
@@ -399,7 +420,7 @@ public:
 	}
 
 	map_node *searchKey(const key_type &key) {
-		map_node *tmp = _root;
+		map_node* tmp = _root;
 		while (tmp && tmp != _begin && tmp != _end) {
 			if (key == tmp->value.first)
 				return tmp;
@@ -444,7 +465,7 @@ public:
 			delete _root;
 			_size--;
 		}
-		else {
+		else if (size() > 1) {
 			if (nodeWithOneRightChild(root)) {
 				map_node *tmp = _root;
 				_root = _root->right;
@@ -564,6 +585,21 @@ public:
 			removeNodeWithTwoChildren(node);
 	}
 
+
+	void	print_tree_utils(map_node *root, int space) const
+	{
+		int count = 5;
+		if (root == NULL)
+			return;
+		space += count;
+		print_tree_utils(root->right, space);
+		std::cout << std::endl;
+		for (int i = count; i < space; i++)
+			std::cout << " ";
+		std::cout << root->value.first << std::endl;
+//		std::cout << root->value.first << ", bf = " << root->_balance_factor << std::endl;
+		print_tree_utils(root->left, space);
+	}
 
 };
 
