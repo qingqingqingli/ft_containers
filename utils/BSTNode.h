@@ -16,10 +16,14 @@ struct BSTNode {
 	BSTNode* 	left;
 	BSTNode* 	right;
 	Pair		value;
+	// AVL tree: A type of balanced tree, where the AVL balance factor of each node is limited to -1, 0, or +1.
+	// balance factor: For any node in an AVL tree, the difference between the height of the node's right subtree and left subtree.
+	// height: The maximum number of nodes that can be visited starting at the tree's root and moving only downward. An an empty tree has height 0.
+	int			balance_factor;
 
-	explicit BSTNode() : parent(NULL), left(NULL), right(NULL), value() {};
+	explicit BSTNode() : parent(NULL), left(NULL), right(NULL), value(), balance_factor(0){};
 
-	explicit BSTNode(const Pair &data): parent(NULL), left(NULL), right(NULL), value(data) {}
+	explicit BSTNode(const Pair &data): parent(NULL), left(NULL), right(NULL), value(data), balance_factor(0){}
 
 	~BSTNode(){};
 
@@ -32,6 +36,7 @@ struct BSTNode {
 			left = x.left;
 			right = x.right;
 			value = x.value;
+			balance_factor = x.balance_factor;
 		}
 		return *this;
 	}

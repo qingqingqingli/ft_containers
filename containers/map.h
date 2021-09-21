@@ -176,19 +176,19 @@ public:
 
 //************************ Modifier ************************
 
-//-> insert elements
-
-// single
-// !!! need to add balancing option
+//-> insert single
 	ft::pair<iterator, bool> insert(const value_type &val) {
 		map_node *newNode = new map_node(val);
 		map_node *tmp = _root;
 		map_node *p = NULL;
 
+		// STEP 1: SEARCH & INSERT
+
 		// empty root
 		if (empty()) {
 			_root = newNode;
 			_size++;
+			_root->height = 1;
 			setupTreeBeginEnd();
 			return ft::make_pair(iterator(_root), true);
 		}
@@ -220,8 +220,13 @@ public:
 			if (_compare(_end->parent->value.first, val.first))
 				setupTreeBeginEnd();
 		}
-		return ft::make_pair(iterator(newNode), true);
+		Updateheight(p);
 
+		// STEP 2: UPDATE BALANCE FACTOR
+		// update the ancestors (parents) of the inserted node
+//		rebalance_tree(newNode);
+
+		return ft::make_pair(iterator(newNode), true);
 	}
 
 // with hint
@@ -431,7 +436,6 @@ public:
 			else if (_compare(tmp->value.first, key))
 				tmp = tmp->right;
 		}
-		std::cout << "does not find node" << std::endl;
 		return NULL;
 	}
 
@@ -507,7 +511,7 @@ public:
 	}
 
 	void removeLeaf(map_node *node) {
-		std::cout << "removeLeaf" << std::endl;
+//		std::cout << "removeLeaf" << std::endl;
 		if (node->parent->left == node)
 			node->parent->left = NULL;
 		else if (node->parent->right == node)
@@ -517,7 +521,7 @@ public:
 	}
 
 	void removeNodeWithOneLeftChild(map_node *node) {
-		std::cout << "removeNodeWithOneLeftChild" << std::endl;
+//		std::cout << "removeNodeWithOneLeftChild" << std::endl;
 		// finding out whether the deleted node is on the right or left of the parent
 		if (node->parent->left == node)
 			node->parent->left = node->left;
@@ -529,7 +533,7 @@ public:
 	}
 
 	void removeNodeWithOneRightChild(map_node *node) {
-		std::cout << "removeNodeWithOneRightChild" << std::endl;
+//		std::cout << "removeNodeWithOneRightChild" << std::endl;
 		// finding out whether the deleted node is on the right or left of the parent
 		if (node->parent->right == node)
 			node->parent->right = node->right;
@@ -541,7 +545,7 @@ public:
 	}
 
 	void removeNodeWithTwoChildren(map_node *node) {
-		std::cout << "removeNodeWithTwoChildren" << std::endl;
+//		std::cout << "removeNodeWithTwoChildren" << std::endl;
 //		std::cout << "delete: " << node->value.first << std::endl;
 //		std::cout << "parent of delete: " << node->parent->value.first << std::endl;
 //		std::cout << "left of delete: " << node->left->value.first << std::endl;
@@ -588,8 +592,7 @@ public:
 	}
 
 
-	void	print_tree_utils(map_node *root, int space) const
-	{
+	void	print_tree_utils(map_node *root, int space) const {
 		int count = 5;
 		if (root == NULL)
 			return;
@@ -598,9 +601,103 @@ public:
 		std::cout << std::endl;
 		for (int i = count; i < space; i++)
 			std::cout << " ";
-		std::cout << root->value.first << std::endl;
-//		std::cout << root->value.first << ", bf = " << root->_balance_factor << std::endl;
+		std::cout << root->value.first << "(bf=" << root->balance_factor << ")" << std::endl;
 		print_tree_utils(root->left, space);
+	}
+
+	//************************ For balancing ************************
+
+	map_node* LLR(map_node* root)
+	{
+		// Create a reference to the left child
+		map_node* tmp = root->left;
+		// Update the left child of the root to the right child of the current left child of the root
+		root->left = tmp->right;
+		// Update parent pointer of the left child of the root node
+		if (tmp->right != NULL)
+			tmp->right->parent = root;
+		// Update the right child of tmp to root
+		tmp->right = root;
+		// Update parent pointer of the tmp
+		tmp->parent = root->parent;
+		// Update the parent pointer of the root
+		root->parent = tmp;
+		// Update tmp as the left or the right child of its parent pointer according to its key value
+		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
+			tmp->parent->left = tmp;
+		else {
+			if (tmp->parent != NULL)
+				tmp->parent->right = tmp;
+		}
+		// Make tmp as the new root
+		root = tmp;
+		// Update the heights
+		Updateheight(root->left);
+		Updateheight(root->right);
+		Updateheight(root);
+		Updateheight(root->parent);
+		// Return the root node
+		return root;
+	}
+
+	map_node* RRR(map_node* root)
+	{
+		// Create a reference to the right child
+		map_node* tmp = root->right;
+		// Update the right child of the root as the left child of the current right child of the root
+		root->right = tmp->left;
+		// Update parent pointer of the right child of the root node
+		if (tmp->left != NULL)
+			tmp->left->parent = root;
+		// Update the left child of the tmp to root
+		tmp->left = root;
+		// Update parent pointer of the tmp
+		tmp->parent = root->parent;
+		// Update the parent pointer of the root
+		root->parent = tmp;
+		// Update tmp as the left or the right child of its parent pointer according to its key value
+		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
+			tmp->parent->left = tmp;
+		else {
+			if (tmp->parent != NULL)
+				tmp->parent->right = tmp;
+		}
+		// Make tmp as the new root
+		root = tmp;
+		// Update the heights
+		Updateheight(root->left);
+		Updateheight(root->right);
+		Updateheight(root);
+		Updateheight(root->parent);
+		// Return the root node
+		return root;
+	}
+
+	map_node* LRR(map_node* root) {
+		root->left = RRR(root->left);
+		return LLR(root);
+	}
+
+	map_node* RLR( map_node* root) {
+		root->right = LLR(root->right);
+		return RRR(root);
+	}
+
+
+	int Updateheight(map_node* node) {
+		if (node != NULL) {
+			// Store the height of the current node
+			int val = 1;
+
+			// Store the height of the left and right subtree
+			if (node->left != NULL)
+				val = node->left->height + 1;
+			if (node->right != NULL)
+				val = std::max(val, node->right->height + 1);
+
+			// Update the height of the current node
+			node->height = val;
+		}
 	}
 
 };
