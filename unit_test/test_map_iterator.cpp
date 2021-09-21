@@ -5,7 +5,7 @@
 #include "catch2/catch.hpp"
 #include "../containers/map.h"
 
-TEST_CASE("map iterator", "[map_iterator]")
+TEST_CASE("map iterator", "[map][map_iterator]")
 {
 	std::map<std::string, int> std_map;
 	std_map.insert(std::pair<std::string, int>("hello", 0));

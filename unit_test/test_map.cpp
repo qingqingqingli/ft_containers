@@ -398,15 +398,13 @@ TEST_CASE("swap()", "[map][modifiers]")
 	ft::map<int,int> map_copy_2;
 	map_copy_2 = ft_map_2;
 
-	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
-	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
-	map_copy_2.print_tree_utils(map_copy_2.getRoot(), 0);
+//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
+//	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
 
 	ft_map_1.swap(ft_map_2);
 
-	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
-	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
-
+//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
+//	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
 
 	ft::map<int,int>::iterator itr_copy_2;
 	itr_copy_2 = map_copy_2.begin();
@@ -417,40 +415,5 @@ TEST_CASE("swap()", "[map][modifiers]")
 		itr_copy_2++;
 	}
 
-
 	//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
-
-
 }
-
-TEST_CASE("equal iterator")
-{
-	std::map<char,int> mymap;
-	std::map<char,int>::iterator begin_1;
-
-	mymap['a']=20;
-	mymap['b']=40;
-	mymap['c']=60;
-	mymap['d']=80;
-	mymap['e']=100;
-
-	begin_1 = mymap.begin();
-
-	std::map<char,int> mymap_std_2;
-	std::map<char,int>::iterator begin_2;
-
-	mymap_std_2['a']=20;
-	mymap_std_2['b']=40;
-	mymap_std_2['c']=60;
-	mymap_std_2['d']=80;
-	mymap_std_2['e']=100;
-
-	begin_2 = mymap_std_2.begin();
-
-	REQUIRE(begin_1 != begin_2);
-	REQUIRE(begin_1 == begin_1);
-	REQUIRE(begin_1->first == begin_2->first);
-	REQUIRE(begin_1->second == begin_2->second);
-}
-
-

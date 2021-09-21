@@ -75,19 +75,21 @@ public:
 
 // empty -> Constructs an empty container, with no elements.
 	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		_root->left = _begin;
-		_root->right = _end;
-		_begin->parent = _root;
-		_end->parent = _root;
+//		_root->left = _begin;
+//		_root->right = _end;
+//		_begin->parent = _root;
+//		_end->parent = _root;
+		setupTreeBeginEnd();
 	}
 
 // range -> Constructs a container with as many elements as the range [first,last)
 	template<class InputIterator>
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		_root->left = _begin;
-		_root->right = _end;
-		_begin->parent = _root;
-		_end->parent = _root;
+//		_root->left = _begin;
+//		_root->right = _end;
+//		_begin->parent = _root;
+//		_end->parent = _root;
+		setupTreeBeginEnd();
 		insert(first, last);
 	}
 
@@ -97,7 +99,7 @@ public:
 // destructor -> Destroys the container object.
 // [NOT WORKING YET]
 	~map() {
-//		std::cout << "**** destructor ***" << std::endl;
+		std::cout << "**** destructor ***" << std::endl;
 		clear();
 		delete _begin;
 		delete _end;
@@ -105,6 +107,8 @@ public:
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
 	map& operator= (const map& x) {
+		std::cout << "**** assignment ***" << std::endl;
+
 		if (this != &x)
 		{
 			clear();
