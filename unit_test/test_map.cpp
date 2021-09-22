@@ -716,24 +716,6 @@ TEST_CASE("bounds", "[map][operations]") {
 	}
 }
 
-// non-member relational operators
-// non-member swap
-
-TEST_CASE("balancing") {
-	ft::map<int, int> map;
-
-	map.insert(ft::make_pair(1, 1));
-	map.insert(ft::make_pair(2, 1));
-	map.print_tree_utils(map.getRoot(), 0);
-	map.insert(ft::make_pair(3, 1));
-	map.print_tree_utils(map.getRoot(), 0);
-	map.insert(ft::make_pair(4, 1));
-	map.print_tree_utils(map.getRoot(), 0);
-	map.insert(ft::make_pair(5, 1));
-	map.print_tree_utils(map.getRoot(), 0);
-}
-
-
 TEST_CASE("non-member", "[map][non-member]") {
 
 	std::map<int, int> std_left;
@@ -788,4 +770,21 @@ TEST_CASE("non-member", "[map][non-member]") {
 	REQUIRE(ft_right >= ft_left);
 
 }
+
+TEST_CASE("balancing") {
+	ft::map<int, int> map;
+
+	map.insert(ft::make_pair(1, 1));
+	map.insert(ft::make_pair(2, 1));
+	map.print_tree(map.getRoot());
+	map.insert(ft::make_pair(3, 1));
+	map.print_tree(map.getRoot());
+	map.insert(ft::make_pair(4, 1));
+	map.print_tree(map.getRoot());
+	map.insert(ft::make_pair(5, 1));
+	map.print_tree(map.getRoot());
+}
+
+
+
 

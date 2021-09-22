@@ -185,19 +185,14 @@ public:
 		map_node *tmp = _root;
 		map_node *p = NULL;
 
-		// STEP 1: SEARCH & INSERT
-
-		// empty root
 		if (empty()) {
 			_root = newNode;
 			_size++;
 			setupTreeBeginEnd();
 			return ft::make_pair(iterator(_root), true);
 		}
-		// start traversing from root downward the path to search where the new node to be inserted
 		while (tmp && tmp != _begin && tmp != _end) {
 			p = tmp;
-			// if the value is found, return false
 			if (val.first == p->value.first) {
 				delete newNode;
 				return ft::make_pair(iterator(p), false);
@@ -206,7 +201,6 @@ public:
 			else if (_compare(p->value.first, val.first))
 				tmp = tmp->right;
 		}
-		// insert left if the key value is smaller than the parent
 		if (_compare(val.first, p->value.first)) {
 			p->left = newNode;
 			newNode->parent = p;
@@ -214,7 +208,6 @@ public:
 			if (_compare(val.first, _begin->parent->value.first))
 				setupTreeBeginEnd();
 		}
-			// insert right if the key value is bigger than the parent
 		else if (_compare(p->value.first, val.first)) {
 			p->right = newNode;
 			newNode->parent = p;
@@ -222,9 +215,6 @@ public:
 			if (_compare(_end->parent->value.first, val.first))
 				setupTreeBeginEnd();
 		}
-		// STEP 2: UPDATE BALANCE FACTOR
-		// update the ancestors (parents) of the inserted node
-
 		return ft::make_pair(iterator(newNode), true);
 	}
 
@@ -588,6 +578,11 @@ public:
 			removeNodeWithOneRightChild(node);
 		else if (nodeWithTwoChildren(node))
 			removeNodeWithTwoChildren(node);
+	}
+
+	void	print_tree(map_node* root) const
+	{
+		print_tree_utils(root, 0);
 	}
 
 	void	print_tree_utils(map_node *root, int space) const {
