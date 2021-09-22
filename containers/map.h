@@ -167,7 +167,7 @@ public:
 	size_type size() const { return _size; }
 
 //-> return maximum size
-	size_type max_size() const { return _alloc.max_size() / 5; }
+	size_type max_size() const { return _alloc.max_size(); }
 
 //************************ Element access ************************
 
