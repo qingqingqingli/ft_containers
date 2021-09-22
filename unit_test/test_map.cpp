@@ -53,6 +53,8 @@ TEST_CASE("coplien form - map", "[map]") {
 			REQUIRE(it->second == ft->second);
 			ft++;
 		}
+
+		ft_map_1.print_tree(ft_map_1.getRoot());
 	}
 
 	SECTION("constructor - copy") {
@@ -781,6 +783,9 @@ TEST_CASE("balancing") {
 		map.print_tree(map.getRoot());
 		std::cout << "---------------" << std::endl;
 	}
+	map.insert(ft::make_pair(8, 8));
+	std::cout << "---------------" << std::endl;
+
 }
 
 
