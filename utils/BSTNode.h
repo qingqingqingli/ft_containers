@@ -76,12 +76,6 @@ struct BSTNode {
 			tmp = p;
 			p = p->parent;
 		}
-		// not sure if needed
-//		if (!p) {
-//			while (tmp->left)
-//				tmp = tmp->left;
-//			p = tmp->left;
-//		}
 		return p;
 	}
 
@@ -101,12 +95,6 @@ struct BSTNode {
 			tmp = p;
 			p = p->parent;
 		}
-		// not sure if needed
-//		if (!p)	{
-//			while (tmp->right)
-//				tmp = tmp->right;
-//			p = tmp->right;
-//		}
 		return p;
 	}
 

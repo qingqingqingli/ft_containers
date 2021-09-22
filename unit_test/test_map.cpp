@@ -773,16 +773,14 @@ TEST_CASE("non-member", "[map][non-member]") {
 
 TEST_CASE("balancing") {
 	ft::map<int, int> map;
+	map.print_tree(map.getRoot());
 
-	map.insert(ft::make_pair(1, 1));
-	map.insert(ft::make_pair(2, 1));
-	map.print_tree(map.getRoot());
-	map.insert(ft::make_pair(3, 1));
-	map.print_tree(map.getRoot());
-	map.insert(ft::make_pair(4, 1));
-	map.print_tree(map.getRoot());
-	map.insert(ft::make_pair(5, 1));
-	map.print_tree(map.getRoot());
+	for (int i = 1; i <= 8; i++)
+	{
+		map.insert(ft::make_pair(i, i));
+		map.print_tree(map.getRoot());
+		std::cout << "---------------" << std::endl;
+	}
 }
 
 
