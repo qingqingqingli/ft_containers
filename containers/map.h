@@ -99,7 +99,6 @@ public:
 	map(const map &x) { *this = x; }
 
 // destructor -> Destroys the container object.
-// [NOT WORKING YET]
 	~map() {
 		std::cout << "**** destructor ***" << std::endl;
 		clearTree(_root);
@@ -214,61 +213,59 @@ map_node* createNewNode(const value_type& val, map_node* parent) {
 	return newNode;
 }
 
-	map_node* rightRotate(map_node* node)
-	{
-		map_node* tmp = node->left;
-		node->left = tmp->right;
-		if (tmp->right && tmp->right != _end)
-			tmp->right->parent = node;
-		tmp->right = node;
-		tmp->parent = node->parent;
-		node->parent = tmp;
-		if (tmp->parent && value_comp()(node->value, tmp->parent->value))
-			tmp->parent->left = tmp;
-		else if (tmp->parent)
-			tmp->parent->right = tmp;
-		node = tmp;
+map_node* rightRotate(map_node* node)
+{
+	map_node* tmp = node->left;
+	node->left = tmp->right;
+	if (tmp->right && tmp->right != _end)
+		tmp->right->parent = node;
+	tmp->right = node;
+	tmp->parent = node->parent;
+	node->parent = tmp;
+	if (tmp->parent && value_comp()(node->value, tmp->parent->value))
+		tmp->parent->left = tmp;
+	else if (tmp->parent)
+		tmp->parent->right = tmp;
+	node = tmp;
+	if (node->left && node->left != _begin)
+		node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
+	if (node->right && node->right != _end)
+		node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
+	if (node != _end && node != _begin)
+		node->height = max(height(node->left), height(node->right)) + 1;
+	if (node->parent)
+		node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+	return node;
+}
 
-		if (node->left && node->left != _begin)
-			node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
-		if (node->right && node->right != _end)
-			node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
-		if (node != _end && node != _begin)
-			node->height = max(height(node->left), height(node->right)) + 1;
-		if (node->parent)
-			node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
-		return node;
-	}
+map_node* leftRotate(map_node* node)
+{
+	map_node* tmp = node->right;
+	node->right = tmp->left;
+	if (tmp->left && node->left != _begin)
+		tmp->left->parent = node;
+	tmp->left = node;
+	tmp->parent = node->parent;
+	node->parent = tmp;
+	if (tmp->parent && value_comp()(node->value, tmp->parent->value))
+		tmp->parent->left = tmp;
+	else if (tmp->parent)
+		tmp->parent->right = tmp;
+	node = tmp;
 
-	map_node* leftRotate(map_node* node)
-	{
-		map_node* tmp = node->right;
-		node->right = tmp->left;
-		if (tmp->left && node->left != _begin)
-			tmp->left->parent = node;
-		tmp->left = node;
-		tmp->parent = node->parent;
-		node->parent = tmp;
-		if (tmp->parent && value_comp()(node->value, tmp->parent->value))
-			tmp->parent->left = tmp;
-		else if (tmp->parent)
-			tmp->parent->right = tmp;
-		node = tmp;
-
-		if (node->left && node->left != _begin)
-			node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
-		if (node->right && node->right != _end)
-			node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
-		if (node != _end && node != _begin)
-			node->height = max(height(node->left), height(node->right)) + 1;
-		if (node->parent)
-			node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
-		return node;
-	}
+	if (node->left && node->left != _begin)
+		node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
+	if (node->right && node->right != _end)
+		node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
+	if (node != _end && node != _begin)
+		node->height = max(height(node->left), height(node->right)) + 1;
+	if (node->parent)
+		node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+	return node;
+}
 
 	// the recursion will travel up to visit all the ancestors of the newly inserted node
 map_node* newInsert(map_node* node, map_node* parent, const value_type &val) {
-
 	// 1. BST insertion
 	if (size() == 0 || !node || node == _begin || node == _end)
 		return createNewNode(val, parent);
@@ -303,17 +300,17 @@ map_node* newInsert(map_node* node, map_node* parent, const value_type &val) {
 	ft::pair<iterator, bool> insert(const value_type &val) {
 
 		// search
-		iterator it = find(val.first);
-		if (it != end())
-			return ft::make_pair(iterator(it), false);
+//		iterator it = find(val.first);
+//		if (it != end())
+//			return ft::make_pair(iterator(it), false);
 
 		// start insert
 		_root = newInsert(_root, NULL, val);
 		setupTreeBeginEnd();
 
 		// return iterator
-		it = find(val.first);
-		std::cout << "inserted node: " << it->first << " " << it->second << std::endl;
+		iterator it = find(val.first);
+//		std::cout << "inserted node: " << it->first << " " << it->second << std::endl;
 
 		return ft::make_pair(iterator(it), true);
 	}
