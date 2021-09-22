@@ -594,65 +594,11 @@ public:
 		std::cout << std::endl;
 		for (int i = count; i < space; i++)
 			std::cout << " ";
-		std::cout << root->value.first << "(bf=" << root->balance_factor << ")" << std::endl;
+		std::cout << root->value.first << "(h=" << root->height << ")" << std::endl;
 		print_tree_utils(root->left, space);
 	}
 
 	//************************ For balancing ************************
-
-	map_node* LLR(map_node* root)
-	{
-		map_node* tmp = root->left;
-		root->left = tmp->right;
-		if (tmp->right != NULL)
-			tmp->right->parent = root;
-		tmp->right = root;
-		tmp->parent = root->parent;
-		root->parent = tmp;
-		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
-			tmp->parent->left = tmp;
-		else if (tmp->parent != NULL)
-			tmp->parent->right = tmp;
-		root = tmp;
-
-		Updateheight(root->left);
-		Updateheight(root->right);
-		Updateheight(root);
-		Updateheight(root->parent);
-		return root;
-	}
-
-	map_node* RRR(map_node* root)
-	{
-		map_node* tmp = root->right;
-		root->right = tmp->left;
-		if (tmp->left != NULL)
-			tmp->left->parent = root;
-		tmp->left = root;
-		tmp->parent = root->parent;
-		root->parent = tmp;
-		if (tmp->parent != NULL && value_comp()(root->value, tmp->parent->value))
-			tmp->parent->left = tmp;
-		else if (tmp->parent != NULL)
-			tmp->parent->right = tmp;
-		root = tmp;
-
-		Updateheight(root->left);
-		Updateheight(root->right);
-		Updateheight(root);
-		Updateheight(root->parent);
-		return root;
-	}
-
-	map_node* LRR(map_node* root) {
-		root->left = RRR(root->left);
-		return LLR(root);
-	}
-
-	map_node* RLR( map_node* root) {
-		root->right = LLR(root->right);
-		return RRR(root);
-	}
 
 };
 
