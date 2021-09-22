@@ -44,6 +44,8 @@ TEST_CASE("coplien form - map", "[map]") {
 		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
 		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
 
+		ft_map_1.print_tree(ft_map_1.getRoot());
+
 		ft::map<int, int> ft_map(ft_map_1.begin(), ft_map_1.end());
 		REQUIRE(ft_map_1.size() == ft_map.size());
 
@@ -54,7 +56,6 @@ TEST_CASE("coplien form - map", "[map]") {
 			ft++;
 		}
 
-		ft_map_1.print_tree(ft_map_1.getRoot());
 	}
 
 	SECTION("constructor - copy") {
@@ -237,6 +238,8 @@ TEST_CASE("insert()", "[map][modifiers]") {
 	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 	mymap_ft.insert ( ft::pair<char,int>('b',300) );
 
+	mymap_ft.print_tree(mymap_ft.getRoot());
+
 	REQUIRE(mymap_ft.size() == mymap_std.size());
 
 	SECTION("traverse") {
@@ -255,32 +258,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		}
 	}
 
-	SECTION("insert unique element") {
-		std::pair<std::map<char,int>::iterator,bool> ret_std;
-		ret_std = mymap_std.insert ( std::pair<char,int>('y', -999) );
-
-		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
-		ret_ft = mymap_ft.insert ( ft::pair<char,int>('y', -999) );
-
-		REQUIRE(ret_std.first->first == ret_ft.first->first);
-		REQUIRE(ret_std.first->second == ret_ft.first->second);
-		REQUIRE(ret_std.second == ret_ft.second);
-
-		ret_std = mymap_std.insert ( std::pair<char,int>('t', 999) );
-		ret_ft = mymap_ft.insert ( ft::pair<char,int>('t', 999) );
-		REQUIRE(ret_std.first->first == ret_ft.first->first);
-		REQUIRE(ret_std.first->second == ret_ft.first->second);
-		REQUIRE(ret_std.second == ret_ft.second);
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-
-		ret_std = mymap_std.insert ( std::pair<char,int>('r', 123) );
-		ret_ft = mymap_ft.insert ( ft::pair<char,int>('r', 123) );
-		REQUIRE(ret_std.first->first == ret_ft.first->first);
-		REQUIRE(ret_std.first->second == ret_ft.first->second);
-		REQUIRE(ret_std.second == ret_ft.second);
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
 	SECTION("insert duplicate element")	{
 		std::pair<std::map<char,int>::iterator,bool> ret_std;
 		ret_std = mymap_std.insert ( std::pair<char,int>('z',500) );
@@ -288,14 +265,15 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
 		ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
 
+		mymap_ft.print_tree(mymap_ft.getRoot());
+
 		REQUIRE(ret_std.first->first == ret_ft.first->first);
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
 		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
 
-	SECTION("insert iterators")
-	{
+	SECTION("insert iterators")	{
 		ft::map<char,int> empty;
 		ft::map<char,int>::iterator begin_itr = mymap_ft.begin();
 		ft::map<char,int>::iterator end_itr = mymap_ft.end();
@@ -324,8 +302,7 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		REQUIRE(empty.size() == mymap_ft.size());
 	}
 
-	SECTION("insert hint")
-	{
+	SECTION("insert hint")	{
 		mymap_std.insert(mymap_std.begin(), std::pair<char,int>('d', -100));
 		mymap_ft.insert(mymap_ft.begin(), ft::pair<char,int>('d', -100));
 
@@ -343,131 +320,159 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		}
 		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
+
+		SECTION("insert unique element") {
+		std::pair<std::map<char,int>::iterator,bool> ret_std;
+		ret_std = mymap_std.insert ( std::pair<char,int>('y', -999) );
+
+		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('y', -999) );
+
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
+		mymap_ft.print_tree(mymap_ft.getRoot());
+
+		ret_std = mymap_std.insert ( std::pair<char,int>('t', 999) );
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('t', 999) );
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+		mymap_ft.print_tree(mymap_ft.getRoot());
+
+		ret_std = mymap_std.insert ( std::pair<char,int>('r', 123) );
+		ret_ft = mymap_ft.insert ( ft::pair<char,int>('r', 123) );
+		REQUIRE(ret_std.first->first == ret_ft.first->first);
+		REQUIRE(ret_std.first->second == ret_ft.first->second);
+		REQUIRE(ret_std.second == ret_ft.second);
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
 }
 
-TEST_CASE("erase()", "[map][modifiers]") {
-	std::map<int,int> mymap_std;
-
-	mymap_std[1]=20;
-	mymap_std[4]=80;
-	mymap_std[3]=40;
-	mymap_std[2]=23;
-	mymap_std[6]=23;
-	mymap_std[5]=60;
-	mymap_std[7]=100;
-	mymap_std[8]=80;
-
-	ft::map<int,int> mymap_ft;
-
-	mymap_ft[1]=20;
-	mymap_ft[4]=80;
-	mymap_ft[3]=40;
-	mymap_ft[2]=23;
-	mymap_ft[6]=23;
-	mymap_ft[5]=60;
-	mymap_ft[7]=100;
-	mymap_ft[8]=80;
-
-	SECTION("remove root")
-	{
-		mymap_ft.erase(1);
-		mymap_std.erase(1);
-
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
-	SECTION("remove leaf node")
-	{
-		mymap_ft.erase(5);
-		mymap_std.erase(5);
-
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
-	SECTION("remove node with one left child")
-	{
-		mymap_ft.erase(3);
-		mymap_std.erase(3);
-
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
-	SECTION("remove node with one right child")
-	{
-		mymap_ft.erase(7);
-		mymap_std.erase(7);
-
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
-	SECTION("remove node with two children")
-	{
-		mymap_ft.erase(2);
-		mymap_std.erase(2);
-
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-	}
-
-	SECTION("remove node with two children")
-	{
-		mymap_ft.erase(4);
-		mymap_std.erase(4);
-		std::map<int,int>::iterator it_std = mymap_std.begin();
-		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-		{
-//			std::cout << "----------------------" << std::endl;
-//			std::cout << it_std->first << "->" << it_std->second << std::endl;
-//			std::cout << it->first << "->" << it->second << std::endl;
-//			std::cout << "----------------------" << std::endl;
-			REQUIRE(it_std->first == it->first);
-			REQUIRE(it_std->second == it->second);
-			++it_std;
-		}
-		REQUIRE(mymap_ft.size() == mymap_std.size());
-
-
-	}
-
-//	std::cout << "----------after------------" << std::endl;
-//	mymap_ft.inorder(mymap_ft.getRoot());
-//	std::cout << "----------------------" << std::endl;
-
-}
+//TEST_CASE("erase()", "[map][modifiers]") {
+//	std::map<int,int> mymap_std;
+//
+//	mymap_std[1]=20;
+//	mymap_std[4]=80;
+//	mymap_std[3]=40;
+//	mymap_std[2]=23;
+//	mymap_std[6]=23;
+//	mymap_std[5]=60;
+//	mymap_std[7]=100;
+//	mymap_std[8]=80;
+//
+//	ft::map<int,int> mymap_ft;
+//
+//	mymap_ft[1]=20;
+//	mymap_ft[4]=80;
+//	mymap_ft[3]=40;
+//	mymap_ft[2]=23;
+//	mymap_ft[6]=23;
+//	mymap_ft[5]=60;
+//	mymap_ft[7]=100;
+//	mymap_ft[8]=80;
+//
+//	SECTION("remove root")
+//	{
+//		mymap_ft.erase(1);
+//		mymap_std.erase(1);
+//
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//	}
+//
+//	SECTION("remove leaf node")
+//	{
+//		mymap_ft.erase(5);
+//		mymap_std.erase(5);
+//
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//	}
+//
+//	SECTION("remove node with one left child")
+//	{
+//		mymap_ft.erase(3);
+//		mymap_std.erase(3);
+//
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//	}
+//
+//	SECTION("remove node with one right child")
+//	{
+//		mymap_ft.erase(7);
+//		mymap_std.erase(7);
+//
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//	}
+//
+//	SECTION("remove node with two children")
+//	{
+//		mymap_ft.erase(2);
+//		mymap_std.erase(2);
+//
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//	}
+//
+//	SECTION("remove node with two children")
+//	{
+//		mymap_ft.erase(4);
+//		mymap_std.erase(4);
+//		std::map<int,int>::iterator it_std = mymap_std.begin();
+//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+//		{
+////			std::cout << "----------------------" << std::endl;
+////			std::cout << it_std->first << "->" << it_std->second << std::endl;
+////			std::cout << it->first << "->" << it->second << std::endl;
+////			std::cout << "----------------------" << std::endl;
+//			REQUIRE(it_std->first == it->first);
+//			REQUIRE(it_std->second == it->second);
+//			++it_std;
+//		}
+//		REQUIRE(mymap_ft.size() == mymap_std.size());
+//
+//
+//	}
+//
+////	std::cout << "----------after------------" << std::endl;
+////	mymap_ft.inorder(mymap_ft.getRoot());
+////	std::cout << "----------------------" << std::endl;
+//
+//}
 
 TEST_CASE("swap()", "[map][modifiers]") {
 	std::cout << "--------" << std::endl;
