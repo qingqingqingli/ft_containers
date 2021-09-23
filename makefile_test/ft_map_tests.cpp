@@ -309,14 +309,12 @@ void map_erase_3()
 {
 	int_int_map test;
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 1000000; i++) {
 		test.insert(int_int_pair(i, i + 1));
 	}
-	std::cout << "seg fault\n" << std::endl;
-	for (int i = 0; i < 1000; i++) {
-		int x = rand() % 1000;
+	for (int i = 0; i < 1000000; i++) {
+		int x = rand() % 1000000;
 		test.erase(x);
-//		std::cout << "out" << std::endl;
 	}
 }
 
@@ -366,11 +364,11 @@ void custom_erase() {
 
 //	mymap_ft.erase(1);
 //	mymap_ft.erase(2);
-	mymap_ft.erase(3);
+//	mymap_ft.erase(3);
 //	mymap_ft.erase(4);
 //	mymap_ft.erase(5);
 //	mymap_ft.erase(6);
-//	mymap_ft.erase(7);
+	mymap_ft.erase(7);
 //	mymap_ft.erase(8);
 //	mymap_ft.erase(8);
 //	mymap_ft.erase(9);
@@ -388,14 +386,14 @@ void map_modifiers()
 	struct timeval	start, end;
 
 	gettimeofday(&start, NULL);
-//	map_insert_1();
-//	map_insert_2();
-//	map_insert_3();
+	map_insert_1();
+	map_insert_2();
+	map_insert_3();
 
-//	map_erase_1();
-//	map_erase_2();
-//	map_erase_3();
-//	map_swap_1();
+	map_erase_1();
+	map_erase_2();
+	map_erase_3();
+	map_swap_1();
 	custom_erase();
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.modifiers()");

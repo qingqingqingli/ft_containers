@@ -20,11 +20,10 @@ struct BSTNode {
 	// balance factor: For any node in an AVL tree, the difference between the height of the node's right subtree and left subtree.
 	// height: The maximum number of nodes that can be visited starting at the tree's root and moving only downward. An an empty tree has height 0.
 	int			height;
-	bool 		boundary;
 
-	explicit BSTNode() : parent(NULL), left(NULL), right(NULL), value(), height(0), boundary(true) {};
+	explicit BSTNode() : parent(NULL), left(NULL), right(NULL), value(), height(0) {};
 
-	explicit BSTNode(const Pair &data): parent(NULL), left(NULL), right(NULL), value(data), height(0), boundary(false) {}
+	explicit BSTNode(const Pair &data): parent(NULL), left(NULL), right(NULL), value(data), height(0){}
 
 	~BSTNode(){};
 
@@ -46,7 +45,7 @@ struct BSTNode {
 	{
 		if (!node)
 			return NULL;
-		while (node->left && !node->left->boundary)
+		while (node->left)
 			node = node->left;
 		return node;
 	}
@@ -55,7 +54,7 @@ struct BSTNode {
 	{
 		if (!node)
 			return NULL;
-		while (node->right && !node->right->boundary)
+		while (node->right)
 			node = node->right;
 		return node;
 	}
@@ -63,33 +62,21 @@ struct BSTNode {
 	// next node in inorder traversal
 	BSTNode *next() {
 		BSTNode* tmp = this;
-		if (tmp->value.first == 2)
-			std::cout << "incoming node: [" << tmp->value.first << "] "<< std::endl;
 
 		// case 1: Node has right subtree
-		if (tmp->right) {
-
-
+		if (tmp->right)
 			return findMin(tmp->right);
-		}
 
 		// case 2: no right subtree
 		// travel up using its parent pointer, until you see a node which is the left child of its parent
 		// the parent of that node is the successor
 
-		if (tmp->value.first == 2) {
-			std::cout << "came here" << std::endl;
-		}
 		BSTNode* tmpparent = tmp->parent;
-		if (tmp->value.first == 2) {
-			std::cout << "p value: " << tmpparent->value.first << std::endl;
-		}
 
 		while (tmpparent && tmp == tmpparent->right) {
 			tmp = tmpparent;
 			tmpparent = tmpparent->parent;
 		}
-		std::cout << "returned next node: [" << tmpparent->value.first << "] "<< std::endl;
 		return tmpparent;
 	}
 

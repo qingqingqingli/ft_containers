@@ -186,7 +186,6 @@ public:
 		map_node* 	return_node = NULL;
 
 		_root = newInsert(_root, NULL, val, found, return_node);
-		_root->parent = NULL;
 		setupTreeBeginEnd();
 
 		if (found)
@@ -318,13 +317,10 @@ public:
 					tmp = tmp->right;
 					while (tmp && tmp->left)
 						tmp = tmp->left;
-					map_node *toAdd = new map_node(tmp->value);
+					value_type value = tmp->value;
+					node->right = deletenode(node->right, tmp->value.first, found);
+					map_node *toAdd = new map_node(value);
 
-					std::cout << "NODE TO DELETE: " << node->value.first << std::endl;
-					std::cout << "NODE: " << node->value.first << std::endl;
-					std::cout << "NODE'S LEFT: " << node->left->value.first << std::endl;
-					std::cout << "NODE'S RIGHT: " << node->right->value.first << std::endl;
-					std::cout << "NODE'S PARENT: " << node->right->value.first << std::endl;
 					toAdd->parent = node->parent;
 					toAdd->right = node->right;
 					toAdd->left= node->left;
@@ -340,12 +336,7 @@ public:
 						node->right->parent = toAdd;
 
 					delete node;
-					toAdd->right = deletenode(toAdd->right, tmp->value.first, found);
 					toAdd = balanceEraseTree(toAdd);
-//					std::cout << "----\n";
-//					print_tree(toAdd);
-//					std::cout << "----\n";
-
 					return toAdd;
 				}
 			}
@@ -368,27 +359,15 @@ public:
 
 // return how many elements are removed
 	size_type erase (const key_type& k) {
-		std::cout << "--before--" << std::endl;
-		print_tree(_root);
+//		std::cout << "--before--" << std::endl;
+//		print_tree(_root);
 
 		bool found = false;
 		_root = deletenode(_root, k, found);
-		_root->parent = NULL;
 		setupTreeBeginEnd();
 
-		std::cout << "--after--" << std::endl;
-		print_tree(_root);
-
-		std::cout << "root node: " << _root->value.first << std::endl;
-		std::cout << "root left node: " << _root->left->value.first << std::endl;
-		std::cout << "root right node: " << _root->right->value.first << std::endl;
-
-		std::cout << "node 4 left node: " << _root->left->left->value.first << std::endl;
-		std::cout << "node 4 right node: " << _root->left->right->value.first << std::endl;
-
-		std::cout << "node 6 left node: " << _root->right->left->value.first << std::endl;
-		std::cout << "node 6 right node: " << _root->right->right->value.first << std::endl;
-
+//		std::cout << "--after--" << std::endl;
+//		print_tree(_root);
 
 		if (found)
 			return 1;
@@ -400,7 +379,6 @@ public:
 		{
 			iterator tmp(first);
 			++first;
-			std::cout << "to erase: " << tmp->first << std::endl;
 			erase(tmp->first);
 		}
 	}
@@ -591,34 +569,38 @@ public:
 
 	map_node* createNewNode(const value_type& val, map_node* parent, bool &found, map_node*& return_node) {
 		map_node *newNode = new map_node(val);
-		_size++;
 		newNode->height = 1;
 		newNode->parent = parent;
+		newNode->left = NULL;
+		newNode->right = NULL;
 		found = false;
 		return_node = newNode;
+		_size++;
 		return newNode;
 	}
 
 	map_node* rightRotate(map_node* node)
 	{
+		key_compare compare = key_compare();
+
 		map_node* tmp = node->left;
-		if (tmp) {
+		if (tmp && tmp != _begin) {
 			node->left = tmp->right;
 			if (tmp->right && tmp->right != _end)
 				tmp->right->parent = node;
 			tmp->right = node;
 			tmp->parent = node->parent;
 			node->parent = tmp;
-			if (tmp->parent && value_comp()(node->value, tmp->parent->value))
+			if (tmp->parent && compare(node->value.first, tmp->parent->value.first))
 				tmp->parent->left = tmp;
-			else if (tmp->parent)
+			else if (tmp->parent && compare(tmp->parent->value.first, node->value.first))
 				tmp->parent->right = tmp;
 			node = tmp;
 			if (node->left && node->left != _begin)
 				node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
 			if (node->right && node->right != _end)
 				node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
-			if (node && node != _end && node != _begin)
+			if (node != _end && node != _begin)
 				node->height = max(height(node->left), height(node->right)) + 1;
 			if (node->parent)
 				node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
@@ -628,17 +610,19 @@ public:
 
 	map_node* leftRotate(map_node* node)
 	{
+		key_compare compare = key_compare();
+
 		map_node* tmp = node->right;
-		if (tmp) {
+		if (tmp && tmp != _end) {
 			node->right = tmp->left;
-			if (tmp->left && node->left != _begin)
+			if (tmp->left && tmp->left != _begin)
 				tmp->left->parent = node;
 			tmp->left = node;
 			tmp->parent = node->parent;
 			node->parent = tmp;
-			if (tmp->parent && value_comp()(node->value, tmp->parent->value))
+			if (tmp->parent && compare(node->value.first, tmp->parent->value.first))
 				tmp->parent->left = tmp;
-			else if (tmp->parent)
+			else if (tmp->parent && compare(tmp->parent->value.first, node->value.first))
 				tmp->parent->right = tmp;
 			node = tmp;
 
@@ -646,7 +630,7 @@ public:
 				node->left->height = max(height(node->left->left), height(node->left->right)) + 1;
 			if (node->right && node->right != _end)
 				node->right->height = max(height(node->right->left), height(node->right->right)) + 1;
-			if (node && node != _end && node != _begin)
+			if (node != _end && node != _begin)
 				node->height = max(height(node->left), height(node->right)) + 1;
 			if (node->parent)
 				node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
@@ -656,11 +640,13 @@ public:
 
 	map_node* newInsert(map_node* node, map_node* parent, const value_type &val, bool &found, map_node*& return_node) {
 		// 1. BST insertion
+		key_compare compare = key_compare();
+
 		if (size() == 0 || !node || node == _begin || node == _end)
 			return createNewNode(val, parent, found, return_node);
-		if (value_comp()(val, node->value))
+		if (compare(val.first, node->value.first))
 			node->left = newInsert(node->left, node, val, found, return_node);
-		else if (value_comp()(node->value, val))
+		else if (compare(node->value.first, val.first))
 			node->right = newInsert(node->right, node, val, found, return_node);
 		else {
 			found = true;
@@ -673,15 +659,15 @@ public:
 
 		// 3. get balance factor of this ancestor node & check whether this node became unbalanced
 		int balance = getBalance(node);
-		if (balance > 1 && node && node->left && node->left != _begin && value_comp()(val, node->left->value))
+		if (balance > 1 && node->left && node->left != _begin && compare(val.first, node->left->value.first))
 			return rightRotate(node);
-		if (balance < -1 && node && node->right && node->right != _end && value_comp()(node->right->value, val))
-			return leftRotate(node);
-		if (balance > 1 && node && node->right && node->right != _end && value_comp()(node->right->value, val)) {
+		else if (balance > 1 && node->left && node->left != _begin && compare(node->left->value.first, val.first)) {
 			node->left = leftRotate(node->left);
 			return rightRotate(node);
 		}
-		if (balance < -1 && node && node->left && node->left != _begin && value_comp()(val, node->left->value)) {
+		if (balance < -1 && node->right && node->right != _end && compare(node->right->value.first, val.first))
+			return leftRotate(node);
+		else if (balance < -1 && node->right && node->right != _end && compare(val.first, node->right->value.first)) {
 			node->right = rightRotate(node->right);
 			return leftRotate(node);
 		}
