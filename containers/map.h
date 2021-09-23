@@ -216,7 +216,7 @@ public:
 		erase(position->first);
 	}
 
-	map_node* Balance(map_node* root) {
+	map_node* balanceEraseTree(map_node* root) {
 		int firstheight = 0;
 		int secondheight = 0;
 
@@ -228,12 +228,11 @@ public:
 		// If current node is not balanced
 		if (abs(firstheight - secondheight) == 2) {
 			if (firstheight < secondheight) {
-				// Store the height of the left and right subtree of the current node's right subtree
 				int rightheight1 = 0;
 				int rightheight2 = 0;
-				if (root->right->right != NULL)
+				if (root->right->right && root->right->right != _end)
 					rightheight2 = root->right->right->height;
-				if (root->right->left != NULL)
+				if (root->right->left && root->right->left != _begin)
 					rightheight1 = root->right->left->height;
 				if (rightheight1 > rightheight2) {
 					root->right = rightRotate(root->right);
@@ -246,9 +245,9 @@ public:
 			else {
 				int leftheight1 = 0;
 				int leftheight2 = 0;
-				if (root->left->right != NULL)
+				if (root->left->right && root->left->right != _end)
 					leftheight2 = root->left->right->height;
-				if (root->left->left != NULL)
+				if (root->left->left && root->left->left != _begin)
 					leftheight1 = root->left->left->height;
 				if (leftheight1 > leftheight2) {
 					root = rightRotate(root);
@@ -282,7 +281,7 @@ public:
 					node->left->parent = node->parent;
 					delete(node);
 					_size--;
-					tmp = Balance(tmp);
+					tmp = balanceEraseTree(tmp);
 					return tmp;
 				}
 				// !left && right
@@ -299,10 +298,9 @@ public:
 					delete node;
 					_size--;
 					// Balance the node after deletion
-					tmp = Balance(tmp);
+					tmp = balanceEraseTree(tmp);
 					return tmp;
 				}
-
 				// !left & !right
 				else if ((!node->left || node->left == _begin) && (!node->right || node->right == _end)) {
 					if (_compare(node->parent->value.first, node->value.first))
@@ -323,7 +321,6 @@ public:
 						tmp = tmp->left;
 
 					node->right = deletenode(node->right, tmp->value.first, found);
-
 					map_node *toAdd = new map_node(tmp->value);
 
 					toAdd->parent = node->parent;
@@ -335,30 +332,27 @@ public:
 						node->parent->left = toAdd;
 					if (node->parent && node->parent->right == node)
 						node->parent->right = toAdd;
-					if (node->left && node->left->parent == node)
+					if (node->left && node->left != _begin && node->left->parent == node)
 						node->left->parent = toAdd;
-					if (node->right && node->right->parent == node)
+					if (node->right && node->right != _end && node->right->parent == node)
 						node->right->parent = toAdd;
 
 					delete node;
-
-					toAdd = Balance(toAdd);
+					toAdd = balanceEraseTree(toAdd);
 					return toAdd;
 				}
 			}
 			else if (_compare(node->value.first, key)) {
 				node->right = deletenode(node->right, key, found);
-				node = Balance(node);
+				node = balanceEraseTree(node);
 			}
 			else if (_compare(key, node->value.first)) {
 				node->left = deletenode(node->left, key, found);
-				node = Balance(node);
+				node = balanceEraseTree(node);
 			}
 			if (node)
 				node->height = max(height(node->left), height(node->right)) + 1;
 		}
-
-			// Handle the case when the key to be deleted could not be found
 		else
 			found = false;
 		return node;
