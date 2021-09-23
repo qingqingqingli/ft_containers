@@ -265,9 +265,10 @@ public:
 
 
 	map_node* deletenode(map_node* node, const key_type& key, bool& found) {
-		if (node && node != _begin && node != _end) {
-			if (node->value.first == key) {
+		if (node && node != _begin && node != _end && size()) {
+			if (!_compare(node->value.first, key) && !_compare(key, node->value.first)) {
 				found = true;
+
 				// !right && left
 				if ((!node->right || node->right == _end) && node->left && node->left != _begin) {
 					if (node->parent) {
@@ -297,28 +298,25 @@ public:
 					node->right->parent = node->parent;
 					delete node;
 					_size--;
-					// Balance the node after deletion
 					tmp = balanceEraseTree(tmp);
 					return tmp;
 				}
 				// !left & !right
 				else if ((!node->left || node->left == _begin) && (!node->right || node->right == _end)) {
-					if (_compare(node->parent->value.first, node->value.first))
-						node->parent->right = NULL;
-					else
-						node->parent->left = NULL;
-					if (node->parent)
+					if (node->parent) {
+						if (_compare(node->parent->value.first, node->value.first))
+							node->parent->right = NULL;
+						else
+							node->parent->left = NULL;
 						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+					}
 					delete node;
 					_size--;
 					return NULL;
 				}
 				// right && left
 				else {
-					map_node* tmp = node;
-					tmp = tmp->right;
-					while (tmp->left && tmp->left != _begin)
-						tmp = tmp->left;
+					map_node* tmp = findLeftestNode(node->right);
 
 					node->right = deletenode(node->right, tmp->value.first, found);
 					map_node *toAdd = new map_node(tmp->value);
@@ -361,19 +359,18 @@ public:
 
 // return how many elements are removed
 	size_type erase (const key_type& k) {
-		std::cout << "--before--" << std::endl;
-		print_tree(_root);
+//		std::cout << "--before--" << std::endl;
+//		print_tree(_root);
 
 		bool found = false;
 		_root = deletenode(_root, k, found);
 		setupTreeBeginEnd();
 
-		std::cout << "--after--" << std::endl;
-		print_tree(_root);
-		if (!found)
-			return 0;
-		else
+//		std::cout << "--after--" << std::endl;
+//		print_tree(_root);
+		if (found)
 			return 1;
+		return 0;
 	}
 
 	void erase (iterator first, iterator last) {
@@ -381,6 +378,7 @@ public:
 		{
 			iterator tmp(first);
 			++first;
+			std::cout << "to erase: " << tmp->first << std::endl;
 			erase(tmp->first);
 		}
 	}

@@ -296,26 +296,27 @@ void map_erase_2()
 {
 int_int_map test;
 
-for (int i = 0; i < 1000000; i++) {
+for (int i = 0; i < 10000; i++) {
 test.insert(int_int_pair(i, i + 1));
 }
+
 std::cout << test.size() << std::endl;
 test.erase(test.begin(), test.end());
 std::cout << test.size() << std::endl;
 }
 
-//void map_erase_3()
-//{
-//int_int_map test;
+void map_erase_3()
+{
+int_int_map test;
 
-//for (int i = 0; i < 30000; i++) {
-//test.insert(int_int_pair(i, i + 1));
-//}
-//for (int i = 0; i < 30000; i++) {
-//int x = rand() % 30000;
-//test.erase(x);
-//}
-//}
+for (int i = 0; i < 30000; i++) {
+test.insert(int_int_pair(i, i + 1));
+}
+for (int i = 0; i < 30000; i++) {
+int x = rand() % 30000;
+test.erase(x);
+}
+}
 
 void map_swap_1()
 {
@@ -349,6 +350,37 @@ void map_swap_1()
 	/*std::cout << it_two->first << std::endl;*/
 }
 
+void custom_erase() {
+	ft::map<int,int> mymap_ft;
+
+	mymap_ft[1]=20;
+	mymap_ft[4]=80;
+	mymap_ft[3]=40;
+	mymap_ft[2]=23;
+	mymap_ft[6]=23;
+	mymap_ft[5]=60;
+	mymap_ft[7]=100;
+	mymap_ft[8]=80;
+
+//	mymap_ft.erase(1);
+//	mymap_ft.erase(2);
+	mymap_ft.erase(3);
+//	mymap_ft.erase(4);
+//	mymap_ft.erase(5);
+//	mymap_ft.erase(6);
+//	mymap_ft.erase(7);
+//	mymap_ft.erase(8);
+//	mymap_ft.erase(8);
+//	mymap_ft.erase(9);
+//	mymap_ft.erase(10);
+//	mymap_ft.erase(77);
+
+	for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+	{
+		std::cout << it->first << std::endl;
+	}
+}
+
 void map_modifiers()
 {
 	struct timeval	start, end;
@@ -358,10 +390,11 @@ void map_modifiers()
 //	map_insert_2();
 //	map_insert_3();
 
-	map_erase_1();
+//	map_erase_1();
 //	map_erase_2();
-//	*map_erase_3();
+//	map_erase_3();
 //	map_swap_1();
+	custom_erase();
 	std::cout << "calculate time: " << std::endl;
 	gettimeofday(&end, NULL);
 	calc_time_taken(start, end, "my_map.modifiers()");
