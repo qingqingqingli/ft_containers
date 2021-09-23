@@ -263,7 +263,6 @@ public:
 		return root;
 	}
 
-
 	map_node* deletenode(map_node* node, const key_type& key, bool& found) {
 		if (node && node != _begin && node != _end && size()) {
 			if (!_compare(node->value.first, key) && !_compare(key, node->value.first)) {
@@ -295,7 +294,7 @@ public:
 						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
 					}
 					map_node* tmp = node->right;
-					node->right->parent = node->parent;
+					tmp->parent = node->parent;
 					delete node;
 					_size--;
 					tmp = balanceEraseTree(tmp);
@@ -316,9 +315,10 @@ public:
 				}
 				// right && left
 				else {
-					map_node* tmp = findLeftestNode(node->right);
-
-					node->right = deletenode(node->right, tmp->value.first, found);
+					map_node* tmp = node;
+					tmp = tmp->right;
+					while (tmp && tmp->left)
+						tmp = tmp->left;
 					map_node *toAdd = new map_node(tmp->value);
 
 					toAdd->parent = node->parent;
@@ -336,7 +336,12 @@ public:
 						node->right->parent = toAdd;
 
 					delete node;
+					toAdd->right = deletenode(toAdd->right, tmp->value.first, found);
 					toAdd = balanceEraseTree(toAdd);
+//					std::cout << "----\n";
+//					print_tree(toAdd);
+//					std::cout << "----\n";
+
 					return toAdd;
 				}
 			}
@@ -759,7 +764,7 @@ public:
 	map_node* leftRotate(map_node* node)
 	{
 		map_node* tmp = node->right;
-		if (node->right) {
+		if (tmp) {
 			node->right = tmp->left;
 			if (tmp->left && node->left != _begin)
 				tmp->left->parent = node;
