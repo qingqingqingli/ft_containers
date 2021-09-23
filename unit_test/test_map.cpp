@@ -350,44 +350,44 @@ TEST_CASE("insert()", "[map][modifiers]") {
 	}
 }
 
-//TEST_CASE("erase()", "[map][modifiers]") {
-//	std::map<int,int> mymap_std;
-//
-//	mymap_std[1]=20;
-//	mymap_std[4]=80;
-//	mymap_std[3]=40;
-//	mymap_std[2]=23;
-//	mymap_std[6]=23;
-//	mymap_std[5]=60;
-//	mymap_std[7]=100;
-//	mymap_std[8]=80;
-//
-//	ft::map<int,int> mymap_ft;
-//
-//	mymap_ft[1]=20;
-//	mymap_ft[4]=80;
-//	mymap_ft[3]=40;
-//	mymap_ft[2]=23;
-//	mymap_ft[6]=23;
-//	mymap_ft[5]=60;
-//	mymap_ft[7]=100;
-//	mymap_ft[8]=80;
-//
-//	SECTION("remove root")
-//	{
-//		mymap_ft.erase(1);
-//		mymap_std.erase(1);
-//
-//		std::map<int,int>::iterator it_std = mymap_std.begin();
-//		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
-//		{
-//			REQUIRE(it_std->first == it->first);
-//			REQUIRE(it_std->second == it->second);
-//			++it_std;
-//		}
+TEST_CASE("erase()", "[map][modifiers]") {
+	std::map<int,int> mymap_std;
+
+	mymap_std[1]=20;
+	mymap_std[4]=80;
+	mymap_std[3]=40;
+	mymap_std[2]=23;
+	mymap_std[6]=23;
+	mymap_std[5]=60;
+	mymap_std[7]=100;
+	mymap_std[8]=80;
+
+	ft::map<int,int> mymap_ft;
+
+	mymap_ft[1]=20;
+	mymap_ft[4]=80;
+	mymap_ft[3]=40;
+	mymap_ft[2]=23;
+	mymap_ft[6]=23;
+	mymap_ft[5]=60;
+	mymap_ft[7]=100;
+	mymap_ft[8]=80;
+
+	SECTION("remove")
+	{
+		mymap_ft.erase(3);
+		mymap_std.erase(3);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
 //		REQUIRE(mymap_ft.size() == mymap_std.size());
-//	}
-//
+	}
+
 //	SECTION("remove leaf node")
 //	{
 //		mymap_ft.erase(5);
@@ -467,12 +467,12 @@ TEST_CASE("insert()", "[map][modifiers]") {
 //
 //
 //	}
-//
-////	std::cout << "----------after------------" << std::endl;
-////	mymap_ft.inorder(mymap_ft.getRoot());
-////	std::cout << "----------------------" << std::endl;
-//
-//}
+
+//	std::cout << "----------after------------" << std::endl;
+//	mymap_ft.inorder(mymap_ft.getRoot());
+//	std::cout << "----------------------" << std::endl;
+
+}
 
 TEST_CASE("swap()", "[map][modifiers]") {
 	std::cout << "--------" << std::endl;
