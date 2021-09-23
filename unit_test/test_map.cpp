@@ -793,6 +793,27 @@ TEST_CASE("balancing") {
 
 }
 
+TEST_CASE("big insert test") {
+	ft::map<int, int> test;
+	ft::map<int, int> test_two;
+
+	for (int i = 0; i < 1000000; i++) {
+		int x = rand() % 1000000;
+		test.insert(ft::pair<int, int>(x, i));
+	}
+	std::cout << "segfault" << std::endl;
+	std::cout << "test.size() = " << test.size() << std::endl;
+	std::cout << "test[1] = " << test[1] << std::endl;
+	std::cout << "test[10] = " << test[10] << std::endl;
+	std::cout << "test[100] = " << test[100] << std::endl;
+	test_two.insert(test.begin(), test.end());
+	std::cout << "test_two.size() = " << test_two.size() << std::endl;
+	std::cout << "test[1] = " << test_two[1] << std::endl;
+	std::cout << "test[10] = " << test_two[10] << std::endl;
+	std::cout << "test[100] = " << test_two[100] << std::endl;
+}
+
+
 
 
 
