@@ -25,7 +25,7 @@ TEST_CASE("vector reverse iterator", "[vector_reverse_iterator]")
 
 	SECTION("0. constructor") {
 		REQUIRE(*ft_rev_from == *std_rev_from);
-		REQUIRE(*ft_rev_until == *std_rev_until);
+		REQUIRE(*(ft_rev_until - 1) == *(std_rev_until- 1));
 
 		while (std_rev_from != std_rev_until)
 		{
@@ -49,7 +49,7 @@ TEST_CASE("vector reverse iterator", "[vector_reverse_iterator]")
 
 	SECTION("2. a*") {
 		REQUIRE(*ft_rev_from == *std_rev_from);
-		REQUIRE(*ft_rev_until == *std_rev_until);
+		REQUIRE(*(ft_rev_until- 1) == *(std_rev_until - 1));
 
 		while (std_rev_from != std_rev_until)
 		{
@@ -66,15 +66,17 @@ TEST_CASE("vector reverse iterator", "[vector_reverse_iterator]")
 		REQUIRE(*(ft_rev_from + 8) == *(std_rev_from + 8));
 	}
 
-	SECTION("4. ++a") {
+	SECTION("4. a++") {
 		while (std_rev_from != std_rev_until) {
 			REQUIRE(*(ft_rev_from++) == *(std_rev_from++));
 		}
 	}
 
-	SECTION("4. a++") {
+	SECTION("4. ++a") {
 		while (std_rev_from != std_rev_until) {
-			REQUIRE(*(++ft_rev_from) == *(++std_rev_from));
+			REQUIRE(*(ft_rev_from) == *(std_rev_from));
+			++ft_rev_from;
+			++std_rev_from;
 		}
 	}
 
@@ -97,7 +99,10 @@ TEST_CASE("vector reverse iterator", "[vector_reverse_iterator]")
 
 	SECTION("7. --a") {
 		while (std_rev_from != std_rev_until) {
-			REQUIRE(*(ft_rev_until--) == *(std_rev_until--));
+
+			ft_rev_until--;
+			std_rev_until--;
+			REQUIRE(*(ft_rev_until) == *(std_rev_until));
 		}
 	}
 

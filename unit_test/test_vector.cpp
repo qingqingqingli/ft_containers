@@ -654,11 +654,17 @@ TEST_CASE("4. insert()", "[vector][modifier]")
 		ft_base.push_back(5);
 		ft::vector<int>::iterator ft_base_begin = ft_base.begin();
 
+		std_it = std_myvector.begin();
+		ft_it = ft_myvector.begin();
+
 		std_myvector.insert(std_it, std_base_begin, std_base_begin + 1);
 		ft_myvector.insert(ft_it, ft_base_begin, ft_base_begin + 1);
 
 		std_it = std_myvector.begin();
 		ft_it = ft_myvector.begin();
+
+		std_base_begin = std_base.begin();
+		ft_base_begin = ft_base.begin();
 
 		REQUIRE(*std_it == *ft_it);
 		REQUIRE(*(std_it + 1) == *(ft_it + 1));
