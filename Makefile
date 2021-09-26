@@ -1,10 +1,9 @@
-
 PROGRAM_STD		= 	std
 PROGRAM_FT		= 	ft
 
-SOURCE			= 	TESTS/vector.cpp
-
+SOURCE			= 	makefile_test/makefile_test.cpp
 OBJECT			=	$(SOURCE:.cpp=.o)
+OUTPUT_FILES    =   makefile_test/ft_output.txt makefile_test/std_output.txt
 
 COMPILE			= 	clang++
 
@@ -37,8 +36,8 @@ clean:
 
 fclean: clean
 	@echo "$(RED)----------------------------------------------------"
-	@/bin/rm -f $(PROGRAM_STD) $(PROGRAM_FT)
-	@echo "$(GRAY)REMOVED EXECUTABLE FILE $(RESET)"
+	@/bin/rm -f $(PROGRAM_STD) $(PROGRAM_FT) $(OUTPUT_FILES)
+	@echo "$(GRAY)REMOVED EXECUTABLE FILE & OUTPUT FILES $(RESET)"
 
 re: fclean all
 

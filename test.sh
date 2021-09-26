@@ -1,4 +1,4 @@
 make re
-./std > TESTS/std_output.txt
-./ft > TESTS/ft_output.txt
-diff TESTS/std_output.txt TESTS/ft_output.txt
+./std > makefile_test/std_output.txt
+./ft > makefile_test/ft_output.txt
+diff makefile_test/std_output.txt makefile_test/ft_output.txt

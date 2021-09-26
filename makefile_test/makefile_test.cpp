@@ -2,13 +2,29 @@
 // Created by qli on 16/08/2021.
 //
 #include <iostream>
-
+#include <sys/time.h>
+#include <iomanip>
 #if 1
 	#include <vector>
+	#include <stack>
+	#include <map>
 	namespace ft = std;
 #else
 	#include "../containers/vector.h"
+	#include "../containers/map.h"
+	#include "../containers/stack.h"
 #endif
+
+void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
+{
+	double time_taken;
+
+	time_taken = (end.tv_sec - start.tv_sec) * 1e6;
+	time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
+	std::cout << "--------------------" << std::endl;
+	std::cout << function_name << " takes [" << std::fixed << time_taken << std::setprecision(2) << "] sec to complete." << std::endl;
+	std::cout << "--------------------" << std::endl;
+}
 
 void print_vector(ft::vector<int> vector)
 {
@@ -257,8 +273,12 @@ void test_non_member_swap() {
 	print_vector(bar);
 }
 
-int main(void)
-{
+void vector_tester() {
+
+	std::cout << "VECTOR TESTER" << std::endl;
+	struct timeval	start, end;
+	gettimeofday(&start, NULL);
+
 	test_coplien_form();
 	test_iterator();
 	test_capacity();
@@ -267,5 +287,12 @@ int main(void)
 	test_relational_operators();
 	test_non_member_swap();
 
+	calc_time_taken(start, end, "Vector tester");
+}
+
+
+int main(void)
+{
+	vector_tester();
 	return (0);
 }
