@@ -689,6 +689,36 @@ TEST_CASE("4. insert()", "[vector][modifier]")
 
 		REQUIRE(std_myvector.size() == ft_myvector.size());
 		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(10, 89);
+		ft_myvector.resize(10, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(11, 89);
+		ft_myvector.resize(11, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(12, 89);
+		ft_myvector.resize(12, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(13, 89);
+		ft_myvector.resize(13, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(13, 89);
+		ft_myvector.resize(13, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
+
+		std_myvector.resize(25, 89);
+		ft_myvector.resize(25, 89);
+		REQUIRE(std_myvector.size() == ft_myvector.size());
+		REQUIRE(std_myvector.capacity() == ft_myvector.capacity());
 	}
 }
 

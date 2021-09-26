@@ -20,10 +20,10 @@ void calc_time_taken(struct timeval start, struct timeval end, std::string funct
 {
 	double time_taken;
 
-	time_taken = (end.tv_sec - start.tv_sec) * 1e6;
-	time_taken = (time_taken + (end.tv_usec - start.tv_usec)) * 1e-6;
+	time_taken = (end.tv_sec - start.tv_sec) * 1000000;
+	time_taken = (time_taken + (end.tv_usec - start.tv_usec));
 	std::cout << "--------------------" << std::endl;
-	std::cout << function_name << " takes [" << std::fixed << time_taken << std::setprecision(2) << "] sec to complete." << std::endl;
+	std::cout << function_name << " takes [" << std::fixed << time_taken << std::setprecision(1) << "] milli sec to complete." << std::endl;
 	std::cout << "--------------------" << std::endl;
 }
 

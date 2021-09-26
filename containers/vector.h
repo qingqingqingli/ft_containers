@@ -45,7 +45,7 @@ private:
 	{
 		value_type *new_array = _alloc.allocate(n, &_array);
 		for (size_type i = 0; i < _size; i++)
-			new_array[i] = _array[i];
+			_alloc.construct(&new_array[i], _array[i]);
 		_alloc.deallocate(_array, _size);
 		_array = new_array;
 		_capacity = n;
@@ -55,7 +55,7 @@ private:
 	{
 		value_type *new_array = _alloc.allocate(n);
 		for (size_type i = 0; i < _size; i++)
-			new_array[i] = val;
+			_alloc.construct(&new_array[i], val);
 		_alloc.deallocate(_array, _size);
 		_array = new_array;
 		_capacity = n;
@@ -65,7 +65,7 @@ private:
 	void copy_vector_value(size_type n, value_type val)
 	{
 		while (_size < n) {
-			_array[_size] = val;
+			_alloc.construct(&_array[_size], val);
 			_size++;
 		}
 	}
@@ -87,7 +87,7 @@ public:
 	{
 		_array = _alloc.allocate(n);
 		for (size_type i = 0; i < _size; i++)
-			_array[i] = val;
+			_alloc.construct(&_array[i], val);
 	}
 
 	// range
@@ -99,7 +99,7 @@ public:
 		_size = _capacity = last - first;
 		_array = _alloc.allocate(_size);
 		for (size_type i = 0; i < _size; i++)
-			_array[i] = *(first + i);
+			_alloc.construct(&_array[i], *(first + i));
 	}
 
 	// copy
@@ -117,7 +117,7 @@ public:
 			_alloc = x._alloc;
 			_array = _alloc.allocate(_size, &x._array);
 			for (size_type i = 0; i < _size; i++)
-				_array[i] = x._array[i];
+				_alloc.construct(&_array[i], x._array[i]);
 		}
 		return *this;
 	}
@@ -142,7 +142,7 @@ public:
 	size_type capacity() const { return _capacity; }
 
 	void resize (size_type n, value_type val = value_type()) {
-		if (n < _size)
+		if (n <= _capacity)
 			_size = n;
 		else if (n > _capacity && n <= _capacity * 2) {
 			reallocation(_capacity * 2);
@@ -224,12 +224,13 @@ public:
 		{
 			_size = last - first;
 			for (size_type i = 0; i < _size; i++)
-				_array[i] = *(first + i);
+				_alloc.construct(&_array[i], *(first + i));
+
 		}
 		else {
 			value_type *new_array = _alloc.allocate(n, &_array);
 			for (size_type i = 0; i < n; i++)
-				new_array[i] = *(first + i);
+				_alloc.construct(&new_array[i], *(first + i));
 			_alloc.deallocate(_array, _size);
 			_array = new_array;
 			_size = n;
@@ -242,7 +243,7 @@ public:
 		_size = n;
 		if (n <= _capacity)
 			for (size_type i = 0; i < _size; i++)
-				_array[i] = val;
+				_alloc.construct(&_array[i], val);
 		else
 			reallocation_new_value(n, val);
 	}
@@ -255,7 +256,7 @@ public:
 			else
 				reallocation(_size * 2);
 		}
-		_array[_size] = val;
+		_alloc.construct(&_array[_size], val);
 		_size += 1;
 	}
 
@@ -274,8 +275,8 @@ public:
 
 		_size += 1;
 		for (size_type i = _size - 1; i > n; i--)
-			_array[i] = _array[i - 1];
-		_array[n] = val;
+			_alloc.construct(&_array[i], _array[i - 1]);
+		_alloc.construct(&_array[n], val);
 		return iterator(begin() + n);
 	}
 
@@ -290,9 +291,9 @@ public:
 		}
 		_size += n;
 		for (size_type i = _size - 1; i > pos + n - 1; i--)
-			_array[i] = _array[i - n];
+			_alloc.construct(&_array[i], _array[i - n]);
 		for (size_type i = pos; i < n; i++)
-			_array[i] = val;
+			_alloc.construct(&_array[i], val);
 	}
 
 	// range
@@ -309,9 +310,9 @@ public:
 		}
 		_size += n;
 		for (size_type i = _size - 1; i > pos + n - 1; i--)
-			_array[i] = _array[i - n];
+			_alloc.construct(&_array[i], _array[i - n]);
 		for (size_type i = pos; i < n; i++)
-			_array[i] = *(first + i);
+			_alloc.construct(&_array[i], *(first + i));
 	}
 
 	// single
@@ -319,7 +320,7 @@ public:
 		size_type n = position - begin();
 		_size -= 1;
 		for (size_type i = n; i < _size; i++)
-			_array[i] = _array[i + 1];
+			_alloc.construct(&_array[i], _array[i + 1]);
 		return iterator(begin() + n);
 	}
 
@@ -330,7 +331,7 @@ public:
 		size_type n = last - first;
 		_size -= n;
 		for (size_type i = pos; i < _size; i++)
-			_array[i] = _array[i + n];
+			_alloc.construct(&_array[i], _array[i + n]);
 		return iterator(begin() + pos);
 	}
 
