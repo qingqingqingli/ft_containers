@@ -189,156 +189,10 @@ public:
 		erase(position->first);
 	}
 
-	map_node* balanceEraseTree(map_node* root) {
-		int firstheight = 0;
-		int secondheight = 0;
-
-		if (root->left && root->left != _begin)
-			firstheight = root->left->height;
-		if (root->right && root->right != _end)
-			secondheight = root->right->height;
-
-		// If current node is not balanced
-		if (abs(firstheight - secondheight) == 2) {
-			if (firstheight < secondheight) {
-				int rightheight1 = 0;
-				int rightheight2 = 0;
-				if (root->right->right && root->right->right != _end)
-					rightheight2 = root->right->right->height;
-				if (root->right->left && root->right->left != _begin)
-					rightheight1 = root->right->left->height;
-				if (rightheight1 > rightheight2) {
-					root->right = rightRotate(root->right);
-					return leftRotate(root);
-				}
-				else {
-					root = leftRotate(root);
-				}
-			}
-			else {
-				int leftheight1 = 0;
-				int leftheight2 = 0;
-				if (root->left->right && root->left->right != _end)
-					leftheight2 = root->left->right->height;
-				if (root->left->left && root->left->left != _begin)
-					leftheight1 = root->left->left->height;
-				if (leftheight1 > leftheight2) {
-					root = rightRotate(root);
-				}
-				else {
-					root->left = leftRotate(root->left);
-					return rightRotate(root);
-				}
-			}
-		}
-		// Return the root node
-		return root;
-	}
-
-	map_node* deletenode(map_node* node, const key_type& key, bool& found) {
-		if (node && node != _begin && node != _end && size()) {
-			if (!_compare(node->value.first, key) && !_compare(key, node->value.first)) {
-				found = true;
-				// !right && left
-				if ((!node->right || node->right == _end) && (node->left && node->left != _begin)) {
-					if (node->parent) {
-						if (_compare(node->parent->value.first, node->value.first))
-							node->parent->right = node->left;
-						else
-							node->parent->left = node->left;
-						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
-					}
-					map_node* tmp = node->left;
-					node->left->parent = node->parent;
-					_alloc.destroy(node);
-					_alloc.deallocate(node, 1);
-					_size--;
-					tmp = balanceEraseTree(tmp);
-					return tmp;
-				}
-				// !left && right
-				else if ((!node->left || node->left == _begin) && (node->right && node->right != _end)) {
-					if (node->parent) {
-						if (_compare(node->parent->value.first, node->value.first))
-							node->parent->right = node->right;
-						else
-							node->parent->left = node->right;
-						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
-					}
-					map_node* tmp = node->right;
-					tmp->parent = node->parent;
-					_alloc.destroy(node);
-					_alloc.deallocate(node, 1);
-					_size--;
-					tmp = balanceEraseTree(tmp);
-					return tmp;
-				}
-				// !left & !right
-				else if ((!node->left || node->left == _begin) && (!node->right || node->right == _end)) {
-					if (node->parent) {
-						if (_compare(node->parent->value.first, node->value.first))
-							node->parent->right = NULL;
-						else
-							node->parent->left = NULL;
-						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
-					}
-					_alloc.destroy(node);
-					_alloc.deallocate(node, 1);
-					_size--;
-					return NULL;
-				}
-				// right && left
-				else {
-					map_node* tmp = node;
-					tmp = tmp->right;
-					while (tmp && tmp->left)
-						tmp = tmp->left;
-					value_type value = tmp->value;
-					node->right = deletenode(node->right, tmp->value.first, found);
-
-					map_node *toAdd = _alloc.allocate(1);
-					_alloc.construct(toAdd, value);
-
-					toAdd->parent = node->parent;
-					toAdd->right = node->right;
-					toAdd->left= node->left;
-					toAdd->height = node->height;
-
-					if (node->parent && node->parent->left == node)
-						node->parent->left = toAdd;
-					if (node->parent && node->parent->right == node)
-						node->parent->right = toAdd;
-					if (node->left && node->left != _begin && node->left->parent == node)
-						node->left->parent = toAdd;
-					if (node->right && node->right != _end && node->right->parent == node)
-						node->right->parent = toAdd;
-
-					_alloc.destroy(node);
-					_alloc.deallocate(node, 1);
-					toAdd = balanceEraseTree(toAdd);
-					return toAdd;
-				}
-			}
-			else if (_compare(node->value.first, key)) {
-				node->right = deletenode(node->right, key, found);
-				node = balanceEraseTree(node);
-			}
-			else if (_compare(key, node->value.first)) {
-				node->left = deletenode(node->left, key, found);
-				node = balanceEraseTree(node);
-			}
-			if (node)
-				node->height = max(height(node->left), height(node->right)) + 1;
-		}
-		else
-			found = false;
-		return node;
-	}
-
-
 // return how many elements are removed
 	size_type erase (const key_type& k) {
 		bool found = false;
+
 		_root = deletenode(_root, k, found);
 		setupTreeBeginEnd();
 		if (found)
@@ -347,8 +201,7 @@ public:
 	}
 
 	void erase (iterator first, iterator last) {
-		while (first != last)
-		{
+		while (first != last) {
 			iterator tmp(first);
 			++first;
 			erase(tmp->first);
@@ -358,15 +211,14 @@ public:
 // -> swap content
 	void swap(map &x) {
 		map tmp;
+
 		tmp = *this;
 		*this = x;
 		x = tmp;
 	}
 
 //-> clear content
-	void clear() {
-		erase(begin(), end());
-	}
+	void clear() { erase(begin(), end()); }
 
 //************************ Observers ************************
 //-> return key comparison object
@@ -489,6 +341,7 @@ public:
 		b = tmp;
 	}
 
+	// REMOVE!!!
 	map_node *getRoot() { return _root; }
 
 	void clearTree(map_node *node) {
@@ -555,21 +408,7 @@ public:
 		return height(node->left) - height(node->right);
 	}
 
-	map_node* createNewNode(const value_type& val, map_node* parent, bool &found, map_node*& return_node) {
-		map_node *newNode = _alloc.allocate(1);
-		_alloc.construct(newNode, val);
-		newNode->height = 1;
-		newNode->parent = parent;
-		newNode->left = NULL;
-		newNode->right = NULL;
-		found = false;
-		return_node = newNode;
-		_size++;
-		return newNode;
-	}
-
-	map_node* rightRotate(map_node* node)
-	{
+	map_node* rightRotate(map_node* node) {
 		key_compare compare = key_compare();
 
 		map_node* tmp = node->left;
@@ -627,6 +466,39 @@ public:
 		return node;
 	}
 
+	// for insert()
+
+	map_node* balanceInsertTree(map_node* node, const value_type &val) {
+		key_compare compare = key_compare();
+		int balance = getBalance(node);
+
+		if (balance > 1 && node->left && node->left != _begin && compare(val.first, node->left->value.first))
+			return rightRotate(node);
+		else if (balance > 1 && node->left && node->left != _begin && compare(node->left->value.first, val.first)) {
+			node->left = leftRotate(node->left);
+			return rightRotate(node);
+		}
+		if (balance < -1 && node->right && node->right != _end && compare(node->right->value.first, val.first))
+			return leftRotate(node);
+		else if (balance < -1 && node->right && node->right != _end && compare(val.first, node->right->value.first)) {
+			node->right = rightRotate(node->right);
+			return leftRotate(node);
+		}
+		return node;
+}
+
+	map_node* createNewNode(const value_type& val, map_node* parent, bool &found, map_node*& return_node) {
+		map_node *newNode = _alloc.allocate(1);
+		_alloc.construct(newNode, val);
+
+		newNode->height = 1;
+		newNode->parent = parent;
+		found = false;
+		return_node = newNode;
+		_size++;
+		return newNode;
+	}
+
 	map_node* newInsert(map_node* node, map_node* parent, const value_type &val, bool &found, map_node*& return_node) {
 		// 1. BST insertion
 		key_compare compare = key_compare();
@@ -651,27 +523,15 @@ public:
 		node->height = 1 + max(height(node->left), height(node->right));
 
 		// 3. get balance factor of this ancestor node & check whether this node became unbalanced
-		int balance = getBalance(node);
-		if (balance > 1 && node->left && node->left != _begin && compare(val.first, node->left->value.first))
-			return rightRotate(node);
-		else if (balance > 1 && node->left && node->left != _begin && compare(node->left->value.first, val.first)) {
-			node->left = leftRotate(node->left);
-			return rightRotate(node);
-		}
-		if (balance < -1 && node->right && node->right != _end && compare(node->right->value.first, val.first))
-			return leftRotate(node);
-		else if (balance < -1 && node->right && node->right != _end && compare(val.first, node->right->value.first)) {
-			node->right = rightRotate(node->right);
-			return leftRotate(node);
-		}
-		return node;
+		return balanceInsertTree(node, val);
 	}
 
+	// REMOVE!!!
 	void	print_tree(map_node* root) const
 	{
 		print_tree_utils(root, 0);
 	}
-
+	// REMOVE!!!
 	void	print_tree_utils(map_node *root, int space) const {
 		int count = 5;
 		if (root == NULL)
@@ -685,7 +545,166 @@ public:
 		print_tree_utils(root->left, space);
 	}
 
-	//************************ Old remove functions ************************
+	// for erase()
+	map_node* balanceEraseTree(map_node* root) {
+		int firstheight = 0;
+		int secondheight = 0;
+
+		if (root->left && root->left != _begin)
+			firstheight = root->left->height;
+		if (root->right && root->right != _end)
+			secondheight = root->right->height;
+
+		// If current node is not balanced
+		if (abs(firstheight - secondheight) > 1) {
+			if (firstheight < secondheight) {
+				int rightheight1 = 0;
+				int rightheight2 = 0;
+				if (root->right->right && root->right->right != _end)
+					rightheight2 = root->right->right->height;
+				if (root->right->left && root->right->left != _begin)
+					rightheight1 = root->right->left->height;
+				// RLR
+				if (rightheight1 > rightheight2) {
+					root->right = rightRotate(root->right);
+					return leftRotate(root);
+				}
+					// LLR
+				else
+					root = leftRotate(root);
+			}
+			else {
+				int leftheight1 = 0;
+				int leftheight2 = 0;
+				if (root->left->right && root->left->right != _end)
+					leftheight2 = root->left->right->height;
+				if (root->left->left && root->left->left != _begin)
+					leftheight1 = root->left->left->height;
+				// RRR
+				if (leftheight1 > leftheight2) {
+					root = rightRotate(root);
+				}
+					// LRR
+				else {
+					root->left = leftRotate(root->left);
+					return rightRotate(root);
+				}
+			}
+		}
+		return root;
+	}
+
+	map_node* deleteNodeWithLeftChild(map_node* node) {
+		if (node->parent) {
+			if (_compare(node->parent->value.first, node->value.first))
+				node->parent->right = node->left;
+			else
+				node->parent->left = node->left;
+			node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+		}
+		map_node* tmp = node->left;
+		node->left->parent = node->parent;
+		_alloc.destroy(node);
+		_alloc.deallocate(node, 1);
+		_size--;
+		tmp = balanceEraseTree(tmp);
+		return tmp;
+	}
+
+	map_node* deleteNodeWithRightChild(map_node* node) {
+		if (node->parent) {
+			if (_compare(node->parent->value.first, node->value.first))
+				node->parent->right = node->right;
+			else
+				node->parent->left = node->right;
+			node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+		}
+		map_node* tmp = node->right;
+		tmp->parent = node->parent;
+		_alloc.destroy(node);
+		_alloc.deallocate(node, 1);
+		_size--;
+		tmp = balanceEraseTree(tmp);
+		return tmp;
+	}
+
+	map_node* deleteLeafNode(map_node* node) {
+		if (node->parent) {
+			if (_compare(node->parent->value.first, node->value.first))
+				node->parent->right = NULL;
+			else
+				node->parent->left = NULL;
+			node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
+		}
+		_alloc.destroy(node);
+		_alloc.deallocate(node, 1);
+		_size--;
+		return NULL;
+	}
+
+	map_node* deleteNodeWithtwoChildren(map_node* node, bool& found) {
+		map_node* tmp = node;
+		tmp = tmp->right;
+		while (tmp && tmp->left)
+			tmp = tmp->left;
+		value_type value = tmp->value;
+		node->right = deletenode(node->right, tmp->value.first, found);
+
+		map_node *toAdd = _alloc.allocate(1);
+		_alloc.construct(toAdd, value);
+
+		toAdd->parent = node->parent;
+		toAdd->right = node->right;
+		toAdd->left= node->left;
+		toAdd->height = node->height;
+
+		if (node->parent && node->parent->left == node)
+			node->parent->left = toAdd;
+		if (node->parent && node->parent->right == node)
+			node->parent->right = toAdd;
+		if (node->left && node->left != _begin && node->left->parent == node)
+			node->left->parent = toAdd;
+		if (node->right && node->right != _end && node->right->parent == node)
+			node->right->parent = toAdd;
+
+		_alloc.destroy(node);
+		_alloc.deallocate(node, 1);
+		toAdd = balanceEraseTree(toAdd);
+		return toAdd;
+	}
+
+	map_node* deletenode(map_node* node, const key_type& key, bool& found) {
+		if (node && node != _begin && node != _end && size()) {
+			// found the node -> delete operations
+			if (!_compare(node->value.first, key) && !_compare(key, node->value.first)) {
+				found = true;
+				if ((!node->right || node->right == _end) && (node->left && node->left != _begin))
+					return deleteNodeWithLeftChild(node);
+				else if ((!node->left || node->left == _begin) && (node->right && node->right != _end))
+					return deleteNodeWithRightChild(node);
+				else if ((!node->left || node->left == _begin) && (!node->right || node->right == _end))
+					return deleteLeafNode(node);
+				else
+					return deleteNodeWithtwoChildren(node, found);
+			}
+				// node value smaller than key value -> move right
+			else if (_compare(node->value.first, key)) {
+				node->right = deletenode(node->right, key, found);
+				node = balanceEraseTree(node);
+			}
+				// node value bigger than key value -> move left
+			else if (_compare(key, node->value.first)) {
+				node->left = deletenode(node->left, key, found);
+				node = balanceEraseTree(node);
+			}
+			// update node height
+			if (node)
+				node->height = max(height(node->left), height(node->right)) + 1;
+		}
+		else
+			found = false;
+		return node;
+	}
 
 };
 
