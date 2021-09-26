@@ -193,7 +193,7 @@ public:
 	size_type erase (const key_type& k) {
 		bool found = false;
 
-		_root = deletenode(_root, k, found);
+		_root = deleteNode(_root, k, found);
 		setupTreeBeginEnd();
 		if (found)
 			return 1;
@@ -648,7 +648,7 @@ public:
 		while (tmp && tmp->left)
 			tmp = tmp->left;
 		value_type value = tmp->value;
-		node->right = deletenode(node->right, tmp->value.first, found);
+		node->right = deleteNode(node->right, tmp->value.first, found);
 
 		map_node *toAdd = _alloc.allocate(1);
 		_alloc.construct(toAdd, value);
@@ -673,7 +673,7 @@ public:
 		return toAdd;
 	}
 
-	map_node* deletenode(map_node* node, const key_type& key, bool& found) {
+	map_node* deleteNode(map_node* node, const key_type& key, bool& found) {
 		if (node && node != _begin && node != _end && size()) {
 			// found the node -> delete operations
 			if (!_compare(node->value.first, key) && !_compare(key, node->value.first)) {
@@ -689,12 +689,12 @@ public:
 			}
 				// node value smaller than key value -> move right
 			else if (_compare(node->value.first, key)) {
-				node->right = deletenode(node->right, key, found);
+				node->right = deleteNode(node->right, key, found);
 				node = balanceEraseTree(node);
 			}
 				// node value bigger than key value -> move left
 			else if (_compare(key, node->value.first)) {
-				node->left = deletenode(node->left, key, found);
+				node->left = deleteNode(node->left, key, found);
 				node = balanceEraseTree(node);
 			}
 			// update node height
