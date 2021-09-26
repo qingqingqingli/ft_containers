@@ -95,7 +95,16 @@ public:
 
 // destructor -> Destroys the container object.
 	~map() {
-		clearTree(_root);
+		if (!_size) {
+			_alloc.destroy(_root);
+			_alloc.deallocate(_root, 1);
+			_alloc.destroy(_begin);
+			_alloc.deallocate(_begin, 1);
+			_alloc.destroy(_end);
+			_alloc.deallocate(_end, 1);
+		}
+		else
+			clearTree(_root);
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
@@ -264,7 +273,8 @@ public:
 					}
 					map_node* tmp = node->left;
 					node->left->parent = node->parent;
-					delete(node);
+					_alloc.destroy(node);
+					_alloc.deallocate(node, 1);
 					_size--;
 					tmp = balanceEraseTree(tmp);
 					return tmp;
@@ -280,7 +290,8 @@ public:
 					}
 					map_node* tmp = node->right;
 					tmp->parent = node->parent;
-					delete node;
+					_alloc.destroy(node);
+					_alloc.deallocate(node, 1);
 					_size--;
 					tmp = balanceEraseTree(tmp);
 					return tmp;
@@ -294,7 +305,8 @@ public:
 							node->parent->left = NULL;
 						node->parent->height = max(height(node->parent->left), height(node->parent->right)) + 1;
 					}
-					delete node;
+					_alloc.destroy(node);
+					_alloc.deallocate(node, 1);
 					_size--;
 					return NULL;
 				}
@@ -324,7 +336,8 @@ public:
 					if (node->right && node->right != _end && node->right->parent == node)
 						node->right->parent = toAdd;
 
-					delete node;
+					_alloc.destroy(node);
+					_alloc.deallocate(node, 1);
 					toAdd = balanceEraseTree(toAdd);
 					return toAdd;
 				}
@@ -520,7 +533,8 @@ public:
 		if (node) {
 			clearTree(node->left);
 			clearTree(node->right);
-			delete node;
+			_alloc.destroy(node);
+			_alloc.deallocate(node, 1);
 		}
 	}
 
