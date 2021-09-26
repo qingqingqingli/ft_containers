@@ -44,8 +44,6 @@ TEST_CASE("coplien form - map", "[map]") {
 		ft_map_1.insert ( ft::pair<int,int>(6, -999) );
 		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
 
-		ft_map_1.print_tree(ft_map_1.getRoot());
-
 		ft::map<int, int> ft_map(ft_map_1.begin(), ft_map_1.end());
 		REQUIRE(ft_map_1.size() == ft_map.size());
 
@@ -74,7 +72,6 @@ TEST_CASE("coplien form - map", "[map]") {
 		ft_map = ft_map_1;
 		REQUIRE(ft_map_1.size() == ft_map.size());
 
-		std::cout << "----------" << std::endl;
 		ft::map<int,int>::iterator ft = ft_map_1.begin();
 		for (ft::map<int,int>::iterator it = ft_map.begin(); it != ft_map.end(); ++it) {
 			REQUIRE(it->first == ft->first);
@@ -239,8 +236,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 	mymap_ft.insert ( ft::pair<char,int>('z',200) );
 	mymap_ft.insert ( ft::pair<char,int>('b',300) );
 
-	mymap_ft.print_tree(mymap_ft.getRoot());
-
 	REQUIRE(mymap_ft.size() == mymap_std.size());
 
 	SECTION("traverse") {
@@ -266,8 +261,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		ft::pair<ft::map<char,int>::iterator,bool> ret_ft;
 		ret_ft = mymap_ft.insert ( ft::pair<char,int>('z',500) );
 
-		mymap_ft.print_tree(mymap_ft.getRoot());
-
 		REQUIRE(ret_std.first->first == ret_ft.first->first);
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
@@ -284,14 +277,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 
 		ft::map<char,int>::iterator empty_begin = empty.begin();
 		ft::map<char,int>::iterator empty_end = empty.end();
-
-//		std::cout << "----------original------------" << std::endl;
-//		mymap_ft.inorder(mymap_ft.getRoot());
-//		std::cout << "----------------------" << std::endl;
-//
-//		std::cout << "----------copy------------" << std::endl;
-//		empty.inorder(empty.getRoot());
-//		std::cout << "----------------------" << std::endl;
 
 		while (empty_begin != empty_end)
 		{
@@ -332,7 +317,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		REQUIRE(ret_std.first->first == ret_ft.first->first);
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
-		mymap_ft.print_tree(mymap_ft.getRoot());
 
 		ret_std = mymap_std.insert ( std::pair<char,int>('t', 999) );
 		ret_ft = mymap_ft.insert ( ft::pair<char,int>('t', 999) );
@@ -340,7 +324,6 @@ TEST_CASE("insert()", "[map][modifiers]") {
 		REQUIRE(ret_std.first->second == ret_ft.first->second);
 		REQUIRE(ret_std.second == ret_ft.second);
 		REQUIRE(mymap_ft.size() == mymap_std.size());
-		mymap_ft.print_tree(mymap_ft.getRoot());
 
 		ret_std = mymap_std.insert ( std::pair<char,int>('r', 123) );
 		ret_ft = mymap_ft.insert ( ft::pair<char,int>('r', 123) );
@@ -378,14 +361,10 @@ TEST_CASE("erase()", "[map][modifiers]") {
 	{
 		mymap_ft.erase(3);
 		mymap_std.erase(3);
-
-
-
 		std::map<int,int>::iterator it_std = mymap_std.begin();
 
 		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
 		{
-			std::cout << it->first << std::endl;
 			REQUIRE(it_std->first == it->first);
 			REQUIRE(it_std->second == it->second);
 			++it_std;
@@ -460,10 +439,6 @@ TEST_CASE("erase()", "[map][modifiers]") {
 		std::map<int,int>::iterator it_std = mymap_std.begin();
 		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
 		{
-//			std::cout << "----------------------" << std::endl;
-//			std::cout << it_std->first << "->" << it_std->second << std::endl;
-//			std::cout << it->first << "->" << it->second << std::endl;
-//			std::cout << "----------------------" << std::endl;
 			REQUIRE(it_std->first == it->first);
 			REQUIRE(it_std->second == it->second);
 			++it_std;
@@ -472,15 +447,9 @@ TEST_CASE("erase()", "[map][modifiers]") {
 
 
 	}
-
-//	std::cout << "----------after------------" << std::endl;
-//	mymap_ft.inorder(mymap_ft.getRoot());
-//	std::cout << "----------------------" << std::endl;
-
 }
 
 TEST_CASE("swap()", "[map][modifiers]") {
-	std::cout << "--------" << std::endl;
 
 	ft::map<int,int> ft_map_1;
 	ft_map_1.insert (ft::pair<int,int>(66, 100) );
@@ -774,43 +743,3 @@ TEST_CASE("non-member", "[map][non-member]") {
 	REQUIRE(ft_right >= ft_left);
 
 }
-
-TEST_CASE("balancing") {
-	ft::map<int, int> map;
-	map.print_tree(map.getRoot());
-
-	for (int i = 1; i <= 8; i++)
-	{
-		map.insert(ft::make_pair(i, i));
-		map.print_tree(map.getRoot());
-		std::cout << "---------------" << std::endl;
-	}
-	map.insert(ft::make_pair(8, 8));
-	std::cout << "---------------" << std::endl;
-
-}
-
-TEST_CASE("big insert test") {
-	ft::map<int, int> test;
-	ft::map<int, int> test_two;
-
-	for (int i = 0; i < 1000000; i++) {
-		int x = rand() % 1000000;
-		test.insert(ft::pair<int, int>(x, i));
-	}
-	std::cout << "segfault" << std::endl;
-	std::cout << "test.size() = " << test.size() << std::endl;
-	std::cout << "test[1] = " << test[1] << std::endl;
-	std::cout << "test[10] = " << test[10] << std::endl;
-	std::cout << "test[100] = " << test[100] << std::endl;
-	test_two.insert(test.begin(), test.end());
-	std::cout << "test_two.size() = " << test_two.size() << std::endl;
-	std::cout << "test[1] = " << test_two[1] << std::endl;
-	std::cout << "test[10] = " << test_two[10] << std::endl;
-	std::cout << "test[100] = " << test_two[100] << std::endl;
-}
-
-
-
-
-

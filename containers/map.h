@@ -316,7 +316,7 @@ public:
 allocator_type get_allocator() const { return _alloc; }
 
 //************************ Private helpers ************************
-public:
+private:
 
 	void initialise_constructor() {
 		_root = _alloc.allocate(1);
@@ -340,9 +340,6 @@ public:
 		a = b;
 		b = tmp;
 	}
-
-	// REMOVE!!!
-	map_node *getRoot() { return _root; }
 
 	void clearTree(map_node *node) {
 		if (node) {
@@ -524,25 +521,6 @@ public:
 
 		// 3. get balance factor of this ancestor node & check whether this node became unbalanced
 		return balanceInsertTree(node, val);
-	}
-
-	// REMOVE!!!
-	void	print_tree(map_node* root) const
-	{
-		print_tree_utils(root, 0);
-	}
-	// REMOVE!!!
-	void	print_tree_utils(map_node *root, int space) const {
-		int count = 5;
-		if (root == NULL)
-			return;
-		space += count;
-		print_tree_utils(root->right, space);
-		std::cout << std::endl;
-		for (int i = count; i < space; i++)
-			std::cout << " ";
-		std::cout << root->value.first << "(h=" << root->height << ")" << std::endl;
-		print_tree_utils(root->left, space);
 	}
 
 	// for erase()
