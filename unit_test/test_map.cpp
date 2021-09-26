@@ -69,6 +69,7 @@ TEST_CASE("coplien form - map", "[map]") {
 		ft_map_1.insert ( ft::pair<int,int>(3, -999) );
 
 		ft::map<int, int> ft_map(ft_map_1);
+		REQUIRE(ft_map_1.size() == ft_map.size());
 
 		ft_map = ft_map_1;
 		REQUIRE(ft_map_1.size() == ft_map.size());

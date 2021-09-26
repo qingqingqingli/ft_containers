@@ -76,54 +76,41 @@ public:
 //************************ Coplien form ************************
 
 // empty -> Constructs an empty container, with no elements.
-	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		_begin->parent = _root;
-		_end->parent = _root;
-
-		_root->left = _begin;
-		_root->right = _end;
-	}
+	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(), _begin(), _end(), _size(0), _compare(comp), _alloc(alloc) {
+	initialise_constructor();
+}
 
 // range -> Constructs a container with as many elements as the range [first,last)
 	template<class InputIterator>
-	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(new map_node), _begin(new map_node), _end(new map_node), _size(0), _compare(comp), _alloc(alloc) {
-		_begin->parent = _root;
-		_end->parent = _root;
-
-		_root->left = _begin;
-		_root->right = _end;
-		insert(first, last);
-	}
+	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _root(), _begin(), _end(), _size(0), _compare(comp), _alloc(alloc) {
+	initialise_constructor();
+	insert(first, last);
+}
 
 // copy -> Constructs a container with a copy of each of the elements in x.
-	map(const map &x) { *this = x; }
+	map(const map &x): _root(), _begin(), _end(), _size(0), _compare(x._compare), _alloc(x._alloc) {
+	initialise_constructor();
+	insert(x.begin(), x.end());
+}
 
 // destructor -> Destroys the container object.
 	~map() {
-		std::cout << "**** destructor ***" << std::endl;
 		clearTree(_root);
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
 	map& operator= (const map& x) {
-		std::cout << "**** assignment ***" << std::endl;
-
-		if (this != &x)
-		{
-			_root = new map_node;
-			_begin = new map_node;
-			_end = new map_node;
-			_root->left = _begin;
-			_root->right = _end;
-			_begin->parent = _root;
-			_end->parent = _root;
-			_size = 0;
-			_compare = x._compare;
-			_alloc = x._alloc;
-			insert(x.begin(), x.end());
-		}
-		return *this;
+	if (this != &x) {
+		map tmp(x);
+		swapContent(_root, tmp._root);
+		swapContent(_begin, tmp._begin);
+		swapContent(_end, tmp._end);
+		swapContent(_size, tmp._size);
+		swapContent(_compare, tmp._compare);
+		swapContent(_alloc, tmp._alloc);
 	}
+	return *this;
+}
 
 //************************ Iterators ************************
 
@@ -319,7 +306,9 @@ public:
 						tmp = tmp->left;
 					value_type value = tmp->value;
 					node->right = deletenode(node->right, tmp->value.first, found);
-					map_node *toAdd = new map_node(value);
+
+					map_node *toAdd = _alloc.allocate(1);
+					_alloc.construct(toAdd, value);
 
 					toAdd->parent = node->parent;
 					toAdd->right = node->right;
@@ -494,6 +483,29 @@ allocator_type get_allocator() const { return _alloc; }
 //************************ Private helpers ************************
 public:
 
+	void initialise_constructor() {
+		_root = _alloc.allocate(1);
+		_alloc.construct(_root, value_type());
+
+		_begin = _alloc.allocate(1);
+		_alloc.construct(_begin, value_type());
+
+		_end = _alloc.allocate(1);
+		_alloc.construct(_end, value_type());
+
+		_begin->parent = _root;
+		_end->parent = _root;
+		_root->left = _begin;
+		_root->right = _end;
+	}
+
+	template<class Type>
+	void swapContent(Type& a, Type& b) {
+		Type tmp(a);
+		a = b;
+		b = tmp;
+	}
+
 	void inorder(map_node *node) {
 		if (node && node != _begin && node != _end) {
 			inorder(node->left);
@@ -568,7 +580,8 @@ public:
 	}
 
 	map_node* createNewNode(const value_type& val, map_node* parent, bool &found, map_node*& return_node) {
-		map_node *newNode = new map_node(val);
+		map_node *newNode = _alloc.allocate(1);
+		_alloc.construct(newNode, val);
 		newNode->height = 1;
 		newNode->parent = parent;
 		newNode->left = NULL;
