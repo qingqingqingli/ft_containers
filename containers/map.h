@@ -361,16 +361,9 @@ public:
 
 // return how many elements are removed
 	size_type erase (const key_type& k) {
-//		std::cout << "--before--" << std::endl;
-//		print_tree(_root);
-
 		bool found = false;
 		_root = deletenode(_root, k, found);
 		setupTreeBeginEnd();
-
-//		std::cout << "--after--" << std::endl;
-//		print_tree(_root);
-
 		if (found)
 			return 1;
 		return 0;
@@ -519,14 +512,6 @@ public:
 		b = tmp;
 	}
 
-	void inorder(map_node *node) {
-		if (node && node != _begin && node != _end) {
-			inorder(node->left);
-			std::cout << node->value.first << "->" << node->value.second << std::endl;
-			inorder(node->right);
-		}
-	}
-
 	map_node *getRoot() { return _root; }
 
 	void clearTree(map_node *node) {
@@ -668,8 +653,12 @@ public:
 	map_node* newInsert(map_node* node, map_node* parent, const value_type &val, bool &found, map_node*& return_node) {
 		// 1. BST insertion
 		key_compare compare = key_compare();
-
-		if (size() == 0 || !node || node == _begin || node == _end)
+		if (size() == 0) {
+			_alloc.destroy(_root);
+			_alloc.deallocate(_root, 1);
+			return createNewNode(val, parent, found, return_node);
+		}
+		else if (!node || node == _begin || node == _end)
 			return createNewNode(val, parent, found, return_node);
 		if (compare(val.first, node->value.first))
 			node->left = newInsert(node->left, node, val, found, return_node);

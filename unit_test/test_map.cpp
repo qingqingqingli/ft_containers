@@ -499,13 +499,7 @@ TEST_CASE("swap()", "[map][modifiers]") {
 	ft::map<int,int> map_copy_2;
 	map_copy_2 = ft_map_2;
 
-//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
-//	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
-
 	ft_map_1.swap(ft_map_2);
-
-//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
-//	ft_map_2.print_tree_utils(ft_map_2.getRoot(), 0);
 
 	ft::map<int,int>::iterator itr_copy_2;
 	itr_copy_2 = map_copy_2.begin();
@@ -515,8 +509,6 @@ TEST_CASE("swap()", "[map][modifiers]") {
 		REQUIRE(itr_1->second == itr_copy_2->second);
 		itr_copy_2++;
 	}
-
-	//	ft_map_1.print_tree_utils(ft_map_1.getRoot(), 0);
 }
 
 TEST_CASE("clear()", "[map][modifiers]") {
