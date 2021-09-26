@@ -95,7 +95,16 @@ public:
 
 // destructor -> Destroys the container object.
 	~map() {
-		clearTree(_root);
+		if (!size()) {
+			_alloc.destroy(_begin);
+			_alloc.deallocate(_begin, 1);
+			_alloc.destroy(_end);
+			_alloc.deallocate(_end, 1);
+			_alloc.destroy(_root);
+			_alloc.deallocate(_root, 1);
+		}
+		else
+			clearTree(_root);
 	}
 
 // assigment operator -> Assigns new contents to the container, replacing its current content.
