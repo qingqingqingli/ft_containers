@@ -115,33 +115,19 @@ public:
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-	iterator begin() {
-		if (!size())
-			return end();
-		else
-			return iterator(_begin->parent);
-	}
-
-	const_iterator begin() const {
-		if (!size())
-			return end();
-		else
-			return const_iterator(_begin->parent);
-	}
+	iterator begin() { return iterator(_begin->parent); }
+	const_iterator begin() const { return const_iterator(_begin->parent); }
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
 	iterator end() { return iterator(_end); }
-
 	const_iterator end() const { return const_iterator(_end); }
 
 //-> Returns a reverse iterator pointing to the last element in the container (its reverse beginning).
 	reverse_iterator rbegin() { return reverse_iterator(end()); }
-
 	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
 //-> Returns a reverse iterator pointing to the theoretical element right before the first element in the map container (its reverse beginning).
 	reverse_iterator rend() { return reverse_iterator(begin()); }
-
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 //************************ Capacity ************************
