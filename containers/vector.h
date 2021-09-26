@@ -64,8 +64,7 @@ private:
 
 	void copy_vector_value(size_type n, value_type val)
 	{
-		while (_size < n)
-		{
+		while (_size < n) {
 			_array[_size] = val;
 			_size++;
 		}
@@ -283,12 +282,11 @@ public:
 	// fill
 	void insert (iterator position, size_type n, const value_type& val) {
 		size_type pos = position - begin();
-		// double check reallocation
 		if (_size + n > _capacity) {
 			if (n > _size)
 				reallocation(_size + n);
 			else
-				reallocation(_size * 2);
+				reallocation(_capacity * 2);
 		}
 		_size += n;
 		for (size_type i = _size - 1; i > pos + n - 1; i--)
@@ -303,12 +301,11 @@ public:
 	{
 		size_type pos = position - begin();
 		size_type n = last - first;
-		// double check reallocation
 		if (_size + n > _capacity) {
 			if (n > _size)
 				reallocation(_size + n);
 			else
-				reallocation(_size * 2);
+				reallocation(_capacity * 2);
 		}
 		_size += n;
 		for (size_type i = _size - 1; i > pos + n - 1; i--)
