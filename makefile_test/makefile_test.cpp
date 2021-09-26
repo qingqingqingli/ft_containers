@@ -15,6 +15,7 @@
 	#include "../containers/stack.h"
 #endif
 
+// helper function
 void calc_time_taken(struct timeval start, struct timeval end, std::string function_name)
 {
 	double time_taken;
@@ -26,6 +27,8 @@ void calc_time_taken(struct timeval start, struct timeval end, std::string funct
 	std::cout << "--------------------" << std::endl;
 }
 
+//************** Vector **************
+
 void print_vector(ft::vector<int> vector)
 {
 	std::cout << "Vector content: ";
@@ -34,7 +37,7 @@ void print_vector(ft::vector<int> vector)
 	std::cout << std::endl;
 }
 
-void test_coplien_form() {
+void vector_test_coplien_form() {
 
 	std::cout << "***VECTOR - COPLIEN FORM***" << std::endl;
 
@@ -54,7 +57,7 @@ void test_coplien_form() {
 
 }
 
-void test_iterator() {
+void vector_test_iterator() {
 	std::cout << std::endl << "***VECTOR - ITERATOR***" << std::endl;
 
 	ft::vector<int> vector_first;
@@ -103,7 +106,7 @@ void test_iterator() {
 	std::cout << std::endl;
 }
 
-void test_capacity() {
+void vector_test_capacity() {
 
 	std::cout << std::endl << "***VECTOR - CAPACITY***" << std::endl;
 
@@ -128,7 +131,7 @@ void test_capacity() {
 	std::cout << "vector capacity: " << vector.capacity() << std::endl;
 }
 
-void test_element_access() {
+void vector_test_element_access() {
 
 	std::cout << std::endl << "***VECTOR - ELEMENT ACCESS***" << std::endl;
 
@@ -147,7 +150,7 @@ void test_element_access() {
 
 }
 
-void test_modifier() {
+void vector_test_modifier() {
 
 	std::cout << std::endl << "***VECTOR - MODIFIER***" << std::endl;
 
@@ -243,7 +246,7 @@ void test_modifier() {
 	std::cout << "vector capacity: " << new_vector.capacity() << std::endl;
 }
 
-void test_relational_operators() {
+void vector_test_relational_operators() {
 	ft::vector<int> foo (2,200);
 	ft::vector<int> foo_same (2,200);
 	ft::vector<int> foo_bigger (3,200);
@@ -262,7 +265,7 @@ void test_relational_operators() {
 		std::cout << "foo_bigger >= foo" << std::endl;
 }
 
-void test_non_member_swap() {
+void vector_test_non_member_swap() {
 
 	ft::vector<int> foo (3,-100);
 	ft::vector<int> bar (5,200);
@@ -273,26 +276,124 @@ void test_non_member_swap() {
 	print_vector(bar);
 }
 
+
+//************** Stack **************
+
+void stack_test_constructor() {
+	ft::stack<int, ft::vector<int> > mystack;
+	std::cout << "stack size: " << mystack.size() << std::endl;
+
+	ft::vector<int> myvector(5, 10);
+	ft::stack<int, ft::vector<int> > stack_new(myvector);
+	std::cout << "stack size: " << stack_new.size() << std::endl;
+}
+
+void stack_test_empty() {
+	ft::stack<int> mystack;
+	int sum = 0;
+
+	for (int i=1;i<=10;i++) mystack.push(i);
+
+	while (!mystack.empty())
+	{
+		sum += mystack.top();
+		mystack.pop();
+	}
+	std::cout << "stack sum: " << sum << std::endl;
+}
+
+void stack_test_size() {
+
+	ft::stack<int, ft::vector<int> > mystack;
+
+	std::cout << "stack size: " << mystack.size() << std::endl;
+	for (int i=1;i<=10;i++) mystack.push(i);
+	std::cout << "stack size: " << mystack.size() << std::endl;
+
+}
+
+void stack_test_top() {
+	ft::stack<int, ft::vector<int> > mystack;
+
+	mystack.push(10);
+	mystack.push(20);
+	mystack.push(30);
+	mystack.top() -= 5;
+
+	std::cout << "stack top: " << mystack.top() << std::endl;
+
+}
+
+void stack_test_push_and_pop() {
+
+	ft::stack<int, ft::vector<int> > mystack;
+	for (int i=1;i<=10;i++) mystack.push(i);
+
+	while (!mystack.empty())
+	{
+		std::cout << "stack top: " << mystack.top() << std::endl;
+		mystack.pop();
+	}
+}
+
+void stack_test_relational_operators() {
+
+	ft::stack<int, ft::vector<int> > mystack_small;
+	for (int i=1;i<=10;i++) mystack_small.push(i);
+
+	ft::stack<int, ft::vector<int> > mystack_big;
+	for (int i=1;i<=20;i++) mystack_big.push(i);
+
+	if (mystack_small == mystack_big)
+		std::cout << "mystack_small == mystack_big" << std::endl;
+	if (mystack_small != mystack_big)
+		std::cout << "mystack_small != mystack_big" << std::endl;
+	if (mystack_small < mystack_big)
+		std::cout << "mystack_small < mystack_big" << std::endl;
+	if (mystack_small <= mystack_big)
+		std::cout << "mystack_small <= mystack_big" << std::endl;
+	if (mystack_big > mystack_small)
+		std::cout << "mystack_big > mystack_small" << std::endl;
+	if (mystack_big >= mystack_small)
+		std::cout << "mystack_big >= mystack_small" << std::endl;
+}
+
+void stack_tester() {
+
+	std::cout << "STACK TESTER" << std::endl;
+	struct timeval	start, end;
+	gettimeofday(&start, NULL);
+
+	stack_test_constructor();
+	stack_test_empty();
+	stack_test_size();
+	stack_test_top();
+	stack_test_push_and_pop();
+	stack_test_relational_operators();
+
+	calc_time_taken(start, end, "Stack tester");
+}
+
 void vector_tester() {
 
 	std::cout << "VECTOR TESTER" << std::endl;
 	struct timeval	start, end;
 	gettimeofday(&start, NULL);
 
-	test_coplien_form();
-	test_iterator();
-	test_capacity();
-	test_element_access();
-	test_modifier();
-	test_relational_operators();
-	test_non_member_swap();
+	vector_test_coplien_form();
+	vector_test_iterator();
+	vector_test_capacity();
+	vector_test_element_access();
+	vector_test_modifier();
+	vector_test_relational_operators();
+	vector_test_non_member_swap();
 
 	calc_time_taken(start, end, "Vector tester");
 }
 
-
 int main(void)
 {
 	vector_tester();
+	stack_tester();
 	return (0);
 }
