@@ -444,8 +444,51 @@ TEST_CASE("erase()", "[map][modifiers]") {
 			++it_std;
 		}
 		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
 
+	SECTION("erase by key") {
+		mymap_ft.erase(4);
+		mymap_std.erase(4);
 
+		mymap_ft.erase(40);
+		mymap_std.erase(40);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+		SECTION("erase by iterator") {
+		mymap_ft.erase(mymap_ft.begin(), mymap_ft.end());
+		mymap_std.erase(mymap_std.begin(), mymap_std.end());
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
+	}
+
+	SECTION("erase by iterator 2") {
+		mymap_ft.erase(mymap_ft.begin()++, mymap_ft.end()--);
+		mymap_std.erase(mymap_std.begin()++, mymap_std.end()--);
+
+		std::map<int,int>::iterator it_std = mymap_std.begin();
+		for (ft::map<int,int>::iterator it = mymap_ft.begin(); it != mymap_ft.end(); ++it)
+		{
+			REQUIRE(it_std->first == it->first);
+			REQUIRE(it_std->second == it->second);
+			++it_std;
+		}
+		REQUIRE(mymap_ft.size() == mymap_std.size());
 	}
 }
 
@@ -469,7 +512,6 @@ TEST_CASE("swap()", "[map][modifiers]") {
 	map_copy_2 = ft_map_2;
 
 	ft_map_1.swap(ft_map_2);
-
 	ft::map<int,int>::iterator itr_copy_2;
 	itr_copy_2 = map_copy_2.begin();
 	for (ft::map<int,int>::iterator itr_1 = ft_map_1.begin(); itr_1 != ft_map_1.end(); itr_1++)

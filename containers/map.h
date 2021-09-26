@@ -115,8 +115,19 @@ public:
 //************************ Iterators ************************
 
 //-> Returns an iterator referring to the first element in the map container.
-	iterator begin() { return iterator(_begin->parent); }
-	const_iterator begin() const { return const_iterator(_begin->parent); }
+	iterator begin() {
+		if (!size())
+			return end();
+		else
+			return iterator(_begin->parent);
+	}
+
+	const_iterator begin() const {
+		if (!size())
+			return end();
+		else
+			return const_iterator(_begin->parent);
+	}
 
 //-> Returns an iterator referring to the past-the-end element in the map container.
 	iterator end() { return iterator(_end); }
@@ -167,15 +178,13 @@ public:
 			return ft::make_pair(iterator(return_node), true);
 	}
 
-// with hint
-// -> it is only a hint and does not force the new element to be inserted at that position
+//-> insert with hint
 	iterator insert(iterator position, const value_type &val) {
 		(void) position;
 		return insert(val).first;
 	}
 
-// range
-// -> Copies of the elements in the range [first,last) are inserted in the container (include first but not last).
+//-> insert range
 	template<class InputIterator>
 	void insert(InputIterator first, InputIterator last) {
 		while (first != last) {
@@ -184,12 +193,11 @@ public:
 		}
 	}
 
-//-> erase element
+//-> erase
 	void erase(iterator position) {
 		erase(position->first);
 	}
 
-// return how many elements are removed
 	size_type erase (const key_type& k) {
 		bool found = false;
 
@@ -204,7 +212,7 @@ public:
 		while (first != last) {
 			iterator tmp(first);
 			++first;
-			erase(tmp->first);
+			erase(tmp);
 		}
 	}
 
