@@ -227,11 +227,12 @@ public:
 
 // -> swap content
 	void swap(map &x) {
-		map tmp;
-
-		tmp = *this;
-		*this = x;
-		x = tmp;
+		swapContent(_root, x._root);
+		swapContent(_begin, x._begin);
+		swapContent(_end, x._end);
+		swapContent(_size, x._size);
+		swapContent(_compare, x._compare);
+		swapContent(_alloc, x._alloc);
 	}
 
 //-> clear content

@@ -785,3 +785,74 @@ TEST_CASE("non-member", "[map][non-member]") {
 	REQUIRE(ft_right >= ft_left);
 
 }
+
+TEST_CASE("insert / erase do not invalidate iterators", "[map][eval sheet]"){
+	std::map<int, int> std_map_1;
+	ft::map<int, int> ft_map_1;
+
+	std_map_1.insert ( std::pair<int,int>(1, -123) );
+	std_map_1.insert ( std::pair<int,int>(6, -999799) );
+	std_map_1.insert ( std::pair<int,int>(2, -234) );
+	std_map_1.insert ( std::pair<int,int>(4, -4599) );
+	std_map_1.insert ( std::pair<int,int>(5, -9669) );
+	std_map_1.insert ( std::pair<int,int>(3, -93) );
+
+	ft_map_1.insert ( ft::pair<int,int>(1, -123) );
+	ft_map_1.insert ( ft::pair<int,int>(6, -999799) );
+	ft_map_1.insert ( ft::pair<int,int>(2, -234) );
+	ft_map_1.insert ( ft::pair<int,int>(4, -4599) );
+	ft_map_1.insert ( ft::pair<int,int>(5, -9669) );
+	ft_map_1.insert ( ft::pair<int,int>(3, -93) );
+
+	std::map<int, int> std_map_2;
+	ft::map<int, int> ft_map_2;
+
+	std_map_2.insert ( std::pair<int,int>(0, 0) );
+	std_map_2.insert ( std::pair<int,int>(1, 1) );
+	std_map_2.insert ( std::pair<int,int>(2, 2) );
+
+	ft_map_2.insert ( ft::pair<int,int>(0, 0) );
+	ft_map_2.insert ( ft::pair<int,int>(1, 1) );
+	ft_map_2.insert ( ft::pair<int,int>(2, 2) );
+
+	SECTION("insert / erase do not invalidate iterators") {
+		std::map<int, int>::iterator std = std_map_1.insert ( std_map_1.begin()++, std::pair<int,int>(1000, -123) );
+		ft::map<int, int>::iterator ft = ft_map_1.insert ( ft_map_1.begin()++, ft::pair<int,int>(1000, -123) );
+
+		REQUIRE(std->first == ft->first);
+		REQUIRE(std->second == ft->second);
+
+		std_map_1.erase (1000);
+		ft_map_1.erase (1000);
+
+		REQUIRE(std->first == ft->first);
+		REQUIRE(std->second == ft->second);
+	}
+
+	SECTION("swap function should not move data but only pointers") {
+		std::map<int, int>::iterator std_1 = std_map_1.begin();
+		ft::map<int, int>::iterator ft_1 = ft_map_1.begin();
+		ft::map<int, int>::iterator ft_1_end = ft_map_1.end();
+
+		std::map<int, int>::iterator std_2 = std_map_2.begin();
+		ft::map<int, int>::iterator ft_2 = ft_map_2.begin();
+		ft::map<int, int>::iterator ft_2_end = ft_map_2.end();
+
+		std_map_1.swap(std_map_2);
+		ft_map_1.swap(ft_map_2);
+
+		while(ft_1 != ft_1_end) {
+			REQUIRE(std_1->first == ft_1->first);
+			REQUIRE(std_1->second == ft_1->second);
+			std_1++;
+			ft_1++;
+		}
+
+		while(ft_2 != ft_2_end) {
+			REQUIRE(std_2->first == ft_2->first);
+			REQUIRE(std_2->second == ft_2->second);
+			std_2++;
+			ft_2++;
+		}
+	}
+}
