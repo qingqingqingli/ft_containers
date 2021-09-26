@@ -822,8 +822,8 @@ TEST_CASE("insert / erase do not invalidate iterators", "[map][eval sheet]"){
 		REQUIRE(std->first == ft->first);
 		REQUIRE(std->second == ft->second);
 
-		std_map_1.erase (1000);
-		ft_map_1.erase (1000);
+		std_map_1.erase (0);
+		ft_map_1.erase (0);
 
 		REQUIRE(std->first == ft->first);
 		REQUIRE(std->second == ft->second);
