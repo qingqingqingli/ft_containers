@@ -613,6 +613,70 @@ TEST_CASE("4. pop_back()", "[vector][modifier]")
 TEST_CASE("4. insert()", "[vector][modifier]")
 {
 
+	SECTION("new test") {
+		std::vector<int> vct(10);
+		std::vector<int> vct2;
+
+		ft::vector<int> ft_vct(10);
+		ft::vector<int> ft_vct2;
+
+		for (unsigned long int i = 0; i < vct.size(); ++i)
+			vct[i] = (vct.size() - i) * 3;
+
+		for (unsigned long int i = 0; i < ft_vct.size(); ++i)
+			ft_vct[i] = (ft_vct.size() - i) * 3;
+
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+
+		ft::vector<int>::iterator end = ft_vct2.end();
+
+		vct2.insert(vct2.end(), 42);
+		vct2.insert(vct2.begin(), 2, 21);
+		ft_vct2.insert(ft_vct2.end(), 42);
+		ft_vct2.insert(ft_vct2.begin(), 2, 21);
+
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+
+		vct2.insert(vct2.end() - 2, 42);
+		ft_vct2.insert(ft_vct2.end() - 2, 42);
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+
+		vct2.insert(vct2.end(), 2, 84);
+		ft_vct2.insert(ft_vct2.end(), 2, 84);
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+
+		vct2.resize(4);
+		ft_vct2.resize(4);
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+
+		vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
+		ft_vct2.insert(ft_vct2.begin() + 2, ft_vct.begin(), ft_vct.end());
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+
+		vct.clear();
+		ft_vct.clear();
+		REQUIRE(vct.size() == ft_vct.size());
+		REQUIRE(vct.capacity() == ft_vct.capacity());
+		REQUIRE(vct2.size() == ft_vct2.size());
+		REQUIRE(vct2.capacity() == ft_vct2.capacity());
+	}
+
 	std::vector<int> std_myvector;
 	for (int i=1; i<=5; i++) std_myvector.push_back(i);
 

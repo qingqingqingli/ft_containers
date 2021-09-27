@@ -7,8 +7,8 @@ OUTPUT_FILES    =   makefile_test/ft_output.txt makefile_test/std_output.txt
 
 COMPILE			= 	clang++
 
-FLAGS_STD		= 	-Wall -Wextra -Werror -std=c++98 -D STD_OPTION=1
-FLAGS_FT		= 	-Wall -Wextra -Werror -std=c++98 -D STD_OPTION=0
+FLAGS_STD		= 	-Wall -Wextra -Werror -std=c++98 -fsanitize=address -D STD_OPTION=1
+FLAGS_FT		= 	-Wall -Wextra -Werror -std=c++98 -fsanitize=address -D STD_OPTION=0
 
 RESET			= 	\033[0m
 GREEN 			= 	\033[38;5;46m
