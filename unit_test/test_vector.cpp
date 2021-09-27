@@ -284,19 +284,12 @@ TEST_CASE("2. resize()", "[vector][capacity]")
 		for (size_t i=0;i<second.size();i++)
 			REQUIRE(second[i] == ft_second[i]);
 	}
-
-//	100 100 100 100 100 0 0 0 0 0
-//	100 100 100 100 100 0 0 0 0 0 456 456 456 456 456 456 456
-//	100 100 100 100 100 0 0 0 0 0 456 456
-//	a a a a a \x00 \x00 \x00 \x00 \x00
-//	a a a a a \x00 \x00 \x00 \x00 \x00 c c c c c c c
-//	a a a a a \x00 \x00 \x00 \x00 \x00 c c
 }
 
 TEST_CASE("2. capacity()", "[vector][capacity]")
 {
-	std::vector<int> myvector(100, 100);
-	ft::vector<int> ft_myvector(100, 100);
+	std::vector<int> myvector(1, 100);
+	ft::vector<int> ft_myvector(1, 100);
 
 	REQUIRE(myvector.size() == ft_myvector.size());
 	REQUIRE(myvector.capacity() == ft_myvector.capacity());
@@ -319,6 +312,78 @@ TEST_CASE("2. capacity()", "[vector][capacity]")
 	REQUIRE(myvector.size() == ft_myvector.size());
 	REQUIRE(myvector.capacity() == ft_myvector.capacity());
 	REQUIRE(myvector.max_size() == ft_myvector.max_size());
+
+	SECTION("resize & capacity") {
+		myvector.push_back(22);
+		ft_myvector.push_back(22);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(2, 300);
+		ft_myvector.resize(2, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(3, 300);
+		ft_myvector.resize(3, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(4, 300);
+		ft_myvector.resize(4, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(5, 300);
+		ft_myvector.resize(5, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(6, 300);
+		ft_myvector.resize(6, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(10, 300);
+		ft_myvector.resize(10, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(15, 300);
+		ft_myvector.resize(15, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(29, 300);
+		ft_myvector.resize(29, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(50, 300);
+		ft_myvector.resize(50, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(100, 300);
+		ft_myvector.resize(100, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(199, 300);
+		ft_myvector.resize(199, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.resize(400, 300);
+		ft_myvector.resize(400, 300);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+
+		myvector.push_back(22);
+		ft_myvector.push_back(22);
+		REQUIRE(myvector.size() == ft_myvector.size());
+		REQUIRE(myvector.capacity() == ft_myvector.capacity());
+	}
 }
 
 TEST_CASE("2. empty()", "[vector][capacity]")
