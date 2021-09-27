@@ -501,6 +501,8 @@ void vector_test_iterator() {
 	ft::vector<int>::const_reverse_iterator reverse_begin_const = vector_first.rbegin();
 	ft::vector<int>::const_reverse_iterator reverse_end_const = vector_first.rend();
 
+	if (*begin_const == *begin)
+		std::cout << "const iterator and iterator are comparable" << std::endl;
 
 	std::cout << "Vector content: ";
 	while (begin != end)
