@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <iomanip>
+#include <stdlib.h>
 #if 1
 	#include <vector>
 	#include <stack>
