@@ -27,13 +27,7 @@ struct pair {
 	pair(const pair<U,V>& pr): first(pr.first), second(pr.second) {}
 
 	// assignation - implicitly declared
-//	pair& operator=(const pair& pr) {
-//		if (this != &pr) {
-//			first = pr.first;
-//			second = pr.second;
-//		}
-//		return *this;
-//	}
+
 };
 
 template <class T1, class T2>
