@@ -103,22 +103,22 @@ public:
 	}
 
 	// copy
-	vector (const vector& x){ *this = x; }
+	vector (const vector& x) {
+		_size = x._size;
+		_capacity = x._capacity;
+		_alloc = x._alloc;
+		_array = _alloc.allocate(_size, &x._array);
+		for (size_type i = 0; i < _size; i++)
+			_alloc.construct(&_array[i], x._array[i]);
+	}
 
 	// destructor
 	~vector() { _alloc.deallocate(_array, _size); }
 
 	// assignation operator
 	vector& operator= (const vector& x) {
-		if (this != &x)
-		{
-			_size = x._size;
-			_capacity = x._capacity;
-			_alloc = x._alloc;
-			_array = _alloc.allocate(_size, &x._array);
-			for (size_type i = 0; i < _size; i++)
-				_alloc.construct(&_array[i], x._array[i]);
-		}
+		vector tmp(x);
+		swap(tmp);
 		return *this;
 	}
 

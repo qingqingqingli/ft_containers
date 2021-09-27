@@ -925,6 +925,14 @@ TEST_CASE("4. swap()", "[vector][modifier]")
 	ft::vector<int> ft_foo (3,100);
 	ft::vector<int> ft_bar (5,200);
 
+	std::vector<int>::iterator begin_foo = foo.begin();
+	std::vector<int>::iterator begin_bar = bar.begin();
+
+	ft::vector<int>::iterator ft_begin_foo = ft_foo.begin();
+	ft::vector<int>::iterator ft_end_foo = ft_foo.end();
+	ft::vector<int>::iterator ft_begin_bar = ft_bar.begin();
+	ft::vector<int>::iterator ft_end_bar = ft_bar.end();
+
 	foo.swap(bar);
 	ft_foo.swap(ft_bar);
 
@@ -933,6 +941,23 @@ TEST_CASE("4. swap()", "[vector][modifier]")
 
 	for (unsigned i=0; i<bar.size(); i++)
 		REQUIRE(bar[i] == ft_bar[i]);
+
+	while(ft_begin_foo != ft_end_foo) {
+		REQUIRE(*begin_foo == *ft_begin_foo);
+		begin_foo++;
+		ft_begin_foo++;
+	}
+
+	while(ft_begin_bar != ft_end_bar) {
+		REQUIRE(*begin_bar == *ft_begin_bar);
+		begin_bar++;
+		ft_begin_bar++;
+	}
+
+	REQUIRE(foo.size() == ft_foo.size());
+	REQUIRE(bar.size() == ft_bar.size());
+	REQUIRE(foo.capacity() == ft_foo.capacity());
+	REQUIRE(bar.capacity() == ft_bar.capacity());
 }
 
 TEST_CASE("4. clearTree()", "[vector][modifier]")
